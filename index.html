@@ -109,7 +109,7 @@
 // ── SHEETS CONFIG ─────────────────────────────────────────────────
 const SHEET_ID = "15HDxJcYGCqmk4D7EDKMeWGmXriVE-sM3AwhMEG0bglk";
 const SHEETS_API = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=`;
-const WRITE_URL = `https://script.google.com/macros/s/PLACEHOLDER/exec`; // se llena después
+const WRITE_URL = "https://script.google.com/macros/s/AKfycbzAJreQr-PmOE5wMeJWHZHGEGKMr4C_vTrTI1i582KyNeAc-zjA8yY_qps0GqMNT-do/exec";
 
 // ── DATOS ─────────────────────────────────────────────────────────
 const PLAN = [
@@ -286,6 +286,28 @@ function saveLocal() {
   } catch {}
 }
 
+async function saveRemote() {
+  saveLocal();
+  // Stock
+  const stockData = [["id","cantidad"], ...stock.map(i=>[i.id, i.cantidad])];
+  await writeToSheet("stock", stockData);
+  // Log
+  if (log.length > 0) {
+    const logData = [["ts","quien","momento","items"],
+      ...log.slice(0,80).map(e=>[e.ts, e.quien, e.momento, JSON.stringify(e.items||[])])];
+    await writeToSheet("log", logData);
+  }
+  // Entrenos
+  if (entrenos.length > 0) {
+    const entData = [["sesionId","quien","estado","nota","ts"],
+      ...entrenos.map(e=>[e.sesionId, e.quien, e.estado, e.nota||"", e.ts||""])];
+    await writeToSheet("entrenos", entData);
+  }
+  // Dia
+  await writeToSheet("config", [["key","value"],["diaIdx", diaIdx]]);
+  setSyncTime();
+}
+
 function loadLocal() {
   try {
     const s = localStorage.getItem(LS_STOCK);
@@ -303,30 +325,21 @@ function loadLocal() {
 // ── SHEETS READ ───────────────────────────────────────────────────
 async function readSheet(sheetName) {
   try {
-    const url = SHEETS_API + encodeURIComponent(sheetName) + "&t=" + Date.now();
+    const url = WRITE_URL + "?sheet=" + encodeURIComponent(sheetName) + "&t=" + Date.now();
     const res = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(","").replace(/\);?\s*$/,""));
-    return json.table;
+    const data = await res.json();
+    return data;
   } catch { return null; }
 }
 
-function tableToObjects(table) {
-  if (!table || !table.rows) return [];
-  const cols = table.cols.map(c=>c.label);
-  return table.rows.map(row => {
-    const obj = {};
-    cols.forEach((col,i) => { obj[col] = row.c[i]?.v ?? ""; });
-    return obj;
-  });
-}
-
 // ── GOOGLE APPS SCRIPT WRITE ──────────────────────────────────────
-async function writeToSheet(action, data) {
-  // Guardamos en localStorage como backup inmediato
-  saveLocal();
-  // Nota: para escritura real en Sheets necesitamos Apps Script
-  // Por ahora usamos localStorage como persistencia principal
+async function writeToSheet(sheetName, data) {
+  try {
+    await fetch(WRITE_URL, {
+      method: "POST",
+      body: JSON.stringify({ sheet: sheetName, data: data }),
+    });
+  } catch {}
 }
 
 // ── CARGAR TODO ───────────────────────────────────────────────────
@@ -346,28 +359,40 @@ async function cargarTodo() {
 
     let changed = false;
 
-    if (tStock) {
-      const rows = tableToObjects(tStock);
-      if (rows.length > 0) {
+    if (tStock && tStock.length > 1) {
+      const headers = tStock[0];
+      const idIdx = headers.indexOf("id");
+      const cantIdx = headers.indexOf("cantidad");
+      if (idIdx>=0 && cantIdx>=0) {
         stock = STOCK_DEFAULT.map(item => {
-          const f = rows.find(r => r.id === item.id);
-          return f && f.cantidad !== "" ? {...item, cantidad: Number(f.cantidad)} : {...item};
+          const row = tStock.slice(1).find(r => r[idIdx] === item.id);
+          return row && row[cantIdx] !== "" ? {...item, cantidad: Number(row[cantIdx])} : {...item};
         });
         changed = true;
       }
     }
-    if (tLog) {
-      const rows = tableToObjects(tLog);
-      if (rows.length > 0) { log = rows; changed = true; }
+    if (tLog && tLog.length > 1) {
+      const headers = tLog[0];
+      log = tLog.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = row[i]);
+        try { if (typeof obj.items === "string") obj.items = JSON.parse(obj.items); } catch {}
+        return obj;
+      });
+      changed = true;
     }
-    if (tEnt) {
-      const rows = tableToObjects(tEnt);
-      if (rows.length > 0) { entrenos = rows; changed = true; }
+    if (tEnt && tEnt.length > 1) {
+      const headers = tEnt[0];
+      entrenos = tEnt.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = row[i]);
+        return obj;
+      });
+      changed = true;
     }
-    if (tDia) {
-      const rows = tableToObjects(tDia);
-      const d = rows.find(r=>r.key==="diaIdx");
-      if (d) { diaIdx = parseInt(d.value)||0; changed = true; }
+    if (tDia && tDia.length > 1) {
+      const d = tDia[1];
+      if (d && d[1] !== undefined) { diaIdx = parseInt(d[1])||0; changed = true; }
     }
 
     if (changed) { saveLocal(); renderAll(); }
@@ -682,7 +707,7 @@ function setVista(v) {
 
 function setDia(i) {
   diaIdx = i;
-  saveLocal();
+  saveRemote();
   renderPlan();
   renderAlerts();
 }
@@ -724,7 +749,7 @@ function setUsoVal(id, val) {
 
 function ajustar(id, delta) {
   stock = stock.map(i => i.id===id ? {...i, cantidad:Math.max(0,i.cantidad+delta)} : i);
-  saveLocal();
+  saveRemote();
   renderStock();
   renderAlerts();
 }
@@ -734,7 +759,7 @@ function startEdit(id) {
   const val = prompt(`Nueva cantidad para ${item.nombre} (actual: ${fmtQ(item)}):`, item.cantidad);
   if (val !== null && !isNaN(parseFloat(val)) && parseFloat(val)>=0) {
     stock = stock.map(i => i.id===id ? {...i, cantidad:parseFloat(val)} : i);
-    saveLocal();
+    saveRemote();
     renderStock();
     renderAlerts();
   }
@@ -757,7 +782,7 @@ function registrar() {
   
   log = [{ts, quien, momento, items}, ...log];
   uso = {};
-  saveLocal();
+  saveRemote();
   renderAll();
   
   const btn = document.getElementById("reg-btn");
@@ -772,19 +797,19 @@ function marcarEntreno(sesionId, q, estado) {
   } else {
     entrenos = [...entrenos, {sesionId, quien:q, estado, nota:"", ts}];
   }
-  saveLocal();
+  saveRemote();
   renderEntrenos();
   renderAlerts();
 }
 
 function updateNota(sesionId, q, nota) {
   entrenos = entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,nota}:e);
-  saveLocal();
+  saveRemote();
 }
 
 function clearLog() {
   log = [];
-  saveLocal();
+  saveRemote();
   renderLog();
 }
 
