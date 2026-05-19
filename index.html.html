@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ray & Cyn · Semana 1</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', 'Segoe UI', sans-serif; background: #0f172a; color: #f1f5f9; max-width: 680px; margin: 0 auto; padding-bottom: 80px; }
+  .header { padding: 20px 18px 14px; background: #0f172a; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid #1e293b; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .title { font-size: 19px; font-weight: 900; letter-spacing: -0.5px; }
+  .subtitle { font-size: 11px; color: #475569; margin-top: 2px; }
+  .live { display: flex; align-items: center; gap: 5px; justify-content: flex-end; margin-bottom: 2px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 5px #4ade80; }
+  .live-text { font-size: 10px; color: #4ade80; font-weight: 700; }
+  .sync-text { font-size: 10px; color: #475569; text-align: right; }
+  .refresh-btn { background: transparent; border: none; color: #475569; font-size: 11px; cursor: pointer; padding: 0; margin-top: 2px; display: block; text-align: right; width: 100%; }
+  .alerts { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .alert { border-radius: 20px; padding: 3px 10px; font-size: 11px; }
+  .alert-red { background: #450a0a; border: 1px solid #ef4444; color: #fca5a5; }
+  .alert-orange { background: #431407; border: 1px solid #f97316; color: #fdba74; }
+  .alert-green { background: #052e16; border: 1px solid #4ade80; color: #4ade80; }
+  .alert-purple { background: #1c1030; border: 1px solid #a78bfa; color: #a78bfa; }
+  .tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { background: #1e293b; color: #94a3b8; border: 1px solid #334155; border-radius: 20px; padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .tab.active { background: #22c55e; color: #0f172a; border-color: #22c55e; }
+  .content { padding: 14px 16px 0; }
+  .card { background: #1e293b; border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; border: 1px solid #334155; }
+  .card-dark { background: #0f172a; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; }
+  .btn { border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; border: 1px solid #334155; background: #1e293b; color: #94a3b8; }
+  .btn.active-green { background: #22c55e; color: #0f172a; border-color: #22c55e; }
+  .btn.active-yellow { background: #fbbf24; color: #0f172a; border-color: #fbbf24; }
+  .btn.active-red { background: #f87171; color: #0f172a; border-color: #f87171; }
+  .btn.active-purple { background: #818cf8; color: #0f172a; border-color: #818cf8; }
+  .day-selector { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; margin-bottom: 12px; }
+  .day-selector::-webkit-scrollbar { display: none; }
+  .day-btn { border-radius: 12px; padding: 8px 12px; cursor: pointer; flex-shrink: 0; text-align: center; min-width: 58px; border: 2px solid #334155; background: #1e293b; color: #94a3b8; }
+  .day-label { font-size: 10px; font-weight: 800; }
+  .day-num { font-size: 16px; font-weight: 900; }
+  .bar-container { background: #0f172a; border-radius: 99px; height: 5px; margin: 8px 0; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.3s; }
+  .controls { display: flex; align-items: center; gap: 10px; }
+  .cir-btn { background: #334155; border: none; color: #f1f5f9; border-radius: 8px; width: 32px; height: 32px; font-size: 20px; cursor: pointer; font-weight: 900; line-height: 30px; text-align: center; flex-shrink: 0; }
+  .qty-display { min-width: 84px; text-align: center; font-weight: 800; font-size: 15px; cursor: pointer; }
+  .qty-input { background: #0f172a; border: 1px solid #475569; color: #f1f5f9; border-radius: 8px; padding: 5px 8px; font-size: 14px; width: 68px; text-align: center; outline: none; }
+  .search-input { width: 100%; background: #1e293b; border: 1px solid #334155; color: #f1f5f9; border-radius: 12px; padding: 10px 14px; font-size: 14px; margin-bottom: 12px; outline: none; }
+  .cat-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 4px; }
+  .register-btn { width: 100%; border: none; border-radius: 14px; padding: 16px; font-size: 16px; font-weight: 900; cursor: pointer; margin-bottom: 24px; transition: background 0.2s; }
+  .badge { border-radius: 20px; padding: 2px 9px; font-size: 10px; font-weight: 800; }
+  .hidden { display: none; }
+  .note-input { width: 100%; background: #1e293b; border: 1px solid #334155; color: #c4b5fd; border-radius: 8px; padding: 6px 10px; font-size: 12px; outline: none; margin-top: 6px; }
+  .loading { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
+  .progress-bar { background: #0f172a; border-radius: 99px; height: 8px; overflow: hidden; margin: 8px 0; }
+  .progress-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
+  .subtabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .nav-btn { background: #334155; border: none; color: #f1f5f9; border-radius: 8px; width: 32px; height: 32px; font-size: 18px; cursor: pointer; line-height: 32px; text-align: center; }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  input[type=number] { -moz-appearance: textfield; }
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading">
+  <div style="font-size:32px">🏠</div>
+  <div style="font-size:16px;font-weight:700">Cargando Ray & Cyn...</div>
+  <div style="font-size:12px;color:#475569">Conectando con la base de datos</div>
+</div>
+
+<div id="app" class="hidden">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="title">🏠 Ray & Cyn · Semana 1</div>
+        <div class="subtitle">19-25 mayo 2026 · Borgosesia</div>
+      </div>
+      <div>
+        <div class="live"><div class="live-dot"></div><span class="live-text">EN VIVO</span></div>
+        <div class="sync-text" id="sync-text"></div>
+        <button class="refresh-btn" onclick="cargarTodo()">↻ actualizar</button>
+      </div>
+    </div>
+    <div class="alerts" id="alerts"></div>
+    <div class="tabs">
+      <button class="tab active" onclick="setVista('plan')">📅 Plan</button>
+      <button class="tab" onclick="setVista('entrenos')">💪 Entrenos</button>
+      <button class="tab" onclick="setVista('stock')">📦 Stock</button>
+      <button class="tab" onclick="setVista('consumir')">🍽️ Consumir</button>
+      <button class="tab" onclick="setVista('log')">📋 Historial</button>
+    </div>
+  </div>
+
+  <!-- PLAN -->
+  <div id="vista-plan" class="content"></div>
+  <!-- ENTRENOS -->
+  <div id="vista-entrenos" class="content hidden"></div>
+  <!-- STOCK -->
+  <div id="vista-stock" class="content hidden"></div>
+  <!-- CONSUMIR -->
+  <div id="vista-consumir" class="content hidden"></div>
+  <!-- LOG -->
+  <div id="vista-log" class="content hidden"></div>
+</div>
+
+<script>
+// ── SHEETS CONFIG ─────────────────────────────────────────────────
+const SHEET_ID = "15HDxJcYGCqmk4D7EDKMeWGmXriVE-sM3AwhMEG0bglk";
+const SHEETS_API = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=`;
+const WRITE_URL = "https://script.google.com/macros/s/AKfycbzAJreQr-PmOE5wMeJWHZHGEGKMr4C_vTrTI1i582KyNeAc-zjA8yY_qps0GqMNT-do/exec";
+
+// ── DATOS ─────────────────────────────────────────────────────────
+const PLAN = [
+  { fecha:"19/05", dia:"Martes", tipo:"entreno",
+    entreno:{ hora:"15:30-16:45", nombre:"Dia 1 - Cardio + Lower intro",
+      ej:["Trote suave 15 min","Sentadilla con apoyo en pared 3x10","Rodillas al pecho parada 3x15","Plancha en rodillas 3x20 seg","Puente de gluteos 3x12","Descanso 60-75 seg"] },
+    comidas:[
+      {h:"7:45",  l:"Desayuno",         r:"Avena 60g + leche + banana + cafe", c:"Duerme"},
+      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"Avena + leche + fruta + cafe"},
+      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + 2 huevos duros + atun + tomate", c:"Pasta con atun y tomate"},
+      {h:"14:30", l:"Pre-entreno",      r:"Banana + tostada con crema de mani", c:"Yogurt + L-Carnitina 30min antes"},
+      {h:"15:30", l:"ENTRENO",          r:"Juntos", c:"Juntos"},
+      {h:"17:00", l:"Post-entreno",     r:"Whey con leche + 2 huevos + pan", c:"Whey con agua + yogurt"},
+      {h:"20:00", l:"Cena",             r:"Lentejas con verdura + huevo duro + pan", c:"Idem porcion mas chica"},
+    ], prep:"Cyn deja cena lista. Ray recalienta. Preparar tupper para manana." },
+  { fecha:"20/05", dia:"Miercoles", tipo:"entreno",
+    entreno:{ hora:"15:30-16:20", nombre:"Dia 2 - Movilidad + Core",
+      ej:["Cat-cow 2x10","Child pose con rotacion 2x30 seg c/lado","Elevacion piernas 3x10","Superman 3x10 pausa 2 seg","Plancha lateral rodillas 2x20 seg c/lado","Stretching caderas 5 min"] },
+    comidas:[
+      {h:"7:45",  l:"Desayuno",         r:"2 huevos revueltos + tostada + banana + cafe", c:"Duerme"},
+      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"Yogurt griego + avena + banana"},
+      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + pollo o atun + tomate", c:"Pollo salteado con zucchini y arroz"},
+      {h:"14:30", l:"Pre-entreno",      r:"Banana o pan con crema de mani", c:"Fruta liviana + L-Carnitina 30min antes"},
+      {h:"15:30", l:"ENTRENO",          r:"Juntos", c:"Juntos"},
+      {h:"16:30", l:"Post-entreno",     r:"Whey con leche + pan o huevos", c:"Whey con agua + yogurt"},
+      {h:"20:00", l:"Cena",             r:"Arroz con pollo y zucchini", c:"Idem porcion mas chica"},
+    ], prep:"Cyn cocina a la tarde. Preparar tupper para manana." },
+  { fecha:"21/05", dia:"Jueves", tipo:"descanso",
+    entreno:{ hora:"-", nombre:"Descanso activo",
+      ej:["Caminata suave 20-30 min (opcional)","Stretching 10 min opcional","SIN circuitos ni cardio hoy","El musculo crece descansando"] },
+    comidas:[
+      {h:"7:45",  l:"Desayuno",         r:"Avena 60g + leche + frutos secos + cafe", c:"Duerme"},
+      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"2 huevos revueltos + tostada + cafe"},
+      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: pasta con atun y tomate", c:"Ensalada garbanzos + huevo duro + tomate"},
+      {h:"14:30", l:"Merienda",         r:"Pan con crema de mani + leche", c:"Cafe o yogurt liviano"},
+      {h:"16:00", l:"Caminata opcional",r:"20 min si el cuerpo lo pide", c:"Idem o quedarse en casa"},
+      {h:"20:00", l:"Cena",             r:"Tortilla de huevos y papa", c:"Idem sin papa o porcion chica"},
+    ], prep:"Cyn deja cena lista. Buen dia para compras si hace falta." },
+  { fecha:"22/05", dia:"Viernes", tipo:"entreno",
+    entreno:{ hora:"15:30-17:00", nombre:"Dia 3 - Cardio + Circuito completo",
+      ej:["Trote suave 15 min","Sentadilla libre 3x12","Mountain climber 3x15 c/lado","Plancha completa 3x20 seg","Puente de gluteos 3x12","Rodillas al pecho 3x15","Descanso 60 seg"] },
+    comidas:[
+      {h:"7:45",  l:"Desayuno",         r:"2 huevos + tostada + banana + cafe", c:"Duerme"},
+      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"Avena con leche + fruta + cafe"},
+      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + 2 huevos duros + atun + tomate", c:"Sopa de lentejas con caldo y pan"},
+      {h:"14:30", l:"Pre-entreno",      r:"Banana + punado de frutos secos", c:"Fruta o yogurt + L-Carnitina 30min antes"},
+      {h:"15:30", l:"ENTRENO",          r:"Semana 1 completada!", c:"Semana 1 completada!"},
+      {h:"17:00", l:"Post-entreno",     r:"Whey con leche + 2 huevos + pan", c:"Whey con agua + yogurt"},
+      {h:"20:00", l:"Cena",             r:"Pasta con carne molida y passata", c:"Idem menos pasta mas verdura"},
+    ], prep:"Cena contundente bien merecida. Preparar lista super si falta stock." },
+  { fecha:"23/05", dia:"Sabado", tipo:"libre",
+    entreno:{ hora:"Sin horario", nombre:"Dia libre - Sendero opcional",
+      ej:["Opcion A: Sendero Riba Valdobbia 45-60 min","Opcion B: Caminata suave por el pueblo","Opcion C: Descanso total - completamente valido","SIN circuitos - 3 sesiones esta semana es perfecto"] },
+    comidas:[
+      {h:"9:00",  l:"Desayuno juntos",  r:"Avena + huevos + fruta + cafe", c:"Idem el mas tranquilo de la semana"},
+      {h:"11:30", l:"Snack",            r:"Frutos secos + fruta o tostada con crema de mani", c:"Fruta o yogurt"},
+      {h:"14:00", l:"Almuerzo juntos",  r:"Arroz con pollo y zucchini porcion grande", c:"Idem porcion normal"},
+      {h:"17:00", l:"Merienda",         r:"Pan con crema de mani + leche o banana", c:"Yogurt o fruta"},
+      {h:"20:30", l:"Cena juntos",      r:"Pechuga al hornito con batata + ensalada", c:"Idem batata chica o sin batata"},
+    ], prep:"Super si hace falta stock. Preparar tuppers de Ray para la semana." },
+  { fecha:"24/05", dia:"Domingo", tipo:"planificacion",
+    entreno:{ hora:"Opcional tarde", nombre:"Planificacion semana 2",
+      ej:["PASO 1: Compartir horarios semana siguiente","PASO 2: Definir 3 dias entreno semana 2","PASO 3: Anotar dias y horas","PASO 4: Preparar tuppers Ray lunes y martes","Opcional: movilidad 20 min o caminata"] },
+    comidas:[
+      {h:"9:00",  l:"Desayuno juntos",  r:"Huevos + tostada + fruta + cafe", c:"Idem"},
+      {h:"12:00", l:"Snack",            r:"Frutos secos + yogurt o banana", c:"Fruta o yogurt"},
+      {h:"14:00", l:"Almuerzo juntos",  r:"Garbanzos salteados con espinaca + 2 huevos + pan", c:"Idem sin pan extra"},
+      {h:"16:00", l:"PLANIFICACION",    r:"Cruzar horarios definir entrenos preparar tuppers", c:"Los dos juntos 20-30 min"},
+      {h:"17:30", l:"Merienda",         r:"Avena con leche + banana", c:"Yogurt con fruta"},
+      {h:"20:30", l:"Cena + tuppers",   r:"Sopa Knorr + 2 huevos + pan preparar tupper lunes", c:"Sopa + huevo liviano"},
+    ], prep:"Tarde clave: tuppers listos y plan semana 2 definido." },
+  { fecha:"25/05", dia:"Lunes", tipo:"entreno",
+    entreno:{ hora:"15:30-16:50", nombre:"Sem 2 Dia 1 - Lower progresado",
+      ej:["Trote suave 15 min","Sentadilla libre 3x14 (+2 vs sem1)","Zancada estatica 3x10 c/lado NUEVO","Puente de gluteos 3x15 (+3 vs sem1)","Plancha completa 3x25 seg (+5 vs sem1)","Descanso 60 seg"] },
+    comidas:[
+      {h:"6:30",  l:"Desayuno Cyn",     r:"Duerme", c:"Yogurt + banana + cafe 5 min"},
+      {h:"7:45",  l:"Desayuno Ray",     r:"Avena 60g + leche + frutos secos + cafe", c:"En el trabajo"},
+      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + atun + tomate + huevo duro", c:"Hotel: proteina + ensalada"},
+      {h:"14:30", l:"Pre-entreno",      r:"Banana + tostada con crema de mani", c:"Fruta o yogurt + L-Carnitina 30min antes"},
+      {h:"15:30", l:"ENTRENO",          r:"Juntos antes que Cyn salga 19:00", c:"Juntos"},
+      {h:"17:00", l:"Post-entreno",     r:"Whey con leche + huevos + pan", c:"Whey con agua + yogurt rapido"},
+      {h:"23:00", l:"Cena juntos",      r:"Pechuga al hornito + batata + ensalada", c:"Idem primera cena temporada completa"},
+    ], prep:"Ray cocina a la tarde. Cyn llega 23:00 y come. Preparar tupper para martes." },
+];
+
+const SESIONES = [
+  {id:"s1", fecha:"19/05", dia:"Martes",    nombre:"Dia 1 - Cardio + Lower intro",      hora:"15:30-16:45"},
+  {id:"s2", fecha:"20/05", dia:"Miercoles", nombre:"Dia 2 - Movilidad + Core",           hora:"15:30-16:20"},
+  {id:"s3", fecha:"22/05", dia:"Viernes",   nombre:"Dia 3 - Cardio + Circuito completo", hora:"15:30-17:00"},
+  {id:"s4", fecha:"25/05", dia:"Lunes",     nombre:"Sem 2 Dia 1 - Lower progresado",     hora:"15:30-16:50"},
+];
+
+const STOCK_DEFAULT = [
+  {id:"huevos",       emoji:"🥚", nombre:"Huevos",                   cat:"Proteinas",      cantidad:36,   unidad:"ud",       paso:1,   minimo:6  },
+  {id:"petto_pollo",  emoji:"🍗", nombre:"Pechuga de pollo",          cat:"Proteinas",      cantidad:1150, unidad:"g",        paso:100, minimo:200},
+  {id:"macinato",     emoji:"🥩", nombre:"Carne molida bovina",       cat:"Proteinas",      cantidad:1200, unidad:"g",        paso:100, minimo:0  },
+  {id:"tonno",        emoji:"🐟", nombre:"Atun en lata",              cat:"Proteinas",      cantidad:6,    unidad:"latas",    paso:1,   minimo:1  },
+  {id:"latte",        emoji:"🥛", nombre:"Leche entera UHT",          cat:"Lacteos",        cantidad:5000, unidad:"ml",       paso:250, minimo:500},
+  {id:"yogurt",       emoji:"🫙", nombre:"Yogurt (griego/Alpro)",     cat:"Lacteos",        cantidad:4,    unidad:"ud",       paso:1,   minimo:1  },
+  {id:"kefir",        emoji:"🥤", nombre:"Kefir",                     cat:"Lacteos",        cantidad:2,    unidad:"ud",       paso:1,   minimo:0  },
+  {id:"banane",       emoji:"🍌", nombre:"Bananas bio",               cat:"Fruta y verdura",cantidad:14,   unidad:"ud",       paso:1,   minimo:3  },
+  {id:"mele",         emoji:"🍎", nombre:"Manzanas Pink Lady",        cat:"Fruta y verdura",cantidad:1000, unidad:"g",        paso:100, minimo:0  },
+  {id:"zucchine",     emoji:"🥒", nombre:"Zucchine",                  cat:"Fruta y verdura",cantidad:1094, unidad:"g",        paso:150, minimo:0  },
+  {id:"spinaci",      emoji:"🥬", nombre:"Espinacas",                 cat:"Fruta y verdura",cantidad:1,    unidad:"bolsa",    paso:1,   minimo:0  },
+  {id:"rucola",       emoji:"🥗", nombre:"Rucula",                    cat:"Fruta y verdura",cantidad:1,    unidad:"bolsa",    paso:1,   minimo:0  },
+  {id:"pomodori",     emoji:"🍅", nombre:"Tomates cherry",            cat:"Fruta y verdura",cantidad:500,  unidad:"g",        paso:100, minimo:0  },
+  {id:"patate",       emoji:"🥔", nombre:"Patatas rojas",             cat:"Fruta y verdura",cantidad:2000, unidad:"g",        paso:250, minimo:0  },
+  {id:"limoni",       emoji:"🍋", nombre:"Limones",                   cat:"Fruta y verdura",cantidad:916,  unidad:"g",        paso:100, minimo:0  },
+  {id:"aglio",        emoji:"🧄", nombre:"Ajo",                       cat:"Fruta y verdura",cantidad:3,    unidad:"cabezas",  paso:1,   minimo:0  },
+  {id:"cipolla",      emoji:"🧅", nombre:"Cebolla blanca",            cat:"Fruta y verdura",cantidad:1000, unidad:"g",        paso:100, minimo:0  },
+  {id:"avena",        emoji:"🌾", nombre:"Avena",                     cat:"Dispensa",       cantidad:500,  unidad:"g",        paso:60,  minimo:60 },
+  {id:"riso",         emoji:"🍚", nombre:"Arroz parboiled",           cat:"Dispensa",       cantidad:700,  unidad:"g",        paso:80,  minimo:0  },
+  {id:"pasta",        emoji:"🍝", nombre:"Pasta fusilli",             cat:"Dispensa",       cantidad:750,  unidad:"g",        paso:80,  minimo:0  },
+  {id:"ceci",         emoji:"🫘", nombre:"Garbanzos en lata",         cat:"Dispensa",       cantidad:2,    unidad:"latas",    paso:1,   minimo:0  },
+  {id:"lenticchie",   emoji:"🟤", nombre:"Lentejas en lata",          cat:"Dispensa",       cantidad:2,    unidad:"latas",    paso:1,   minimo:0  },
+  {id:"passata",      emoji:"🥫", nombre:"Passata / tomate triturado",cat:"Dispensa",       cantidad:2,    unidad:"latas",    paso:1,   minimo:0  },
+  {id:"olio_oliva",   emoji:"🫒", nombre:"Aceite de oliva",           cat:"Dispensa",       cantidad:1,    unidad:"botella",  paso:1,   minimo:0  },
+  {id:"olio_gir",     emoji:"🌻", nombre:"Aceite de girasol",         cat:"Dispensa",       cantidad:1,    unidad:"botella",  paso:1,   minimo:0  },
+  {id:"pane",         emoji:"🍞", nombre:"Pan de molde integral",     cat:"Dispensa",       cantidad:1,    unidad:"paquete",  paso:1,   minimo:0  },
+  {id:"mani",         emoji:"🥜", nombre:"Crema de mani",             cat:"Dispensa",       cantidad:1,    unidad:"frasco",   paso:1,   minimo:0  },
+  {id:"dadi",         emoji:"🟡", nombre:"Dados vegetales Knorr",     cat:"Dispensa",       cantidad:10,   unidad:"cubos",    paso:1,   minimo:0  },
+  {id:"knorr",        emoji:"🥣", nombre:"Sopa Knorr (sobres)",       cat:"Dispensa",       cantidad:3,    unidad:"sobres",   paso:1,   minimo:0  },
+  {id:"porcini",      emoji:"🍄", nombre:"Crema de hongos",           cat:"Dispensa",       cantidad:2,    unidad:"sobres",   paso:1,   minimo:0  },
+  {id:"asparagi",     emoji:"🌿", nombre:"Crema de esparragos",       cat:"Dispensa",       cantidad:1,    unidad:"sobres",   paso:1,   minimo:0  },
+  {id:"pancake",      emoji:"🥞", nombre:"Misura Pancake Proteico",   cat:"Dispensa",       cantidad:1,    unidad:"caja",     paso:1,   minimo:0  },
+  {id:"pesoforma",    emoji:"🍪", nombre:"Pesoforma Biscotti",        cat:"Dispensa",       cantidad:1,    unidad:"caja",     paso:1,   minimo:0  },
+  {id:"whey",         emoji:"💪", nombre:"Whey Protein",              cat:"Suplementos",    cantidad:28,   unidad:"porciones",paso:1,   minimo:5  },
+  {id:"lcarnitina",   emoji:"💊", nombre:"L-Carnitina 500 (Cyn)",     cat:"Suplementos",    cantidad:25,   unidad:"capsulas", paso:1,   minimo:5  },
+];
+
+const CATS = ["Proteinas","Lacteos","Fruta y verdura","Dispensa","Suplementos"];
+const MOMENTOS = ["Desayuno","Pre-entreno","Almuerzo / Vianda","Post-entreno","Merienda","Cena","Otro"];
+const QUIEN_OPC = ["Ambos","Ray","Cyn"];
+const ESTADOS = [
+  {val:"completo",label:"Completo",emoji:"✅",cls:"active-green"},
+  {val:"parcial", label:"Parcial", emoji:"⚡",cls:"active-yellow"},
+  {val:"salteado",label:"Salteado",emoji:"❌",cls:"active-red"},
+];
+const COL = {
+  "Proteinas":      {ac:"#f87171",bg:"#2d1010"},
+  "Lacteos":        {ac:"#60a5fa",bg:"#0f1f35"},
+  "Fruta y verdura":{ac:"#4ade80",bg:"#0f2a14"},
+  "Dispensa":       {ac:"#fbbf24",bg:"#2a1f05"},
+  "Suplementos":    {ac:"#a78bfa",bg:"#1c1030"},
+};
+const TIPO_COL = {entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
+
+// ── ESTADO ────────────────────────────────────────────────────────
+let stock = STOCK_DEFAULT.map(i=>({...i}));
+let log = [];
+let entrenos = [];
+let diaIdx = 0;
+let vistaActual = "plan";
+let planTab = "comidas";
+let catFiltro = "Todas";
+let busq = "";
+let momento = "Desayuno";
+let quien = "Ambos";
+let uso = {};
+let editingId = null;
+
+// ── LOCAL STORAGE (backup) ────────────────────────────────────────
+const LS_STOCK = "rc_stock_v3";
+const LS_LOG   = "rc_log_v3";
+const LS_ENT   = "rc_ent_v3";
+const LS_DIA   = "rc_dia_v3";
+
+function saveLocal() {
+  try {
+    localStorage.setItem(LS_STOCK, JSON.stringify(stock.map(({id,cantidad})=>({id,cantidad}))));
+    localStorage.setItem(LS_LOG,   JSON.stringify(log.slice(0,80)));
+    localStorage.setItem(LS_ENT,   JSON.stringify(entrenos));
+    localStorage.setItem(LS_DIA,   String(diaIdx));
+  } catch {}
+}
+
+async function saveRemote() {
+  saveLocal();
+  // Stock
+  const stockData = [["id","cantidad"], ...stock.map(i=>[i.id, i.cantidad])];
+  await writeToSheet("stock", stockData);
+  // Log
+  if (log.length > 0) {
+    const logData = [["ts","quien","momento","items"],
+      ...log.slice(0,80).map(e=>[e.ts, e.quien, e.momento, JSON.stringify(e.items||[])])];
+    await writeToSheet("log", logData);
+  }
+  // Entrenos
+  if (entrenos.length > 0) {
+    const entData = [["sesionId","quien","estado","nota","ts"],
+      ...entrenos.map(e=>[e.sesionId, e.quien, e.estado, e.nota||"", e.ts||""])];
+    await writeToSheet("entrenos", entData);
+  }
+  // Dia
+  await writeToSheet("config", [["key","value"],["diaIdx", diaIdx]]);
+  setSyncTime();
+}
+
+function loadLocal() {
+  try {
+    const s = localStorage.getItem(LS_STOCK);
+    const l = localStorage.getItem(LS_LOG);
+    const e = localStorage.getItem(LS_ENT);
+    const d = localStorage.getItem(LS_DIA);
+    if (s) { const g=JSON.parse(s); stock=STOCK_DEFAULT.map(i=>{ const f=g.find(x=>x.id===i.id); return f?{...i,cantidad:f.cantidad}:{...i}; }); }
+    if (l) log = JSON.parse(l);
+    if (e) entrenos = JSON.parse(e);
+    if (d) diaIdx = parseInt(d)||0;
+    return !!(s||l||e);
+  } catch { return false; }
+}
+
+// ── SHEETS READ ───────────────────────────────────────────────────
+async function readSheet(sheetName) {
+  try {
+    const url = WRITE_URL + "?sheet=" + encodeURIComponent(sheetName) + "&t=" + Date.now();
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  } catch { return null; }
+}
+
+// ── GOOGLE APPS SCRIPT WRITE ──────────────────────────────────────
+async function writeToSheet(sheetName, data) {
+  try {
+    await fetch(WRITE_URL, {
+      method: "POST",
+      body: JSON.stringify({ sheet: sheetName, data: data }),
+    });
+  } catch {}
+}
+
+// ── CARGAR TODO ───────────────────────────────────────────────────
+async function cargarTodo() {
+  // Primero cargamos local para que la app sea instantánea
+  loadLocal();
+  renderAll();
+  
+  // Luego intentamos leer desde Sheets
+  try {
+    const [tStock, tLog, tEnt, tDia] = await Promise.all([
+      readSheet("stock"),
+      readSheet("log"),
+      readSheet("entrenos"),
+      readSheet("config"),
+    ]);
+
+    let changed = false;
+
+    if (tStock && tStock.length > 1) {
+      const headers = tStock[0];
+      const idIdx = headers.indexOf("id");
+      const cantIdx = headers.indexOf("cantidad");
+      if (idIdx>=0 && cantIdx>=0) {
+        stock = STOCK_DEFAULT.map(item => {
+          const row = tStock.slice(1).find(r => r[idIdx] === item.id);
+          return row && row[cantIdx] !== "" ? {...item, cantidad: Number(row[cantIdx])} : {...item};
+        });
+        changed = true;
+      }
+    }
+    if (tLog && tLog.length > 1) {
+      const headers = tLog[0];
+      log = tLog.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = row[i]);
+        try { if (typeof obj.items === "string") obj.items = JSON.parse(obj.items); } catch {}
+        return obj;
+      });
+      changed = true;
+    }
+    if (tEnt && tEnt.length > 1) {
+      const headers = tEnt[0];
+      entrenos = tEnt.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h,i) => obj[h] = row[i]);
+        return obj;
+      });
+      changed = true;
+    }
+    if (tDia && tDia.length > 1) {
+      const d = tDia[1];
+      if (d && d[1] !== undefined) { diaIdx = parseInt(d[1])||0; changed = true; }
+    }
+
+    if (changed) { saveLocal(); renderAll(); }
+  } catch {}
+
+  setSyncTime();
+  document.getElementById("loading").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+}
+
+function setSyncTime() {
+  const t = new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
+  const el = document.getElementById("sync-text");
+  if (el) el.textContent = "Sync " + t;
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function fmtQ(item) {
+  if (item.unidad==="g"  && item.cantidad>=1000) return (item.cantidad/1000).toFixed(1).replace(/\.0$/,"") + " kg";
+  if (item.unidad==="ml" && item.cantidad>=1000) return (item.cantidad/1000).toFixed(2).replace(/\.?0+$/,"") + " L";
+  if (item.unidad==="ml") return item.cantidad + " ml";
+  return item.cantidad + " " + item.unidad;
+}
+function barPct(item) {
+  const orig = STOCK_DEFAULT.find(d=>d.id===item.id)?.cantidad ?? 4;
+  return Math.min(100, Math.round((item.cantidad/Math.max(orig,1))*100));
+}
+function getBarColor(item) {
+  if (item.cantidad<=0) return "#ef4444";
+  if (item.cantidad<=item.minimo) return "#f97316";
+  return COL[item.cat]?.ac || "#22c55e";
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function renderAll() {
+  renderAlerts();
+  renderPlan();
+  renderEntrenos();
+  renderStock();
+  renderConsumir();
+  renderLog();
+}
+
+function renderAlerts() {
+  const agotados = stock.filter(i=>i.cantidad<=0).length;
+  const bajos    = stock.filter(i=>i.cantidad>0&&i.cantidad<=i.minimo).length;
+  const comp     = entrenos.filter(e=>e.estado==="completo").length;
+  const total    = SESIONES.length * 2;
+  const pct      = total>0 ? Math.round((comp/total)*100) : 0;
+  let html = "";
+  if (agotados>0) html += `<span class="alert alert-red">🔴 ${agotados} agotado${agotados>1?"s":""}</span>`;
+  if (bajos>0)    html += `<span class="alert alert-orange">🟠 ${bajos} por acabar</span>`;
+  if (agotados===0&&bajos===0) html += `<span class="alert alert-green">✅ Stock OK</span>`;
+  html += `<span class="alert alert-purple">💪 ${pct}% entrenos</span>`;
+  document.getElementById("alerts").innerHTML = html;
+}
+
+function renderPlan() {
+  const dia = PLAN[diaIdx];
+  const tc = TIPO_COL[dia.tipo];
+  let html = `<div class="day-selector">`;
+  PLAN.forEach((d,i) => {
+    const ac = TIPO_COL[d.tipo];
+    const active = i===diaIdx;
+    html += `<button class="day-btn" onclick="setDia(${i})" style="border-color:${active?ac:"#334155"};background:${active?ac:"#1e293b"};color:${active?"#0f172a":"#94a3b8"}">
+      <div class="day-label">${d.dia.slice(0,3).toUpperCase()}</div>
+      <div class="day-num">${d.fecha.split("/")[0]}</div>
+    </button>`;
+  });
+  html += `</div>`;
+  
+  const icon = dia.tipo==="entreno"?"💪":dia.tipo==="descanso"?"😴":dia.tipo==="libre"?"🌤":"📋";
+  html += `<div class="card" style="background:#161f2e;border-color:${tc}55;margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:18px;font-weight:900">${dia.dia} ${dia.fecha}</div>
+        <span style="display:inline-block;margin-top:4px;background:${tc}33;color:${tc};border-radius:20px;padding:2px 12px;font-size:12px;font-weight:700">${icon} ${dia.tipo.charAt(0).toUpperCase()+dia.tipo.slice(1)}</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="nav-btn" onclick="setDia(${Math.max(0,diaIdx-1)})" style="opacity:${diaIdx>0?1:0.3}">&#x2039;</button>
+        <button class="nav-btn" onclick="setDia(${Math.min(PLAN.length-1,diaIdx+1)})" style="opacity:${diaIdx<PLAN.length-1?1:0.3}">&#x203a;</button>
+      </div>
+    </div>
+  </div>`;
+
+  html += `<div class="subtabs">
+    <button class="btn ${planTab==="comidas"?"active-green":""}" onclick="setPlanTab('comidas')">🥗 Comidas</button>
+    <button class="btn" onclick="setPlanTab('entreno')" style="${planTab==="entreno"?`background:${tc};color:#0f172a;border-color:${tc}`:""}">
+      ${icon} ${dia.tipo==="entreno"?"Entreno":dia.tipo==="descanso"?"Descanso":"Plan"}
+    </button>
+  </div>`;
+
+  if (planTab==="comidas") {
+    dia.comidas.forEach(c => {
+      const esE = c.l==="ENTRENO"||c.l==="PLANIFICACION";
+      html += `<div class="card" style="background:${esE?"#0f2a14":"#1a2332"};border-color:${esE?"#4ade8066":"#334155"};padding:12px 16px">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="min-width:42px;text-align:center;background:#0f172a;border-radius:8px;padding:4px 0;font-size:11px;font-weight:800;color:${esE?"#4ade80":"#64748b"};flex-shrink:0">${c.h}</div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:800;color:${esE?"#4ade80":"#94a3b8"};margin-bottom:6px">${c.l}</div>
+            <div class="card-dark" style="margin-bottom:6px"><div style="font-size:10px;font-weight:800;color:#60a5fa;margin-bottom:2px">🧔 RAY</div><div style="font-size:13px;line-height:1.5">${c.r}</div></div>
+            <div class="card-dark"><div style="font-size:10px;font-weight:800;color:#f9a8d4;margin-bottom:2px">👩 CYN</div><div style="font-size:13px;line-height:1.5">${c.c}</div></div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += `<div class="card" style="background:#1e1a2e;border-color:#a78bfa44;margin-top:4px">
+      <div style="font-size:11px;font-weight:800;color:#a78bfa;margin-bottom:4px">📝 Prep del dia</div>
+      <div style="font-size:13px;color:#c4b5fd;line-height:1.5">${dia.prep}</div>
+    </div>`;
+  } else {
+    html += `<div class="card" style="border-color:${tc}55">
+      <div style="font-size:15px;font-weight:800;color:${tc};margin-bottom:4px">${dia.entreno.nombre}</div>
+      <div style="font-size:12px;color:#64748b;margin-bottom:14px">🕐 ${dia.entreno.hora}</div>`;
+    dia.entreno.ej.forEach((ej,i) => {
+      html += `<div style="display:flex;gap:10px;align-items:flex-start;background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.4">
+        <span style="color:${tc};font-weight:800;flex-shrink:0">${i+1}.</span><span>${ej}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  document.getElementById("vista-plan").innerHTML = html;
+}
+
+function renderEntrenos() {
+  const comp = entrenos.filter(e=>e.estado==="completo").length;
+  const total = SESIONES.length * 2;
+  const pctG = total>0 ? Math.round((comp/total)*100) : 0;
+
+  let html = `<div class="card" style="background:#1c1030;border-color:#a78bfa55;margin-bottom:16px">
+    <div style="font-size:13px;font-weight:800;color:#a78bfa;margin-bottom:12px">📊 Resumen semana</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">`;
+
+  [["🧔 Ray","Ray","#60a5fa"],["👩 Cyn","Cyn","#f9a8d4"]].forEach(([label,q,color]) => {
+    const c = SESIONES.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="completo")).length;
+    const p = SESIONES.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="parcial")).length;
+    const sk= SESIONES.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="salteado")).length;
+    const pq = Math.round((c/SESIONES.length)*100);
+    html += `<div style="background:#0f172a;border-radius:12px;padding:14px 12px">
+      <div style="font-size:13px;font-weight:800;color:${color};margin-bottom:8px">${label}</div>
+      <div style="font-size:28px;font-weight:900;color:${color};line-height:1">${c}<span style="font-size:13px;color:#475569;font-weight:400">/${SESIONES.length}</span></div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:8px">completados</div>
+      <div style="background:#1e293b;border-radius:99px;height:6px;overflow:hidden;margin-bottom:6px">
+        <div style="width:${pq}%;height:100%;background:${color};border-radius:99px"></div>
+      </div>
+      <div style="font-size:11px;color:#64748b">
+        ${p>0?`<span style="color:#fbbf24;margin-right:8px">⚡${p} parcial</span>`:""}
+        ${sk>0?`<span style="color:#f87171">❌${sk} salteado</span>`:""}
+        ${p===0&&sk===0&&c>0?`<span style="color:#4ade80">perfecto</span>`:""}
+      </div>
+    </div>`;
+  });
+
+  html += `</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:6px">Cumplimiento combinado Ray + Cyn</div>
+    <div style="background:#0f172a;border-radius:99px;height:10px;overflow:hidden;margin-bottom:4px">
+      <div style="width:${pctG}%;height:100%;background:linear-gradient(90deg,#a78bfa,#4ade80);border-radius:99px"></div>
+    </div>
+    <div style="font-size:14px;font-weight:900;color:#4ade80;text-align:right">${pctG}%</div>
+  </div>`;
+
+  SESIONES.forEach(sesion => {
+    html += `<div class="card" style="margin-bottom:12px">
+      <div style="margin-bottom:12px">
+        <div style="font-size:14px;font-weight:800">${sesion.dia} ${sesion.fecha}</div>
+        <div style="font-size:12px;color:#4ade80;font-weight:600">${sesion.nombre}</div>
+        <div style="font-size:11px;color:#64748b">🕐 ${sesion.hora}</div>
+      </div>`;
+    ["Ray","Cyn"].forEach(q => {
+      const reg = entrenos.find(e=>e.sesionId===sesion.id&&e.quien===q);
+      const est = ESTADOS.find(e=>e.val===reg?.estado);
+      const colorQ = q==="Ray"?"#60a5fa":"#f9a8d4";
+      html += `<div class="card-dark" style="margin-bottom:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:12px;font-weight:800;color:${colorQ}">${q==="Ray"?"🧔":"👩"} ${q}</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${est?`<span style="font-size:12px;font-weight:700;color:${est.cls==="active-green"?"#4ade80":est.cls==="active-yellow"?"#fbbf24":"#f87171"}">${est.emoji} ${est.label}</span>`:""}
+            ${reg?`<span style="font-size:10px;color:#475569">${reg.ts||""}</span>`:""}
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:${reg?8:0}px">`;
+      ESTADOS.forEach(e => {
+        html += `<button class="btn ${reg?.estado===e.val?e.cls:""}" onclick="marcarEntreno('${sesion.id}','${q}','${e.val}')">${e.emoji} ${e.label}</button>`;
+      });
+      html += `</div>`;
+      if (reg) {
+        html += `<input class="note-input" placeholder="Nota (ej: omiti plancha...)" value="${reg.nota||""}" onblur="updateNota('${sesion.id}','${q}',this.value)">`;
+      }
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+
+  document.getElementById("vista-entrenos").innerHTML = html;
+}
+
+function renderStock() {
+  const filtrado = stock.filter(i=>(catFiltro==="Todas"||i.cat===catFiltro)&&(busq===""||i.nombre.toLowerCase().includes(busq.toLowerCase())));
+  let html = `<input class="search-input" placeholder="🔍 Buscar..." value="${busq}" oninput="setBusq(this.value)">
+    <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;margin-bottom:8px">`;
+  ["Todas",...CATS].forEach(c => {
+    const ac = COL[c]?.ac||"#22c55e";
+    const active = catFiltro===c;
+    html += `<button class="btn" onclick="setCat('${c}')" style="${active?`background:${ac};color:#0f172a;border-color:${ac}`:""}">  ${c}</button>`;
+  });
+  html += `</div>`;
+
+  CATS.filter(c=>catFiltro==="Todas"||catFiltro===c).forEach(catName => {
+    const items = filtrado.filter(i=>i.cat===catName);
+    if (!items.length) return;
+    const col = COL[catName];
+    html += `<div class="cat-label" style="color:${col.ac}">${catName}</div>`;
+    items.forEach(item => {
+      const p = barPct(item);
+      const empty = item.cantidad<=0;
+      const low = !empty&&item.cantidad<=item.minimo;
+      const bc = getBarColor(item);
+      html += `<div class="card" style="background:${empty?"#1f0808":low?"#1f1208":col.bg};border-color:${empty?"#7f1d1d":low?"#78350f":"#334155"}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-size:15px;font-weight:700">${item.emoji} ${item.nombre}</div>
+          ${empty?`<span class="badge" style="background:#7f1d1d;color:#fca5a5">AGOTADO</span>`:""}
+          ${low?`<span class="badge" style="background:#78350f;color:#fdba74">POCO</span>`:""}
+        </div>
+        <div class="bar-container"><div class="bar-fill" style="width:${p}%;background:${bc}"></div></div>
+        <div class="controls">
+          <button class="cir-btn" onclick="ajustar('${item.id}',${-item.paso})">-</button>
+          <span class="qty-display" style="color:${bc}" onclick="startEdit('${item.id}')">${fmtQ(item)}</span>
+          <button class="cir-btn" onclick="ajustar('${item.id}',${item.paso})">+</button>
+          <span style="font-size:11px;color:#475569">+/-${item.paso} ${item.unidad}</span>
+        </div>
+      </div>`;
+    });
+  });
+  document.getElementById("vista-stock").innerHTML = html;
+}
+
+function renderConsumir() {
+  let html = `<div class="card" style="background:#111827;border-color:#374151;margin-bottom:16px">
+    <div style="font-size:12px;font-weight:800;color:#9ca3af;margin-bottom:8px">Quien y cuando?</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">`;
+  QUIEN_OPC.forEach(q => {
+    html += `<button class="btn ${quien===q?"active-purple":""}" onclick="setQuien('${q}')">${q}</button>`;
+  });
+  html += `</div><div style="display:flex;gap:8px;flex-wrap:wrap">`;
+  MOMENTOS.forEach(m => {
+    html += `<button class="btn ${momento===m?"active-green":""}" onclick="setMomento('${m}')">${m}</button>`;
+  });
+  html += `</div></div><div style="font-size:12px;color:#64748b;margin-bottom:12px">Ingresa cuanto consumiste:</div>`;
+
+  CATS.forEach(catName => {
+    const items = stock.filter(i=>i.cat===catName&&i.cantidad>0);
+    if (!items.length) return;
+    const col = COL[catName];
+    html += `<div class="cat-label" style="color:${col.ac}">${catName}</div>`;
+    items.forEach(item => {
+      const q = uso[item.id]||0;
+      html += `<div class="card" style="background:${col.bg};display:flex;align-items:center;justify-content:space-between">
+        <div style="flex:1;margin-right:10px">
+          <div style="font-size:14px;font-weight:700">${item.emoji} ${item.nombre}</div>
+          <div style="font-size:11px;color:#64748b">Disponible: ${fmtQ(item)}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <button class="cir-btn" onclick="setUso('${item.id}',${-item.paso})">-</button>
+          <input type="number" min="0" value="${q}" style="background:#0f172a;border:1px solid #475569;color:#f1f5f9;border-radius:8px;padding:5px 8px;font-size:14px;width:60px;text-align:center;outline:none" onchange="setUsoVal('${item.id}',this.value)">
+          <button class="cir-btn" onclick="setUso('${item.id}',${item.paso})">+</button>
+        </div>
+      </div>`;
+    });
+  });
+
+  html += `<button class="register-btn" id="reg-btn" style="background:#22c55e;color:#0f172a" onclick="registrar()">
+    Registrar · ${momento} · ${quien}
+  </button>`;
+  document.getElementById("vista-consumir").innerHTML = html;
+}
+
+function renderLog() {
+  let html = "";
+  if (!log.length) {
+    html = `<div style="text-align:center;color:#475569;padding:50px 0;font-size:14px">Todavia no hay consumos.<br><span style="font-size:12px">Usa Consumir para empezar.</span></div>`;
+  } else {
+    log.forEach(e => {
+      const items = typeof e.items === "string" ? JSON.parse(e.items||"[]") : (e.items||[]);
+      html += `<div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="font-size:13px;font-weight:800;color:#22c55e">🍽️ ${e.momento}</span>
+          <span style="font-size:11px;color:#64748b">${e.ts}</span>
+        </div>
+        <div style="font-size:12px;color:#94a3b8;margin-bottom:8px">👤 ${e.quien}</div>`;
+      items.forEach(it => {
+        html += `<div style="background:#0f172a;border-radius:8px;padding:6px 12px;margin-bottom:4px;font-size:13px;display:flex;justify-content:space-between">
+          <span>${it.emoji||""} ${it.nombre}</span>
+          <span style="color:#f87171;font-weight:700">-${it.qty} ${it.unidad}</span>
+        </div>`;
+      });
+      html += `</div>`;
+    });
+    html += `<button class="btn" style="color:#f87171;border-color:#7f1d1d;margin-top:4px;margin-bottom:20px" onclick="if(confirm('Borrar historial?')) clearLog()">🗑 Borrar historial</button>`;
+  }
+  document.getElementById("vista-log").innerHTML = html;
+}
+
+// ── ACCIONES ──────────────────────────────────────────────────────
+function setVista(v) {
+  vistaActual = v;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  event.target.classList.add("active");
+  ["plan","entrenos","stock","consumir","log"].forEach(n => {
+    document.getElementById("vista-"+n).classList.toggle("hidden", n!==v);
+  });
+}
+
+function setDia(i) {
+  diaIdx = i;
+  saveRemote();
+  renderPlan();
+  renderAlerts();
+}
+
+function setPlanTab(t) {
+  planTab = t;
+  renderPlan();
+}
+
+function setCat(c) {
+  catFiltro = c;
+  renderStock();
+}
+
+function setBusq(v) {
+  busq = v;
+  renderStock();
+}
+
+function setQuien(q) {
+  quien = q;
+  renderConsumir();
+}
+
+function setMomento(m) {
+  momento = m;
+  renderConsumir();
+}
+
+function setUso(id, delta) {
+  const item = stock.find(i=>i.id===id);
+  uso[id] = Math.max(0, (Number(uso[id])||0) + delta);
+  renderConsumir();
+}
+
+function setUsoVal(id, val) {
+  uso[id] = Math.max(0, Number(val)||0);
+}
+
+function ajustar(id, delta) {
+  stock = stock.map(i => i.id===id ? {...i, cantidad:Math.max(0,i.cantidad+delta)} : i);
+  saveRemote();
+  renderStock();
+  renderAlerts();
+}
+
+function startEdit(id) {
+  const item = stock.find(i=>i.id===id);
+  const val = prompt(`Nueva cantidad para ${item.nombre} (actual: ${fmtQ(item)}):`, item.cantidad);
+  if (val !== null && !isNaN(parseFloat(val)) && parseFloat(val)>=0) {
+    stock = stock.map(i => i.id===id ? {...i, cantidad:parseFloat(val)} : i);
+    saveRemote();
+    renderStock();
+    renderAlerts();
+  }
+}
+
+function registrar() {
+  const usados = Object.entries(uso).filter(([,v])=>Number(v)>0);
+  if (!usados.length) { alert("No marcaste ningun consumo."); return; }
+  
+  const ts = new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
+  const items = usados.map(([id,qty]) => {
+    const it = stock.find(i=>i.id===id);
+    return {emoji:it.emoji, nombre:it.nombre, qty:Number(qty), unidad:it.unidad};
+  });
+  
+  stock = stock.map(i => {
+    const q = Number(uso[i.id]||0);
+    return q>0 ? {...i, cantidad:Math.max(0,i.cantidad-q)} : i;
+  });
+  
+  log = [{ts, quien, momento, items}, ...log];
+  uso = {};
+  saveRemote();
+  renderAll();
+  
+  const btn = document.getElementById("reg-btn");
+  if (btn) { btn.textContent = "Registrado!"; btn.style.background = "#16a34a"; setTimeout(()=>renderConsumir(),2000); }
+}
+
+function marcarEntreno(sesionId, q, estado) {
+  const ts = new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
+  const existe = entrenos.find(e=>e.sesionId===sesionId&&e.quien===q);
+  if (existe) {
+    entrenos = entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,estado,ts}:e);
+  } else {
+    entrenos = [...entrenos, {sesionId, quien:q, estado, nota:"", ts}];
+  }
+  saveRemote();
+  renderEntrenos();
+  renderAlerts();
+}
+
+function updateNota(sesionId, q, nota) {
+  entrenos = entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,nota}:e);
+  saveRemote();
+}
+
+function clearLog() {
+  log = [];
+  saveRemote();
+  renderLog();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+window.addEventListener("DOMContentLoaded", () => {
+  // Mostrar app inmediatamente con datos locales
+  const hasLocal = loadLocal();
+  if (hasLocal) {
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    renderAll();
+    setSyncTime();
+  }
+  // Siempre intentar cargar desde Sheets
+  cargarTodo();
+});
+</script>
+</body>
+</html>
