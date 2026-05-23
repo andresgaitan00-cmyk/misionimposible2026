@@ -2,474 +2,371 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ray & Cyn · Semana 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ray & Cyn · Semana 2</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Nunito', 'Segoe UI', sans-serif; background: #0f172a; color: #f1f5f9; max-width: 680px; margin: 0 auto; padding-bottom: 80px; }
-  .header { padding: 20px 18px 14px; background: #0f172a; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid #1e293b; }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-  .title { font-size: 19px; font-weight: 900; letter-spacing: -0.5px; }
-  .subtitle { font-size: 11px; color: #475569; margin-top: 2px; }
-  .live { display: flex; align-items: center; gap: 5px; justify-content: flex-end; margin-bottom: 2px; }
-  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 5px #4ade80; }
-  .live-text { font-size: 10px; color: #4ade80; font-weight: 700; }
-  .sync-text { font-size: 10px; color: #475569; text-align: right; }
-  .refresh-btn { background: transparent; border: none; color: #475569; font-size: 11px; cursor: pointer; padding: 0; margin-top: 2px; display: block; text-align: right; width: 100%; }
-  .alerts { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-  .alert { border-radius: 20px; padding: 3px 10px; font-size: 11px; }
-  .alert-red { background: #450a0a; border: 1px solid #ef4444; color: #fca5a5; }
-  .alert-orange { background: #431407; border: 1px solid #f97316; color: #fdba74; }
-  .alert-green { background: #052e16; border: 1px solid #4ade80; color: #4ade80; }
-  .alert-purple { background: #1c1030; border: 1px solid #a78bfa; color: #a78bfa; }
-  .tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab { background: #1e293b; color: #94a3b8; border: 1px solid #334155; border-radius: 20px; padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-  .tab.active { background: #22c55e; color: #0f172a; border-color: #22c55e; }
-  .content { padding: 14px 16px 0; }
-  .card { background: #1e293b; border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; border: 1px solid #334155; }
-  .card-dark { background: #0f172a; border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; }
-  .btn { border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; border: 1px solid #334155; background: #1e293b; color: #94a3b8; }
-  .btn.active-green { background: #22c55e; color: #0f172a; border-color: #22c55e; }
-  .btn.active-yellow { background: #fbbf24; color: #0f172a; border-color: #fbbf24; }
-  .btn.active-red { background: #f87171; color: #0f172a; border-color: #f87171; }
-  .btn.active-purple { background: #818cf8; color: #0f172a; border-color: #818cf8; }
-  .day-selector { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; margin-bottom: 12px; }
-  .day-selector::-webkit-scrollbar { display: none; }
-  .day-btn { border-radius: 12px; padding: 8px 12px; cursor: pointer; flex-shrink: 0; text-align: center; min-width: 58px; border: 2px solid #334155; background: #1e293b; color: #94a3b8; }
-  .day-label { font-size: 10px; font-weight: 800; }
-  .day-num { font-size: 16px; font-weight: 900; }
-  .bar-container { background: #0f172a; border-radius: 99px; height: 5px; margin: 8px 0; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.3s; }
-  .controls { display: flex; align-items: center; gap: 10px; }
-  .cir-btn { background: #334155; border: none; color: #f1f5f9; border-radius: 8px; width: 32px; height: 32px; font-size: 20px; cursor: pointer; font-weight: 900; line-height: 30px; text-align: center; flex-shrink: 0; }
-  .qty-display { min-width: 84px; text-align: center; font-weight: 800; font-size: 15px; cursor: pointer; }
-  .qty-input { background: #0f172a; border: 1px solid #475569; color: #f1f5f9; border-radius: 8px; padding: 5px 8px; font-size: 14px; width: 68px; text-align: center; outline: none; }
-  .search-input { width: 100%; background: #1e293b; border: 1px solid #334155; color: #f1f5f9; border-radius: 12px; padding: 10px 14px; font-size: 14px; margin-bottom: 12px; outline: none; }
-  .cat-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 4px; }
-  .register-btn { width: 100%; border: none; border-radius: 14px; padding: 16px; font-size: 16px; font-weight: 900; cursor: pointer; margin-bottom: 24px; transition: background 0.2s; }
-  .badge { border-radius: 20px; padding: 2px 9px; font-size: 10px; font-weight: 800; }
-  .hidden { display: none; }
-  .note-input { width: 100%; background: #1e293b; border: 1px solid #334155; color: #c4b5fd; border-radius: 8px; padding: 6px 10px; font-size: 12px; outline: none; margin-top: 6px; }
-  .loading { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
-  .progress-bar { background: #0f172a; border-radius: 99px; height: 8px; overflow: hidden; margin: 8px 0; }
-  .progress-fill { height: 100%; border-radius: 99px; transition: width 0.4s; }
-  .subtabs { display: flex; gap: 8px; margin-bottom: 14px; }
-  .nav-btn { background: #334155; border: none; color: #f1f5f9; border-radius: 8px; width: 32px; height: 32px; font-size: 18px; cursor: pointer; line-height: 32px; text-align: center; }
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
-  input[type=number] { -moz-appearance: textfield; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito','Segoe UI',sans-serif;background:#0f172a;color:#f1f5f9;max-width:680px;margin:0 auto;padding-bottom:80px}
+.header{padding:18px 16px 12px;background:#0f172a;position:sticky;top:0;z-index:20;border-bottom:1px solid #1e293b}
+.htop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.htitle{font-size:18px;font-weight:900;letter-spacing:-0.5px}
+.hsub{font-size:11px;color:#475569;margin-top:2px}
+.dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 5px #4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.hsync{font-size:10px;color:#475569;text-align:right}
+.hrefresh{background:transparent;border:none;color:#475569;font-size:11px;cursor:pointer;padding:0;margin-top:2px;display:block;text-align:right}
+.alerts{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.al{border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
+.al-r{background:#450a0a;border:1px solid #ef4444;color:#fca5a5}
+.al-o{background:#431407;border:1px solid #f97316;color:#fdba74}
+.al-g{background:#052e16;border:1px solid #4ade80;color:#4ade80}
+.al-p{background:#1c1030;border:1px solid #a78bfa;color:#a78bfa}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.tab.on{background:#22c55e;color:#0f172a;border-color:#22c55e}
+.content{padding:14px 16px 0}
+.card{background:#1e293b;border-radius:14px;padding:14px 16px;margin-bottom:8px;border:1px solid #334155}
+.card-dark{background:#0f172a;border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.btn{border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border:1px solid #334155;background:#1e293b;color:#94a3b8}
+.btn-g{background:#22c55e;color:#0f172a;border-color:#22c55e}
+.btn-y{background:#fbbf24;color:#0f172a;border-color:#fbbf24}
+.btn-r{background:#f87171;color:#0f172a;border-color:#f87171}
+.btn-p{background:#818cf8;color:#0f172a;border-color:#818cf8}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;margin-bottom:12px}
+.days::-webkit-scrollbar{display:none}
+.day-btn{border-radius:12px;padding:8px 12px;cursor:pointer;flex-shrink:0;text-align:center;min-width:54px;border:2px solid #334155;background:#1e293b;color:#94a3b8}
+.bar-wrap{background:#0f172a;border-radius:99px;height:5px;margin:8px 0;overflow:hidden}
+.bar{height:100%;border-radius:99px;transition:width 0.3s}
+.controls{display:flex;align-items:center;gap:10px;margin-top:4px}
+.cir{background:#334155;border:none;color:#f1f5f9;border-radius:8px;width:32px;height:32px;font-size:20px;cursor:pointer;font-weight:900;line-height:30px;text-align:center;flex-shrink:0}
+.qty{min-width:80px;text-align:center;font-weight:800;font-size:15px;cursor:pointer}
+.search{width:100%;background:#1e293b;border:1px solid #334155;color:#f1f5f9;border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:12px;outline:none}
+.cat-lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;padding-left:4px;margin-top:4px}
+.reg-btn{width:100%;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:900;cursor:pointer;margin-bottom:24px;transition:background 0.2s}
+.badge{border-radius:20px;padding:2px 9px;font-size:10px;font-weight:800}
+.note-inp{width:100%;background:#1e293b;border:1px solid #334155;color:#c4b5fd;border-radius:8px;padding:6px 10px;font-size:12px;outline:none;margin-top:6px}
+.loading{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.subtabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.nav-btn{background:#334155;border:none;color:#f1f5f9;border-radius:8px;width:32px;height:32px;font-size:18px;cursor:pointer;line-height:32px;text-align:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hidden{display:none}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type=number]{-moz-appearance:textfield}
+.prog-bar{background:#0f172a;border-radius:99px;height:8px;overflow:hidden;margin:8px 0}
+.prog-fill{height:100%;border-radius:99px;transition:width 0.4s}
 </style>
 </head>
 <body>
-
 <div id="loading" class="loading">
-  <div style="font-size:32px">🏠</div>
+  <div style="font-size:36px">🏠</div>
   <div style="font-size:16px;font-weight:700">Cargando Ray & Cyn...</div>
-  <div style="font-size:12px;color:#475569">Conectando con la base de datos</div>
+  <div style="font-size:12px;color:#475569;margin-top:4px">Semana 2 · Borgosesia</div>
 </div>
-
 <div id="app" class="hidden">
-  <!-- HEADER -->
   <div class="header">
-    <div class="header-top">
+    <div class="htop">
+      <div><div class="htitle">🏠 Ray & Cyn · Sem 2</div><div class="hsub">25/05 – 01/06/2026 · Borgosesia</div></div>
       <div>
-        <div class="title">🏠 Ray & Cyn · Semana 1</div>
-        <div class="subtitle">19-25 mayo 2026 · Borgosesia</div>
-      </div>
-      <div>
-        <div class="live"><div class="live-dot"></div><span class="live-text">EN VIVO</span></div>
-        <div class="sync-text" id="sync-text"></div>
-        <button class="refresh-btn" onclick="cargarTodo()">↻ actualizar</button>
+        <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end"><div class="dot"></div><span style="font-size:10px;color:#4ade80;font-weight:700">EN VIVO</span></div>
+        <div class="hsync" id="sync-txt"></div>
+        <button class="hrefresh" onclick="cargar()">↻ actualizar</button>
       </div>
     </div>
     <div class="alerts" id="alerts"></div>
     <div class="tabs">
-      <button class="tab active" onclick="setVista('plan')">📅 Plan</button>
-      <button class="tab" onclick="setVista('entrenos')">💪 Entrenos</button>
-      <button class="tab" onclick="setVista('stock')">📦 Stock</button>
-      <button class="tab" onclick="setVista('consumir')">🍽️ Consumir</button>
-      <button class="tab" onclick="setVista('log')">📋 Historial</button>
+      <button class="tab on" onclick="setV('plan',this)">📅 Plan</button>
+      <button class="tab" onclick="setV('entrenos',this)">💪 Entrenos</button>
+      <button class="tab" onclick="setV('stock',this)">📦 Stock</button>
+      <button class="tab" onclick="setV('consumir',this)">🍽️ Consumir</button>
+      <button class="tab" onclick="setV('log',this)">📋 Historial</button>
     </div>
   </div>
-
-  <!-- PLAN -->
-  <div id="vista-plan" class="content"></div>
-  <!-- ENTRENOS -->
-  <div id="vista-entrenos" class="content hidden"></div>
-  <!-- STOCK -->
-  <div id="vista-stock" class="content hidden"></div>
-  <!-- CONSUMIR -->
-  <div id="vista-consumir" class="content hidden"></div>
-  <!-- LOG -->
-  <div id="vista-log" class="content hidden"></div>
+  <div id="v-plan" class="content"></div>
+  <div id="v-entrenos" class="content hidden"></div>
+  <div id="v-stock" class="content hidden"></div>
+  <div id="v-consumir" class="content hidden"></div>
+  <div id="v-log" class="content hidden"></div>
 </div>
-
 <script>
-// ── SHEETS CONFIG ─────────────────────────────────────────────────
-const SHEET_ID = "15HDxJcYGCqmk4D7EDKMeWGmXriVE-sM3AwhMEG0bglk";
-const SHEETS_API = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=`;
-const WRITE_URL = "https://script.google.com/macros/s/AKfycbzAJreQr-PmOE5wMeJWHZHGEGKMr4C_vTrTI1i582KyNeAc-zjA8yY_qps0GqMNT-do/exec";
+const GAS="https://script.google.com/macros/s/AKfycbzAJreQr-PmOE5wMeJWHZHGEGKMr4C_vTrTI1i582KyNeAc-zjA8yY_qps0GqMNT-do/exec";
 
-// ── DATOS ─────────────────────────────────────────────────────────
-const PLAN = [
-  { fecha:"19/05", dia:"Martes", tipo:"entreno",
-    entreno:{ hora:"15:30-16:45", nombre:"Dia 1 - Cardio + Lower intro",
-      ej:["Trote suave 15 min","Sentadilla con apoyo en pared 3x10","Rodillas al pecho parada 3x15","Plancha en rodillas 3x20 seg","Puente de gluteos 3x12","Descanso 60-75 seg"] },
+const PLAN=[
+  {fecha:"25/05",dia:"Lunes",tipo:"entreno",
+    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
+    entreno:{hora:"15:30-16:50",nombre:"Sem 2 Dia 1 - Lower progresado",
+      ej:["Trote suave 15 min","Sentadilla libre 3x14 (+2 vs sem1)","Zancada estatica 3x10 c/lado NUEVO","Puente de gluteos 3x15 (+3 vs sem1)","Plancha completa 3x25 seg (+5 vs sem1)","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45",  l:"Desayuno",         r:"Avena 60g + leche + banana + cafe", c:"Duerme"},
-      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"Avena + leche + fruta + cafe"},
-      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + 2 huevos duros + atun + tomate", c:"Pasta con atun y tomate"},
-      {h:"14:30", l:"Pre-entreno",      r:"Banana + tostada con crema de mani", c:"Yogurt + L-Carnitina 30min antes"},
-      {h:"15:30", l:"ENTRENO",          r:"Juntos", c:"Juntos"},
-      {h:"17:00", l:"Post-entreno",     r:"Whey con leche + 2 huevos + pan", c:"Whey con agua + yogurt"},
-      {h:"20:00", l:"Cena",             r:"Lentejas con verdura + huevo duro + pan", c:"Idem porcion mas chica"},
-    ], prep:"Cyn deja cena lista. Ray recalienta. Preparar tupper para manana." },
-  { fecha:"20/05", dia:"Miercoles", tipo:"entreno",
-    entreno:{ hora:"15:30-16:20", nombre:"Dia 2 - Movilidad + Core",
-      ej:["Cat-cow 2x10","Child pose con rotacion 2x30 seg c/lado","Elevacion piernas 3x10","Superman 3x10 pausa 2 seg","Plancha lateral rodillas 2x20 seg c/lado","Stretching caderas 5 min"] },
+      {h:"7:45",l:"Desayuno JUNTOS",r:"Avena 60g + leche + banana + cafe",c:"Yogurt griego + frutillas + avena + cafe · juntos antes de salir"},
+      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Tupper: arroz + pollo + tomate + oliva",c:"Tupper: bowl garbanzos + zanahoria + huevo duro + 1/4 palta + limon"},
+      {h:"14:30",l:"Pre-entreno",r:"Banana + crema de mani",c:"Kiwi + L-Carnitina 30min antes"},
+      {h:"15:30",l:"ENTRENO",r:"Juntos",c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",r:"Whey con leche + 2 huevos + pan",c:"Whey con agua + yogurt"},
+      {h:"23:00",l:"Cena juntos",r:"Pechuga al horno + batata + ensalada lechuga + tomate",c:"Idem batata chica + mas ensalada + 1/4 palta"},
+    ],prep:"Preparar 2 tuppers la noche anterior. Desayunar juntos 7:45 antes de salir a las 9."},
+  {fecha:"26/05",dia:"Martes",tipo:"entreno",
+    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
+    entreno:{hora:"15:30-16:50",nombre:"Sem 2 Dia 2 - Upper intro",
+      ej:["Trote suave 10 min","Flexion de brazos en rodillas 3x8","Remo con botella o mochila 3x10","Elevacion lateral brazos 3x12","Plancha completa 3x25 seg","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45",  l:"Desayuno",         r:"2 huevos revueltos + tostada + banana + cafe", c:"Duerme"},
-      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"Yogurt griego + avena + banana"},
-      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + pollo o atun + tomate", c:"Pollo salteado con zucchini y arroz"},
-      {h:"14:30", l:"Pre-entreno",      r:"Banana o pan con crema de mani", c:"Fruta liviana + L-Carnitina 30min antes"},
-      {h:"15:30", l:"ENTRENO",          r:"Juntos", c:"Juntos"},
-      {h:"16:30", l:"Post-entreno",     r:"Whey con leche + pan o huevos", c:"Whey con agua + yogurt"},
-      {h:"20:00", l:"Cena",             r:"Arroz con pollo y zucchini", c:"Idem porcion mas chica"},
-    ], prep:"Cyn cocina a la tarde. Preparar tupper para manana." },
-  { fecha:"21/05", dia:"Jueves", tipo:"descanso",
-    entreno:{ hora:"-", nombre:"Descanso activo",
-      ej:["Caminata suave 20-30 min (opcional)","Stretching 10 min opcional","SIN circuitos ni cardio hoy","El musculo crece descansando"] },
+      {h:"7:45",l:"Desayuno JUNTOS",r:"2 huevos revueltos + 2 fetas pan + 1/4 palta + cafe",c:"Yogurt griego + kiwi + cafe · juntos antes de salir"},
+      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Wrap x2: piadina + pollo + rucula + tomate + mostaza + 1/4 palta",c:"Tupper: ensalada novella + atun + mais + zanahoria + limon"},
+      {h:"14:30",l:"Pre-entreno",r:"Banana + crema de mani",c:"Frutillas + L-Carnitina 30min antes"},
+      {h:"15:30",l:"ENTRENO",r:"Juntos",c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",r:"Whey con leche + 2 huevos + pan",c:"Whey con agua + yogurt griego"},
+      {h:"20:00",l:"Cena",r:"Piadina + espinaca salteada + pollo + mozzarella + peperoni rossi",c:"Idem porcion mas chica · USAR ESPINACA HOY"},
+    ],prep:"Espinaca hay que usarla HOY. Preparar 2 tuppers la noche anterior."},
+  {fecha:"27/05",dia:"Miercoles",tipo:"descanso",
+    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
+    entreno:{hora:"-",nombre:"Descanso activo",
+      ej:["Caminata suave 20-30 min opcional","Stretching 10 min","SIN circuitos ni cardio","El musculo crece descansando"]},
     comidas:[
-      {h:"7:45",  l:"Desayuno",         r:"Avena 60g + leche + frutos secos + cafe", c:"Duerme"},
-      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"2 huevos revueltos + tostada + cafe"},
-      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: pasta con atun y tomate", c:"Ensalada garbanzos + huevo duro + tomate"},
-      {h:"14:30", l:"Merienda",         r:"Pan con crema de mani + leche", c:"Cafe o yogurt liviano"},
-      {h:"16:00", l:"Caminata opcional",r:"20 min si el cuerpo lo pide", c:"Idem o quedarse en casa"},
-      {h:"20:00", l:"Cena",             r:"Tortilla de huevos y papa", c:"Idem sin papa o porcion chica"},
-    ], prep:"Cyn deja cena lista. Buen dia para compras si hace falta." },
-  { fecha:"22/05", dia:"Viernes", tipo:"entreno",
-    entreno:{ hora:"15:30-17:00", nombre:"Dia 3 - Cardio + Circuito completo",
-      ej:["Trote suave 15 min","Sentadilla libre 3x12","Mountain climber 3x15 c/lado","Plancha completa 3x20 seg","Puente de gluteos 3x12","Rodillas al pecho 3x15","Descanso 60 seg"] },
+      {h:"7:45",l:"Desayuno JUNTOS",r:"Avena + leche + arandanos + cafe",c:"Smoothie: avena + leche + banana + frutillas · juntos antes de salir"},
+      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Tupper: pasta + carne molida + passata",c:"Tupper: ensalada cesar: lechuga + pollo + grana padano + huevo duro + salsa caesar"},
+      {h:"14:30",l:"Merienda",r:"Pan con crema de mani + leche",c:"1/2 palta con limon y sal"},
+      {h:"20:00",l:"Cena",r:"Arroz + pollo salteado + zucchini + cebolla",c:"Idem 1/2 porcion arroz + mas zucchini + 1/4 palta"},
+    ],prep:"Usar lechuga restante hoy. Preparar 2 tuppers la noche anterior."},
+  {fecha:"28/05",dia:"Jueves",tipo:"entreno",
+    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
+    entreno:{hora:"15:30-16:50",nombre:"Sem 2 Dia 3 - Full body",
+      ej:["Trote suave 15 min","Sentadilla libre 3x14","Flexion de brazos rodillas 3x10","Puente de gluteos 3x15","Plancha completa 3x25 seg","Zancada estatica 3x10 c/lado","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45",  l:"Desayuno",         r:"2 huevos + tostada + banana + cafe", c:"Duerme"},
-      {h:"9:00",  l:"Desayuno Cyn",     r:"En el trabajo", c:"Avena con leche + fruta + cafe"},
-      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + 2 huevos duros + atun + tomate", c:"Sopa de lentejas con caldo y pan"},
-      {h:"14:30", l:"Pre-entreno",      r:"Banana + punado de frutos secos", c:"Fruta o yogurt + L-Carnitina 30min antes"},
-      {h:"15:30", l:"ENTRENO",          r:"Semana 1 completada!", c:"Semana 1 completada!"},
-      {h:"17:00", l:"Post-entreno",     r:"Whey con leche + 2 huevos + pan", c:"Whey con agua + yogurt"},
-      {h:"20:00", l:"Cena",             r:"Pasta con carne molida y passata", c:"Idem menos pasta mas verdura"},
-    ], prep:"Cena contundente bien merecida. Preparar lista super si falta stock." },
-  { fecha:"23/05", dia:"Sabado", tipo:"libre",
-    entreno:{ hora:"Sin horario", nombre:"Dia libre - Sendero opcional",
-      ej:["Opcion A: Sendero Riba Valdobbia 45-60 min","Opcion B: Caminata suave por el pueblo","Opcion C: Descanso total - completamente valido","SIN circuitos - 3 sesiones esta semana es perfecto"] },
+      {h:"7:45",l:"Desayuno JUNTOS",r:"2 huevos + 2 fetas pan + banana + cafe",c:"Avena + leche + kiwi + cafe · juntos antes de salir"},
+      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Tupper: arroz + bistecca en tiras + zanahoria + limon",c:"Tupper plato inteligente: lentejas + brocoli + huevo duro + 1/4 palta"},
+      {h:"14:30",l:"Pre-entreno",r:"Banana + frutos secos",c:"Frutillas + L-Carnitina 30min antes"},
+      {h:"15:30",l:"ENTRENO",r:"Juntos",c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",r:"Whey con leche + 2 huevos + pan",c:"Whey con agua + yogurt griego"},
+      {h:"20:00",l:"Cena",r:"Tortilla de huevos + papa + tomate + mozzarella",c:"Idem sin papa + ensalada grande + 1/4 palta"},
+    ],prep:"Semana 2 completa! Cena contundente bien merecida. Preparar tuppers viernes."},
+  {fecha:"29/05",dia:"Viernes",tipo:"libre",
+    horarios:"Horarios a confirmar",
+    entreno:{hora:"Sin horario",nombre:"Dia libre o recuperacion",
+      ej:["Stretching suave 15 min opcional","Caminata tranquila","SIN entreno estructurado","Descanso antes del finde"]},
     comidas:[
-      {h:"9:00",  l:"Desayuno juntos",  r:"Avena + huevos + fruta + cafe", c:"Idem el mas tranquilo de la semana"},
-      {h:"11:30", l:"Snack",            r:"Frutos secos + fruta o tostada con crema de mani", c:"Fruta o yogurt"},
-      {h:"14:00", l:"Almuerzo juntos",  r:"Arroz con pollo y zucchini porcion grande", c:"Idem porcion normal"},
-      {h:"17:00", l:"Merienda",         r:"Pan con crema de mani + leche o banana", c:"Yogurt o fruta"},
-      {h:"20:30", l:"Cena juntos",      r:"Pechuga al hornito con batata + ensalada", c:"Idem batata chica o sin batata"},
-    ], prep:"Super si hace falta stock. Preparar tuppers de Ray para la semana." },
-  { fecha:"24/05", dia:"Domingo", tipo:"planificacion",
-    entreno:{ hora:"Opcional tarde", nombre:"Planificacion semana 2",
-      ej:["PASO 1: Compartir horarios semana siguiente","PASO 2: Definir 3 dias entreno semana 2","PASO 3: Anotar dias y horas","PASO 4: Preparar tuppers Ray lunes y martes","Opcional: movilidad 20 min o caminata"] },
+      {h:"8:00",l:"Desayuno juntos",r:"Smoothie: avena + leche + banana + arandanos",c:"Yogurt griego + frutillas + avena"},
+      {h:"11:30",l:"Snack",r:"Frutos secos + kiwi",c:"1/2 palta con limon + frutillas"},
+      {h:"14:00",l:"Almuerzo juntos",r:"Wrap x2: piadina + atun + rucula + tomate + 1/4 palta",c:"Plato inteligente: ensalada novella + atun + mais + zanahoria + limon"},
+      {h:"17:00",l:"Merienda",r:"Pan con crema de mani + leche",c:"Yogurt griego + arandanos"},
+      {h:"20:30",l:"Cena juntos",r:"Bife a la plancha + patatas + ensalada lechuga + tomate",c:"Bife + ensalada grande sin patatas + 1/4 palta"},
+    ],prep:"Buen dia para preparar tuppers del finde y repasar el stock."},
+  {fecha:"30/05",dia:"Sabado",tipo:"libre",
+    horarios:"Dia libre",
+    entreno:{hora:"Sin horario",nombre:"Dia libre - Sendero o descanso",
+      ej:["Opcion A: Sendero Riba Valdobbia 45-60 min","Opcion B: Caminata suave por el pueblo","Opcion C: Descanso total","SIN circuitos"]},
     comidas:[
-      {h:"9:00",  l:"Desayuno juntos",  r:"Huevos + tostada + fruta + cafe", c:"Idem"},
-      {h:"12:00", l:"Snack",            r:"Frutos secos + yogurt o banana", c:"Fruta o yogurt"},
-      {h:"14:00", l:"Almuerzo juntos",  r:"Garbanzos salteados con espinaca + 2 huevos + pan", c:"Idem sin pan extra"},
-      {h:"16:00", l:"PLANIFICACION",    r:"Cruzar horarios definir entrenos preparar tuppers", c:"Los dos juntos 20-30 min"},
-      {h:"17:30", l:"Merienda",         r:"Avena con leche + banana", c:"Yogurt con fruta"},
-      {h:"20:30", l:"Cena + tuppers",   r:"Sopa Knorr + 2 huevos + pan preparar tupper lunes", c:"Sopa + huevo liviano"},
-    ], prep:"Tarde clave: tuppers listos y plan semana 2 definido." },
-  { fecha:"25/05", dia:"Lunes", tipo:"entreno",
-    entreno:{ hora:"15:30-16:50", nombre:"Sem 2 Dia 1 - Lower progresado",
-      ej:["Trote suave 15 min","Sentadilla libre 3x14 (+2 vs sem1)","Zancada estatica 3x10 c/lado NUEVO","Puente de gluteos 3x15 (+3 vs sem1)","Plancha completa 3x25 seg (+5 vs sem1)","Descanso 60 seg"] },
+      {h:"9:00",l:"Desayuno juntos",r:"Avena + huevos revueltos + frutillas + cafe",c:"Idem · el mas tranquilo de la semana"},
+      {h:"11:30",l:"Snack",r:"Frutos secos + banana",c:"Kiwi + yogurt griego"},
+      {h:"14:00",l:"Almuerzo juntos",r:"Ensalada cesar completa: lechuga + pollo + grana padano + huevo + salsa caesar + bruschette",c:"Idem porcion normal"},
+      {h:"17:00",l:"Merienda",r:"Pan con crema de mani + leche",c:"1/2 palta con limon y sal"},
+      {h:"20:30",l:"Cena juntos",r:"Pechuga al hornito + batata + ensalada + mozzarella",c:"Idem batata chica + mas ensalada + mozzarella fresca"},
+    ],prep:"Super si hace falta reponer algo. Preparar tuppers semana siguiente."},
+  {fecha:"01/06",dia:"Domingo",tipo:"planificacion",
+    horarios:"Dia libre · planificacion semana 3",
+    entreno:{hora:"Opcional tarde",nombre:"Planificacion semana 3",
+      ej:["PASO 1: Compartir horarios semana siguiente","PASO 2: Definir 3 dias entreno semana 3","PASO 3: Anotar dias y horas","PASO 4: Preparar tuppers Ray y Cyn para lunes y martes","Opcional: movilidad 20 min"]},
     comidas:[
-      {h:"6:30",  l:"Desayuno Cyn",     r:"Duerme", c:"Yogurt + banana + cafe 5 min"},
-      {h:"7:45",  l:"Desayuno Ray",     r:"Avena 60g + leche + frutos secos + cafe", c:"En el trabajo"},
-      {h:"11:20", l:"Almuerzo / Vianda",r:"Tupper: arroz + atun + tomate + huevo duro", c:"Hotel: proteina + ensalada"},
-      {h:"14:30", l:"Pre-entreno",      r:"Banana + tostada con crema de mani", c:"Fruta o yogurt + L-Carnitina 30min antes"},
-      {h:"15:30", l:"ENTRENO",          r:"Juntos antes que Cyn salga 19:00", c:"Juntos"},
-      {h:"17:00", l:"Post-entreno",     r:"Whey con leche + huevos + pan", c:"Whey con agua + yogurt rapido"},
-      {h:"23:00", l:"Cena juntos",      r:"Pechuga al hornito + batata + ensalada", c:"Idem primera cena temporada completa"},
-    ], prep:"Ray cocina a la tarde. Cyn llega 23:00 y come. Preparar tupper para martes." },
+      {h:"9:00",l:"Desayuno juntos",r:"Huevos revueltos + 2 fetas pan + 1/4 palta + cafe",c:"Idem"},
+      {h:"12:00",l:"Snack",r:"Frutos secos + banana",c:"Yogurt + frutillas"},
+      {h:"14:00",l:"Almuerzo juntos",r:"Bowl: garbanzos + espinaca + huevo duro + zanahoria + 1/4 palta + limon",c:"Idem sin pan extra"},
+      {h:"16:00",l:"PLANIFICACION",r:"Cruzar horarios · definir entrenos · preparar tuppers",c:"Los dos juntos 20-30 min"},
+      {h:"17:30",l:"Merienda",r:"Avena con leche + banana",c:"Yogurt con arandanos"},
+      {h:"20:30",l:"Cena + tuppers",r:"Sopa Knorr + 2 huevos + pan · preparar tupper lunes",c:"Sopa + huevo · liviano"},
+    ],prep:"Cerrar semana 2 y arrancar semana 3 con todo planificado."},
 ];
 
-const SESIONES = [
-  {id:"s1", fecha:"19/05", dia:"Martes",    nombre:"Dia 1 - Cardio + Lower intro",      hora:"15:30-16:45"},
-  {id:"s2", fecha:"20/05", dia:"Miercoles", nombre:"Dia 2 - Movilidad + Core",           hora:"15:30-16:20"},
-  {id:"s3", fecha:"22/05", dia:"Viernes",   nombre:"Dia 3 - Cardio + Circuito completo", hora:"15:30-17:00"},
-  {id:"s4", fecha:"25/05", dia:"Lunes",     nombre:"Sem 2 Dia 1 - Lower progresado",     hora:"15:30-16:50"},
+const SESIONES=[
+  {id:"s5",fecha:"25/05",dia:"Lunes",  nombre:"Sem 2 Dia 1 - Lower progresado",hora:"15:30-16:50"},
+  {id:"s6",fecha:"26/05",dia:"Martes", nombre:"Sem 2 Dia 2 - Upper intro",     hora:"15:30-16:50"},
+  {id:"s7",fecha:"28/05",dia:"Jueves", nombre:"Sem 2 Dia 3 - Full body",       hora:"15:30-16:50"},
 ];
 
-const STOCK_DEFAULT = [
-  {id:"huevos",       emoji:"🥚", nombre:"Huevos",                   cat:"Proteinas",      cantidad:36,   unidad:"ud",       paso:1,   minimo:6  },
-  {id:"petto_pollo",  emoji:"🍗", nombre:"Pechuga de pollo",          cat:"Proteinas",      cantidad:1150, unidad:"g",        paso:100, minimo:200},
-  {id:"macinato",     emoji:"🥩", nombre:"Carne molida bovina",       cat:"Proteinas",      cantidad:1200, unidad:"g",        paso:100, minimo:0  },
-  {id:"tonno",        emoji:"🐟", nombre:"Atun en lata",              cat:"Proteinas",      cantidad:6,    unidad:"latas",    paso:1,   minimo:1  },
-  {id:"latte",        emoji:"🥛", nombre:"Leche entera UHT",          cat:"Lacteos",        cantidad:5000, unidad:"ml",       paso:250, minimo:500},
-  {id:"yogurt",       emoji:"🫙", nombre:"Yogurt (griego/Alpro)",     cat:"Lacteos",        cantidad:4,    unidad:"ud",       paso:1,   minimo:1  },
-  {id:"kefir",        emoji:"🥤", nombre:"Kefir",                     cat:"Lacteos",        cantidad:2,    unidad:"ud",       paso:1,   minimo:0  },
-  {id:"banane",       emoji:"🍌", nombre:"Bananas bio",               cat:"Fruta y verdura",cantidad:14,   unidad:"ud",       paso:1,   minimo:3  },
-  {id:"mele",         emoji:"🍎", nombre:"Manzanas Pink Lady",        cat:"Fruta y verdura",cantidad:1000, unidad:"g",        paso:100, minimo:0  },
-  {id:"zucchine",     emoji:"🥒", nombre:"Zucchine",                  cat:"Fruta y verdura",cantidad:1094, unidad:"g",        paso:150, minimo:0  },
-  {id:"spinaci",      emoji:"🥬", nombre:"Espinacas",                 cat:"Fruta y verdura",cantidad:1,    unidad:"bolsa",    paso:1,   minimo:0  },
-  {id:"rucola",       emoji:"🥗", nombre:"Rucula",                    cat:"Fruta y verdura",cantidad:1,    unidad:"bolsa",    paso:1,   minimo:0  },
-  {id:"pomodori",     emoji:"🍅", nombre:"Tomates cherry",            cat:"Fruta y verdura",cantidad:500,  unidad:"g",        paso:100, minimo:0  },
-  {id:"patate",       emoji:"🥔", nombre:"Patatas rojas",             cat:"Fruta y verdura",cantidad:2000, unidad:"g",        paso:250, minimo:0  },
-  {id:"limoni",       emoji:"🍋", nombre:"Limones",                   cat:"Fruta y verdura",cantidad:916,  unidad:"g",        paso:100, minimo:0  },
-  {id:"aglio",        emoji:"🧄", nombre:"Ajo",                       cat:"Fruta y verdura",cantidad:3,    unidad:"cabezas",  paso:1,   minimo:0  },
-  {id:"cipolla",      emoji:"🧅", nombre:"Cebolla blanca",            cat:"Fruta y verdura",cantidad:1000, unidad:"g",        paso:100, minimo:0  },
-  {id:"avena",        emoji:"🌾", nombre:"Avena",                     cat:"Dispensa",       cantidad:500,  unidad:"g",        paso:60,  minimo:60 },
-  {id:"riso",         emoji:"🍚", nombre:"Arroz parboiled",           cat:"Dispensa",       cantidad:700,  unidad:"g",        paso:80,  minimo:0  },
-  {id:"pasta",        emoji:"🍝", nombre:"Pasta fusilli",             cat:"Dispensa",       cantidad:750,  unidad:"g",        paso:80,  minimo:0  },
-  {id:"ceci",         emoji:"🫘", nombre:"Garbanzos en lata",         cat:"Dispensa",       cantidad:2,    unidad:"latas",    paso:1,   minimo:0  },
-  {id:"lenticchie",   emoji:"🟤", nombre:"Lentejas en lata",          cat:"Dispensa",       cantidad:2,    unidad:"latas",    paso:1,   minimo:0  },
-  {id:"passata",      emoji:"🥫", nombre:"Passata / tomate triturado",cat:"Dispensa",       cantidad:2,    unidad:"latas",    paso:1,   minimo:0  },
-  {id:"olio_oliva",   emoji:"🫒", nombre:"Aceite de oliva",           cat:"Dispensa",       cantidad:1,    unidad:"botella",  paso:1,   minimo:0  },
-  {id:"olio_gir",     emoji:"🌻", nombre:"Aceite de girasol",         cat:"Dispensa",       cantidad:1,    unidad:"botella",  paso:1,   minimo:0  },
-  {id:"pane",         emoji:"🍞", nombre:"Pan de molde integral",     cat:"Dispensa",       cantidad:1,    unidad:"paquete",  paso:1,   minimo:0  },
-  {id:"mani",         emoji:"🥜", nombre:"Crema de mani",             cat:"Dispensa",       cantidad:1,    unidad:"frasco",   paso:1,   minimo:0  },
-  {id:"dadi",         emoji:"🟡", nombre:"Dados vegetales Knorr",     cat:"Dispensa",       cantidad:10,   unidad:"cubos",    paso:1,   minimo:0  },
-  {id:"knorr",        emoji:"🥣", nombre:"Sopa Knorr (sobres)",       cat:"Dispensa",       cantidad:3,    unidad:"sobres",   paso:1,   minimo:0  },
-  {id:"porcini",      emoji:"🍄", nombre:"Crema de hongos",           cat:"Dispensa",       cantidad:2,    unidad:"sobres",   paso:1,   minimo:0  },
-  {id:"asparagi",     emoji:"🌿", nombre:"Crema de esparragos",       cat:"Dispensa",       cantidad:1,    unidad:"sobres",   paso:1,   minimo:0  },
-  {id:"pancake",      emoji:"🥞", nombre:"Misura Pancake Proteico",   cat:"Dispensa",       cantidad:1,    unidad:"caja",     paso:1,   minimo:0  },
-  {id:"pesoforma",    emoji:"🍪", nombre:"Pesoforma Biscotti",        cat:"Dispensa",       cantidad:1,    unidad:"caja",     paso:1,   minimo:0  },
-  {id:"whey",         emoji:"💪", nombre:"Whey Protein",              cat:"Suplementos",    cantidad:28,   unidad:"porciones",paso:1,   minimo:5  },
-  {id:"lcarnitina",   emoji:"💊", nombre:"L-Carnitina 500 (Cyn)",     cat:"Suplementos",    cantidad:25,   unidad:"capsulas", paso:1,   minimo:5  },
+const HIST_SEM1=[
+  {sesionId:"s1",quien:"Ray",estado:"completo",nota:"",ts:"19/5/26, 11:22 p.m."},
+  {sesionId:"s1",quien:"Cyn",estado:"completo",nota:"",ts:"19/5/26, 11:22 p.m."},
+  {sesionId:"s2",quien:"Ray",estado:"completo",nota:"",ts:"20/5/26, 6:17 p.m."},
+  {sesionId:"s2",quien:"Cyn",estado:"completo",nota:"",ts:"20/5/26, 6:17 p.m."},
+  {sesionId:"s3",quien:"Ray",estado:"completo",nota:"",ts:"22/5/26, 11:48 p.m."},
+  {sesionId:"s3",quien:"Cyn",estado:"completo",nota:"",ts:"22/5/26, 11:48 p.m."},
 ];
 
-const CATS = ["Proteinas","Lacteos","Fruta y verdura","Dispensa","Suplementos"];
-const MOMENTOS = ["Desayuno","Pre-entreno","Almuerzo / Vianda","Post-entreno","Merienda","Cena","Otro"];
-const QUIEN_OPC = ["Ambos","Ray","Cyn"];
-const ESTADOS = [
-  {val:"completo",label:"Completo",emoji:"✅",cls:"active-green"},
-  {val:"parcial", label:"Parcial", emoji:"⚡",cls:"active-yellow"},
-  {val:"salteado",label:"Salteado",emoji:"❌",cls:"active-red"},
+const SEM1_INFO=[
+  {id:"s1",fecha:"19/05",dia:"Martes",   nombre:"Sem 1 Dia 1 - Cardio + Lower intro",     hora:"15:30-16:45"},
+  {id:"s2",fecha:"20/05",dia:"Miercoles",nombre:"Sem 1 Dia 2 - Movilidad + Core",          hora:"15:30-16:20"},
+  {id:"s3",fecha:"22/05",dia:"Viernes",  nombre:"Sem 1 Dia 3 - Cardio + Circuito completo",hora:"15:30-17:00"},
 ];
-const COL = {
+
+const STOCK_DEFAULT=[
+  {id:"huevos",     emoji:"🥚",n:"Huevos",                  cat:"Proteinas",      q:18,  u:"ud",      s:1,  m:6},
+  {id:"pollo",      emoji:"🍗",n:"Pechuga de pollo",         cat:"Proteinas",      q:1100,u:"g",       s:100,m:200},
+  {id:"bistecca",   emoji:"🥩",n:"Bistecca / Tagliata",      cat:"Proteinas",      q:700, u:"g",       s:100,m:0},
+  {id:"macinato",   emoji:"🥩",n:"Carne molida bovina",      cat:"Proteinas",      q:900, u:"g",       s:100,m:0},
+  {id:"tonno",      emoji:"🐟",n:"Atun en lata",             cat:"Proteinas",      q:6,   u:"latas",   s:1,  m:1},
+  {id:"jamon",      emoji:"🍖",n:"Prosciutto cotto",         cat:"Proteinas",      q:150, u:"g",       s:50, m:0},
+  {id:"latte",      emoji:"🥛",n:"Leche entera UHT",         cat:"Lacteos",        q:4250,u:"ml",      s:250,m:500},
+  {id:"yogurt",     emoji:"🫙",n:"Yogurt griego",            cat:"Lacteos",        q:4,   u:"ud",      s:1,  m:1},
+  {id:"mozzarella", emoji:"🧀",n:"Mozzarella fresca",        cat:"Lacteos",        q:4,   u:"ud",      s:1,  m:0},
+  {id:"emmental",   emoji:"🧀",n:"Emmental bavarese",        cat:"Lacteos",        q:1,   u:"paquete", s:1,  m:0},
+  {id:"grana",      emoji:"🧀",n:"Grana Padano grattugiato", cat:"Lacteos",        q:100, u:"g",       s:10, m:0},
+  {id:"kefir",      emoji:"🥤",n:"Kefir",                    cat:"Lacteos",        q:1,   u:"ud",      s:1,  m:0},
+  {id:"banane",     emoji:"🍌",n:"Bananas bio",              cat:"Fruta y verdura",q:10,  u:"ud",      s:1,  m:3},
+  {id:"palta",      emoji:"🥑",n:"Palta / Avocado",          cat:"Fruta y verdura",q:3,   u:"ud",      s:1,  m:1,urgent:true},
+  {id:"frutillas",  emoji:"🍓",n:"Frutillas",                cat:"Fruta y verdura",q:500, u:"g",       s:50, m:0},
+  {id:"kiwi",       emoji:"🥝",n:"Kiwi",                     cat:"Fruta y verdura",q:4,   u:"ud",      s:1,  m:0},
+  {id:"mele",       emoji:"🍎",n:"Manzanas",                 cat:"Fruta y verdura",q:900, u:"g",       s:100,m:0},
+  {id:"pomodori",   emoji:"🍅",n:"Tomates cherry",           cat:"Fruta y verdura",q:1000,u:"g",       s:100,m:0},
+  {id:"zanahoria",  emoji:"🥕",n:"Zanahoria julienne",       cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0},
+  {id:"brocoli",    emoji:"🥦",n:"Broccoletti",              cat:"Fruta y verdura",q:1000,u:"g",       s:100,m:0},
+  {id:"zucchine",   emoji:"🥒",n:"Zucchine",                 cat:"Fruta y verdura",q:794, u:"g",       s:150,m:0},
+  {id:"peperoni",   emoji:"🫑",n:"Peperoni rossi",           cat:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0},
+  {id:"mais",       emoji:"🌽",n:"Mais (choclo)",            cat:"Fruta y verdura",q:240, u:"g",       s:80, m:0},
+  {id:"spinaci",    emoji:"🥬",n:"Espinacas",                cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0,urgent:true},
+  {id:"rucola",     emoji:"🥗",n:"Rucula",                   cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0,urgent:true},
+  {id:"insalata",   emoji:"🥬",n:"Insalata novella XXL",     cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0,urgent:true},
+  {id:"patate",     emoji:"🥔",n:"Patatas rojas",            cat:"Fruta y verdura",q:1500,u:"g",       s:250,m:0},
+  {id:"limoni",     emoji:"🍋",n:"Limones",                  cat:"Fruta y verdura",q:916, u:"g",       s:100,m:0},
+  {id:"aglio",      emoji:"🧄",n:"Ajo",                      cat:"Fruta y verdura",q:3,   u:"cabezas", s:1,  m:0},
+  {id:"cipolla",    emoji:"🧅",n:"Cebolla blanca",           cat:"Fruta y verdura",q:800, u:"g",       s:100,m:0},
+  {id:"avena",      emoji:"🌾",n:"Avena",                    cat:"Dispensa",       q:380, u:"g",       s:60, m:60},
+  {id:"riso",       emoji:"🍚",n:"Arroz parboiled",          cat:"Dispensa",       q:140, u:"g",       s:80, m:0},
+  {id:"fusilli",    emoji:"🍝",n:"Pasta fusilli Barilla",    cat:"Dispensa",       q:2670,u:"g",       s:80, m:0},
+  {id:"sedanini",   emoji:"🍝",n:"Pasta sedanini",           cat:"Dispensa",       q:500, u:"g",       s:80, m:0},
+  {id:"spaghetti",  emoji:"🍝",n:"Spaghettini Barilla",      cat:"Dispensa",       q:500, u:"g",       s:80, m:0},
+  {id:"piadina",    emoji:"🫓",n:"Piadina integrale",        cat:"Dispensa",       q:3,   u:"ud",      s:1,  m:0},
+  {id:"pane",       emoji:"🍞",n:"Pan de molde integral",    cat:"Dispensa",       q:20,  u:"fetas",   s:2,  m:2},
+  {id:"bruschette", emoji:"🍞",n:"Bruschette al rosmarino",  cat:"Dispensa",       q:1,   u:"paquete", s:1,  m:0},
+  {id:"ceci",       emoji:"🫘",n:"Garbanzos en lata",        cat:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
+  {id:"lenticchie", emoji:"🟤",n:"Lentejas en lata",         cat:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
+  {id:"passata",    emoji:"🥫",n:"Passata / tomate triturado",cat:"Dispensa",      q:2,   u:"latas",   s:1,  m:0},
+  {id:"olio_oliva", emoji:"🫒",n:"Aceite de oliva",          cat:"Dispensa",       q:500, u:"ml",      s:10, m:0},
+  {id:"olio_gir",   emoji:"🌻",n:"Aceite de girasol",        cat:"Dispensa",       q:750, u:"ml",      s:50, m:0},
+  {id:"mani",       emoji:"🥜",n:"Crema de mani",            cat:"Dispensa",       q:300, u:"g",       s:15, m:0},
+  {id:"dadi",       emoji:"🟡",n:"Dados vegetales Knorr",    cat:"Dispensa",       q:9,   u:"cubos",   s:1,  m:0},
+  {id:"knorr",      emoji:"🥣",n:"Sopa Knorr (sobres)",      cat:"Dispensa",       q:3,   u:"sobres",  s:1,  m:0},
+  {id:"caesar_s",   emoji:"🫙",n:"Salsa Caesar proteica",    cat:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
+  {id:"miele",      emoji:"🍯",n:"Miel millefiori",          cat:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
+  {id:"pepe",       emoji:"🌶",n:"Pimienta negra molida",    cat:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
+  {id:"porcini",    emoji:"🍄",n:"Crema de hongos",          cat:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
+  {id:"asparagi",   emoji:"🌿",n:"Crema de esparragos",      cat:"Dispensa",       q:1,   u:"sobres",  s:1,  m:0},
+  {id:"pancake",    emoji:"🥞",n:"Misura Pancake Proteico",  cat:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
+  {id:"pesoforma",  emoji:"🍪",n:"Pesoforma Biscotti",       cat:"Dispensa",       q:1,   u:"caja",    s:1,  m:0},
+  {id:"whey",       emoji:"💪",n:"Whey Protein",             cat:"Suplementos",    q:26,  u:"porciones",s:1, m:5},
+  {id:"lcarnitina", emoji:"💊",n:"L-Carnitina 500 (Cyn)",    cat:"Suplementos",    q:23,  u:"capsulas", s:1, m:5},
+];
+
+const CATS=["Proteinas","Lacteos","Fruta y verdura","Dispensa","Suplementos"];
+const MOMENTOS=["Desayuno","Pre-entreno","Almuerzo / Vianda","Post-entreno","Merienda","Cena","Otro"];
+const QUIEN_OPC=["Ambos","Ray","Cyn"];
+const ESTADOS=[
+  {val:"completo",lbl:"Completo",emo:"✅",cls:"btn-g"},
+  {val:"parcial", lbl:"Parcial", emo:"⚡",cls:"btn-y"},
+  {val:"salteado",lbl:"Salteado",emo:"❌",cls:"btn-r"},
+];
+const COL={
   "Proteinas":      {ac:"#f87171",bg:"#2d1010"},
   "Lacteos":        {ac:"#60a5fa",bg:"#0f1f35"},
   "Fruta y verdura":{ac:"#4ade80",bg:"#0f2a14"},
   "Dispensa":       {ac:"#fbbf24",bg:"#2a1f05"},
   "Suplementos":    {ac:"#a78bfa",bg:"#1c1030"},
 };
-const TIPO_COL = {entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
+const TIPO_COL={entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
+const SK="rc2_stock_v2",LK="rc2_log_v2",EK="rc2_ent_v2",DK="rc2_dia_v2";
 
-// ── ESTADO ────────────────────────────────────────────────────────
-let stock = STOCK_DEFAULT.map(i=>({...i}));
-let log = [];
-let entrenos = [];
-let diaIdx = 0;
-let vistaActual = "plan";
-let planTab = "comidas";
-let catFiltro = "Todas";
-let busq = "";
-let momento = "Desayuno";
-let quien = "Ambos";
-let uso = {};
-let editingId = null;
+let stock=STOCK_DEFAULT.map(i=>({...i}));
+let log=[];
+let entrenos=[...HIST_SEM1];
+let diaIdx=0;
+let catF="Todas",busq="",momento="Desayuno",quien="Ambos",uso={},planTab="comidas";
 
-// ── LOCAL STORAGE (backup) ────────────────────────────────────────
-const LS_STOCK = "rc_stock_v3";
-const LS_LOG   = "rc_log_v3";
-const LS_ENT   = "rc_ent_v3";
-const LS_DIA   = "rc_dia_v3";
-
-function saveLocal() {
-  try {
-    localStorage.setItem(LS_STOCK, JSON.stringify(stock.map(({id,cantidad})=>({id,cantidad}))));
-    localStorage.setItem(LS_LOG,   JSON.stringify(log.slice(0,80)));
-    localStorage.setItem(LS_ENT,   JSON.stringify(entrenos));
-    localStorage.setItem(LS_DIA,   String(diaIdx));
-  } catch {}
+function saveLocal(){
+  try{
+    localStorage.setItem(SK,JSON.stringify(stock.map(({id,q})=>({id,q}))));
+    localStorage.setItem(LK,JSON.stringify(log.slice(0,80)));
+    localStorage.setItem(EK,JSON.stringify(entrenos));
+    localStorage.setItem(DK,String(diaIdx));
+  }catch{}
 }
-
-async function saveRemote() {
-  saveLocal();
-  // Stock
-  const stockData = [["id","cantidad"], ...stock.map(i=>[i.id, i.cantidad])];
-  await writeToSheet("stock", stockData);
-  // Log
-  if (log.length > 0) {
-    const logData = [["ts","quien","momento","items"],
-      ...log.slice(0,80).map(e=>[e.ts, e.quien, e.momento, JSON.stringify(e.items||[])])];
-    await writeToSheet("log", logData);
-  }
-  // Entrenos
-  if (entrenos.length > 0) {
-    const entData = [["sesionId","quien","estado","nota","ts"],
-      ...entrenos.map(e=>[e.sesionId, e.quien, e.estado, e.nota||"", e.ts||""])];
-    await writeToSheet("entrenos", entData);
-  }
-  // Dia
-  await writeToSheet("config", [["key","value"],["diaIdx", diaIdx]]);
-  setSyncTime();
-}
-
-function loadLocal() {
-  try {
-    const s = localStorage.getItem(LS_STOCK);
-    const l = localStorage.getItem(LS_LOG);
-    const e = localStorage.getItem(LS_ENT);
-    const d = localStorage.getItem(LS_DIA);
-    if (s) { const g=JSON.parse(s); stock=STOCK_DEFAULT.map(i=>{ const f=g.find(x=>x.id===i.id); return f?{...i,cantidad:f.cantidad}:{...i}; }); }
-    if (l) log = JSON.parse(l);
-    if (e) entrenos = JSON.parse(e);
-    if (d) diaIdx = parseInt(d)||0;
+function loadLocal(){
+  try{
+    const s=localStorage.getItem(SK),l=localStorage.getItem(LK),e=localStorage.getItem(EK),d=localStorage.getItem(DK);
+    if(s){const g=JSON.parse(s);stock=STOCK_DEFAULT.map(i=>{const f=g.find(x=>x.id===i.id);return f?{...i,q:f.q}:{...i};});}
+    if(l)log=JSON.parse(l);
+    if(e)entrenos=JSON.parse(e);
+    if(d)diaIdx=parseInt(d)||0;
     return !!(s||l||e);
-  } catch { return false; }
+  }catch{return false;}
 }
-
-// ── SHEETS READ ───────────────────────────────────────────────────
-async function readSheet(sheetName) {
-  try {
-    const url = WRITE_URL + "?sheet=" + encodeURIComponent(sheetName) + "&t=" + Date.now();
-    const res = await fetch(url);
-    const data = await res.json();
-    return data;
-  } catch { return null; }
+async function saveRemote(){
+  saveLocal();
+  try{
+    await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"stock2",data:[["id","q"],...stock.map(i=>[i.id,i.q])]})});
+    if(log.length) await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"log2",data:[["ts","quien","momento","items"],...log.slice(0,80).map(e=>[e.ts,e.quien,e.momento,JSON.stringify(e.items||[])])]})});
+    if(entrenos.length) await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"entrenos2",data:[["sesionId","quien","estado","nota","ts"],...entrenos.map(e=>[e.sesionId,e.quien,e.estado,e.nota||"",e.ts||""])]})});
+    await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"config2",data:[["key","value"],["diaIdx",diaIdx]]})});
+    setSyncTime();
+  }catch{}
 }
-
-// ── GOOGLE APPS SCRIPT WRITE ──────────────────────────────────────
-async function writeToSheet(sheetName, data) {
-  try {
-    await fetch(WRITE_URL, {
-      method: "POST",
-      body: JSON.stringify({ sheet: sheetName, data: data }),
-    });
-  } catch {}
-}
-
-// ── CARGAR TODO ───────────────────────────────────────────────────
-async function cargarTodo() {
-  // Primero cargamos local para que la app sea instantánea
-  loadLocal();
-  renderAll();
-  
-  // Luego intentamos leer desde Sheets
-  try {
-    const [tStock, tLog, tEnt, tDia] = await Promise.all([
-      readSheet("stock"),
-      readSheet("log"),
-      readSheet("entrenos"),
-      readSheet("config"),
+async function cargar(){
+  try{
+    const[rs,rl,re,rd]=await Promise.all([
+      fetch(GAS+"?sheet=stock2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
+      fetch(GAS+"?sheet=log2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
+      fetch(GAS+"?sheet=entrenos2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
+      fetch(GAS+"?sheet=config2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
     ]);
-
-    let changed = false;
-
-    if (tStock && tStock.length > 1) {
-      const headers = tStock[0];
-      const idIdx = headers.indexOf("id");
-      const cantIdx = headers.indexOf("cantidad");
-      if (idIdx>=0 && cantIdx>=0) {
-        stock = STOCK_DEFAULT.map(item => {
-          const row = tStock.slice(1).find(r => r[idIdx] === item.id);
-          return row && row[cantIdx] !== "" ? {...item, cantidad: Number(row[cantIdx])} : {...item};
-        });
-        changed = true;
-      }
-    }
-    if (tLog && tLog.length > 1) {
-      const headers = tLog[0];
-      log = tLog.slice(1).map(row => {
-        const obj = {};
-        headers.forEach((h,i) => obj[h] = row[i]);
-        try { if (typeof obj.items === "string") obj.items = JSON.parse(obj.items); } catch {}
-        return obj;
-      });
-      changed = true;
-    }
-    if (tEnt && tEnt.length > 1) {
-      const headers = tEnt[0];
-      entrenos = tEnt.slice(1).map(row => {
-        const obj = {};
-        headers.forEach((h,i) => obj[h] = row[i]);
-        return obj;
-      });
-      changed = true;
-    }
-    if (tDia && tDia.length > 1) {
-      const d = tDia[1];
-      if (d && d[1] !== undefined) { diaIdx = parseInt(d[1])||0; changed = true; }
-    }
-
-    if (changed) { saveLocal(); renderAll(); }
-  } catch {}
-
+    let ch=false;
+    if(rs&&rs.length>1){const hi=rs[0].indexOf("id"),hq=rs[0].indexOf("q");if(hi>=0&&hq>=0){stock=STOCK_DEFAULT.map(i=>{const r=rs.slice(1).find(x=>x[hi]===i.id);return r&&r[hq]!==""?{...i,q:Number(r[hq])}:{...i;};});ch=true;}}
+    if(rl&&rl.length>1){const h=rl[0];log=rl.slice(1).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]);try{if(typeof o.items==="string")o.items=JSON.parse(o.items);}catch{};return o;});ch=true;}
+    if(re&&re.length>1){const h=re[0];entrenos=re.slice(1).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]);return o;});ch=true;}
+    if(rd&&rd.length>1){const d=rd[1];if(d&&d[1]!==undefined){diaIdx=parseInt(d[1])||0;ch=true;}}
+    if(ch){saveLocal();renderAll();}
+  }catch{}
   setSyncTime();
   document.getElementById("loading").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
 }
+function setSyncTime(){const t=new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});const el=document.getElementById("sync-txt");if(el)el.textContent="Sync "+t;}
+function fmtQ(i){
+  if(i.u==="g"&&i.q>=1000)return +(i.q/1000).toFixed(2).replace(/\.?0+$/,"")+" kg";
+  if(i.u==="ml"&&i.q>=1000)return +(i.q/1000).toFixed(2).replace(/\.?0+$/,"")+" L";
+  if(i.u==="ml")return i.q+" ml";
+  return i.q+" "+i.u;
+}
+function barPct(i){const orig=STOCK_DEFAULT.find(d=>d.id===i.id)?.q??4;return Math.min(100,Math.round((i.q/Math.max(orig,1))*100));}
+function getBC(i){if(i.q<=0)return "#ef4444";if(i.q<=i.m)return "#f97316";return COL[i.cat]?.ac||"#22c55e";}
 
-function setSyncTime() {
-  const t = new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});
-  const el = document.getElementById("sync-text");
-  if (el) el.textContent = "Sync " + t;
-}
+function renderAll(){renderAlerts();renderPlan();renderEntrenos();renderStock();renderConsumir();renderLog();}
 
-// ── HELPERS ───────────────────────────────────────────────────────
-function fmtQ(item) {
-  if (item.unidad==="g"  && item.cantidad>=1000) return (item.cantidad/1000).toFixed(1).replace(/\.0$/,"") + " kg";
-  if (item.unidad==="ml" && item.cantidad>=1000) return (item.cantidad/1000).toFixed(2).replace(/\.?0+$/,"") + " L";
-  if (item.unidad==="ml") return item.cantidad + " ml";
-  return item.cantidad + " " + item.unidad;
-}
-function barPct(item) {
-  const orig = STOCK_DEFAULT.find(d=>d.id===item.id)?.cantidad ?? 4;
-  return Math.min(100, Math.round((item.cantidad/Math.max(orig,1))*100));
-}
-function getBarColor(item) {
-  if (item.cantidad<=0) return "#ef4444";
-  if (item.cantidad<=item.minimo) return "#f97316";
-  return COL[item.cat]?.ac || "#22c55e";
-}
-
-// ── RENDER ────────────────────────────────────────────────────────
-function renderAll() {
-  renderAlerts();
-  renderPlan();
-  renderEntrenos();
-  renderStock();
-  renderConsumir();
-  renderLog();
+function renderAlerts(){
+  const ag=stock.filter(i=>i.q<=0).length,bj=stock.filter(i=>i.q>0&&i.q<=i.m).length;
+  const allSes=[...SEM1_INFO,...SESIONES];
+  const comp=entrenos.filter(e=>e.estado==="completo").length;
+  const pct=allSes.length>0?Math.round((comp/(allSes.length*2))*100):0;
+  let h="";
+  if(ag>0)h+=`<span class="al al-r">🔴 ${ag} agotado${ag>1?"s":""}</span>`;
+  if(bj>0)h+=`<span class="al al-o">🟠 ${bj} por acabar</span>`;
+  if(ag===0&&bj===0)h+=`<span class="al al-g">✅ Stock OK</span>`;
+  h+=`<span class="al al-p">💪 ${pct}% entrenos</span>`;
+  document.getElementById("alerts").innerHTML=h;
 }
 
-function renderAlerts() {
-  const agotados = stock.filter(i=>i.cantidad<=0).length;
-  const bajos    = stock.filter(i=>i.cantidad>0&&i.cantidad<=i.minimo).length;
-  const comp     = entrenos.filter(e=>e.estado==="completo").length;
-  const total    = SESIONES.length * 2;
-  const pct      = total>0 ? Math.round((comp/total)*100) : 0;
-  let html = "";
-  if (agotados>0) html += `<span class="alert alert-red">🔴 ${agotados} agotado${agotados>1?"s":""}</span>`;
-  if (bajos>0)    html += `<span class="alert alert-orange">🟠 ${bajos} por acabar</span>`;
-  if (agotados===0&&bajos===0) html += `<span class="alert alert-green">✅ Stock OK</span>`;
-  html += `<span class="alert alert-purple">💪 ${pct}% entrenos</span>`;
-  document.getElementById("alerts").innerHTML = html;
-}
-
-function renderPlan() {
-  const dia = PLAN[diaIdx];
-  const tc = TIPO_COL[dia.tipo];
-  let html = `<div class="day-selector">`;
-  PLAN.forEach((d,i) => {
-    const ac = TIPO_COL[d.tipo];
-    const active = i===diaIdx;
-    html += `<button class="day-btn" onclick="setDia(${i})" style="border-color:${active?ac:"#334155"};background:${active?ac:"#1e293b"};color:${active?"#0f172a":"#94a3b8"}">
-      <div class="day-label">${d.dia.slice(0,3).toUpperCase()}</div>
-      <div class="day-num">${d.fecha.split("/")[0]}</div>
+function renderPlan(){
+  const dia=PLAN[diaIdx],tc=TIPO_COL[dia.tipo];
+  let h=`<div class="days">`;
+  PLAN.forEach((d,i)=>{
+    const ac=TIPO_COL[d.tipo],on=i===diaIdx;
+    h+=`<button class="day-btn" onclick="setDia(${i})" style="border-color:${on?ac:"#334155"};background:${on?ac:"#1e293b"};color:${on?"#0f172a":"#94a3b8"}">
+      <div style="font-size:10px;font-weight:800">${d.dia.slice(0,3).toUpperCase()}</div>
+      <div style="font-size:15px;font-weight:900">${d.fecha.split("/")[0]}</div>
     </button>`;
   });
-  html += `</div>`;
-  
-  const icon = dia.tipo==="entreno"?"💪":dia.tipo==="descanso"?"😴":dia.tipo==="libre"?"🌤":"📋";
-  html += `<div class="card" style="background:#161f2e;border-color:${tc}55;margin-bottom:12px">
+  h+=`</div>`;
+  const icon=dia.tipo==="entreno"?"💪":dia.tipo==="descanso"?"😴":dia.tipo==="libre"?"🌤":"📋";
+  h+=`<div class="card" style="background:#161f2e;border-color:${tc}55;margin-bottom:12px">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div>
-        <div style="font-size:18px;font-weight:900">${dia.dia} ${dia.fecha}</div>
+        <div style="font-size:17px;font-weight:900">${dia.dia} ${dia.fecha}</div>
         <span style="display:inline-block;margin-top:4px;background:${tc}33;color:${tc};border-radius:20px;padding:2px 12px;font-size:12px;font-weight:700">${icon} ${dia.tipo.charAt(0).toUpperCase()+dia.tipo.slice(1)}</span>
+        <div style="font-size:11px;color:#64748b;margin-top:4px">🕐 ${dia.horarios}</div>
       </div>
       <div style="display:flex;gap:8px">
         <button class="nav-btn" onclick="setDia(${Math.max(0,diaIdx-1)})" style="opacity:${diaIdx>0?1:0.3}">&#x2039;</button>
@@ -477,354 +374,229 @@ function renderPlan() {
       </div>
     </div>
   </div>`;
-
-  html += `<div class="subtabs">
-    <button class="btn ${planTab==="comidas"?"active-green":""}" onclick="setPlanTab('comidas')">🥗 Comidas</button>
-    <button class="btn" onclick="setPlanTab('entreno')" style="${planTab==="entreno"?`background:${tc};color:#0f172a;border-color:${tc}`:""}">
+  h+=`<div class="subtabs">
+    <button class="btn ${planTab==="comidas"?"btn-g":""}" onclick="setPTab('comidas')">🥗 Comidas</button>
+    <button class="btn" onclick="setPTab('entreno')" style="${planTab==="entreno"?`background:${tc};color:#0f172a;border-color:${tc}`:""}">
       ${icon} ${dia.tipo==="entreno"?"Entreno":dia.tipo==="descanso"?"Descanso":"Plan"}
     </button>
   </div>`;
-
-  if (planTab==="comidas") {
-    dia.comidas.forEach(c => {
-      const esE = c.l==="ENTRENO"||c.l==="PLANIFICACION";
-      html += `<div class="card" style="background:${esE?"#0f2a14":"#1a2332"};border-color:${esE?"#4ade8066":"#334155"};padding:12px 16px">
+  if(planTab==="comidas"){
+    dia.comidas.forEach(c=>{
+      const esE=c.l==="ENTRENO"||c.l==="PLANIFICACION";
+      const esDes=c.l.includes("JUNTOS")||c.l.includes("VIANDA");
+      h+=`<div class="card" style="background:${esE?"#0f2a14":esDes?"#0f1f2a":"#1a2332"};border-color:${esE?"#4ade8066":esDes?"#60a5fa44":"#334155"};padding:12px 16px">
         <div style="display:flex;gap:10px;align-items:flex-start">
-          <div style="min-width:42px;text-align:center;background:#0f172a;border-radius:8px;padding:4px 0;font-size:11px;font-weight:800;color:${esE?"#4ade80":"#64748b"};flex-shrink:0">${c.h}</div>
+          <div style="min-width:42px;text-align:center;background:#0f172a;border-radius:8px;padding:4px 0;font-size:11px;font-weight:800;color:${esE?"#4ade80":esDes?"#60a5fa":"#64748b"};flex-shrink:0">${c.h}</div>
           <div style="flex:1">
-            <div style="font-size:12px;font-weight:800;color:${esE?"#4ade80":"#94a3b8"};margin-bottom:6px">${c.l}</div>
+            <div style="font-size:12px;font-weight:800;color:${esE?"#4ade80":esDes?"#60a5fa":"#94a3b8"};margin-bottom:6px">${c.l}</div>
             <div class="card-dark" style="margin-bottom:6px"><div style="font-size:10px;font-weight:800;color:#60a5fa;margin-bottom:2px">🧔 RAY</div><div style="font-size:13px;line-height:1.5">${c.r}</div></div>
             <div class="card-dark"><div style="font-size:10px;font-weight:800;color:#f9a8d4;margin-bottom:2px">👩 CYN</div><div style="font-size:13px;line-height:1.5">${c.c}</div></div>
           </div>
         </div>
       </div>`;
     });
-    html += `<div class="card" style="background:#1e1a2e;border-color:#a78bfa44;margin-top:4px">
+    h+=`<div class="card" style="background:#1e1a2e;border-color:#a78bfa44;margin-top:4px">
       <div style="font-size:11px;font-weight:800;color:#a78bfa;margin-bottom:4px">📝 Prep del dia</div>
       <div style="font-size:13px;color:#c4b5fd;line-height:1.5">${dia.prep}</div>
     </div>`;
-  } else {
-    html += `<div class="card" style="border-color:${tc}55">
+  }else{
+    h+=`<div class="card" style="border-color:${tc}55">
       <div style="font-size:15px;font-weight:800;color:${tc};margin-bottom:4px">${dia.entreno.nombre}</div>
       <div style="font-size:12px;color:#64748b;margin-bottom:14px">🕐 ${dia.entreno.hora}</div>`;
-    dia.entreno.ej.forEach((ej,i) => {
-      html += `<div style="display:flex;gap:10px;align-items:flex-start;background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.4">
+    dia.entreno.ej.forEach((ej,i)=>{
+      h+=`<div style="display:flex;gap:10px;align-items:flex-start;background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.4">
         <span style="color:${tc};font-weight:800;flex-shrink:0">${i+1}.</span><span>${ej}</span>
       </div>`;
     });
-    html += `</div>`;
+    h+=`</div>`;
   }
-  document.getElementById("vista-plan").innerHTML = html;
+  document.getElementById("v-plan").innerHTML=h;
 }
 
-function renderEntrenos() {
-  const comp = entrenos.filter(e=>e.estado==="completo").length;
-  const total = SESIONES.length * 2;
-  const pctG = total>0 ? Math.round((comp/total)*100) : 0;
-
-  let html = `<div class="card" style="background:#1c1030;border-color:#a78bfa55;margin-bottom:16px">
-    <div style="font-size:13px;font-weight:800;color:#a78bfa;margin-bottom:12px">📊 Resumen semana</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">`;
-
-  [["🧔 Ray","Ray","#60a5fa"],["👩 Cyn","Cyn","#f9a8d4"]].forEach(([label,q,color]) => {
-    const c = SESIONES.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="completo")).length;
-    const p = SESIONES.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="parcial")).length;
-    const sk= SESIONES.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="salteado")).length;
-    const pq = Math.round((c/SESIONES.length)*100);
-    html += `<div style="background:#0f172a;border-radius:12px;padding:14px 12px">
-      <div style="font-size:13px;font-weight:800;color:${color};margin-bottom:8px">${label}</div>
-      <div style="font-size:28px;font-weight:900;color:${color};line-height:1">${c}<span style="font-size:13px;color:#475569;font-weight:400">/${SESIONES.length}</span></div>
-      <div style="font-size:11px;color:#64748b;margin-bottom:8px">completados</div>
-      <div style="background:#1e293b;border-radius:99px;height:6px;overflow:hidden;margin-bottom:6px">
-        <div style="width:${pq}%;height:100%;background:${color};border-radius:99px"></div>
-      </div>
-      <div style="font-size:11px;color:#64748b">
-        ${p>0?`<span style="color:#fbbf24;margin-right:8px">⚡${p} parcial</span>`:""}
-        ${sk>0?`<span style="color:#f87171">❌${sk} salteado</span>`:""}
-        ${p===0&&sk===0&&c>0?`<span style="color:#4ade80">perfecto</span>`:""}
+function renderEntrenos(){
+  const allSes=[...SEM1_INFO,...SESIONES];
+  const comp=entrenos.filter(e=>e.estado==="completo").length;
+  const pctG=allSes.length>0?Math.round((comp/(allSes.length*2))*100):0;
+  let h=`<div class="card" style="background:#1c1030;border-color:#a78bfa55;margin-bottom:16px">
+    <div style="font-size:13px;font-weight:800;color:#a78bfa;margin-bottom:12px">📊 Resumen total</div>
+    <div class="grid2" style="margin-bottom:14px">`;
+  [["🧔 Ray","Ray","#60a5fa"],["👩 Cyn","Cyn","#f9a8d4"]].forEach(([lbl,q,color])=>{
+    const c=allSes.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="completo")).length;
+    const pq=Math.round((c/allSes.length)*100);
+    h+=`<div style="background:#0f172a;border-radius:12px;padding:14px 12px">
+      <div style="font-size:13px;font-weight:800;color:${color};margin-bottom:6px">${lbl}</div>
+      <div style="font-size:26px;font-weight:900;color:${color};line-height:1">${c}<span style="font-size:12px;color:#475569;font-weight:400">/${allSes.length}</span></div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px">completados</div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pq}%;background:${color}"></div></div>
+    </div>`;
+  });
+  h+=`</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:6px">Cumplimiento combinado</div>
+    <div class="prog-bar" style="height:10px"><div class="prog-fill" style="width:${pctG}%;background:linear-gradient(90deg,#a78bfa,#4ade80)"></div></div>
+    <div style="font-size:14px;font-weight:900;color:#4ade80;text-align:right">${pctG}%</div>
+  </div>`;
+  h+=`<div style="font-size:12px;font-weight:800;color:#64748b;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">✅ Semana 1 — Completada</div>`;
+  SEM1_INFO.forEach(ses=>{
+    h+=`<div class="card" style="margin-bottom:8px;opacity:0.7">
+      <div style="font-size:13px;font-weight:800">${ses.dia} ${ses.fecha} · ${ses.nombre}</div>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Ray Completo</span>
+        <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Cyn Completo</span>
       </div>
     </div>`;
   });
-
-  html += `</div>
-    <div style="font-size:11px;color:#64748b;margin-bottom:6px">Cumplimiento combinado Ray + Cyn</div>
-    <div style="background:#0f172a;border-radius:99px;height:10px;overflow:hidden;margin-bottom:4px">
-      <div style="width:${pctG}%;height:100%;background:linear-gradient(90deg,#a78bfa,#4ade80);border-radius:99px"></div>
-    </div>
-    <div style="font-size:14px;font-weight:900;color:#4ade80;text-align:right">${pctG}%</div>
-  </div>`;
-
-  SESIONES.forEach(sesion => {
-    html += `<div class="card" style="margin-bottom:12px">
-      <div style="margin-bottom:12px">
-        <div style="font-size:14px;font-weight:800">${sesion.dia} ${sesion.fecha}</div>
-        <div style="font-size:12px;color:#4ade80;font-weight:600">${sesion.nombre}</div>
-        <div style="font-size:11px;color:#64748b">🕐 ${sesion.hora}</div>
+  h+=`<div style="font-size:12px;font-weight:800;color:#4ade80;margin:16px 0 8px;text-transform:uppercase;letter-spacing:1px">💪 Semana 2 — En curso</div>`;
+  SESIONES.forEach(ses=>{
+    h+=`<div class="card" style="margin-bottom:12px">
+      <div style="margin-bottom:10px">
+        <div style="font-size:14px;font-weight:800">${ses.dia} ${ses.fecha}</div>
+        <div style="font-size:12px;color:#4ade80;font-weight:600">${ses.nombre}</div>
+        <div style="font-size:11px;color:#64748b">🕐 ${ses.hora}</div>
       </div>`;
-    ["Ray","Cyn"].forEach(q => {
-      const reg = entrenos.find(e=>e.sesionId===sesion.id&&e.quien===q);
-      const est = ESTADOS.find(e=>e.val===reg?.estado);
-      const colorQ = q==="Ray"?"#60a5fa":"#f9a8d4";
-      html += `<div class="card-dark" style="margin-bottom:6px">
+    ["Ray","Cyn"].forEach(q=>{
+      const reg=entrenos.find(e=>e.sesionId===ses.id&&e.quien===q);
+      const est=ESTADOS.find(e=>e.val===reg?.estado);
+      const colorQ=q==="Ray"?"#60a5fa":"#f9a8d4";
+      h+=`<div class="card-dark" style="margin-bottom:6px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <span style="font-size:12px;font-weight:800;color:${colorQ}">${q==="Ray"?"🧔":"👩"} ${q}</span>
           <div style="display:flex;align-items:center;gap:8px">
-            ${est?`<span style="font-size:12px;font-weight:700;color:${est.cls==="active-green"?"#4ade80":est.cls==="active-yellow"?"#fbbf24":"#f87171"}">${est.emoji} ${est.label}</span>`:""}
+            ${est?`<span style="font-size:12px;font-weight:700;color:${est.cls==="btn-g"?"#4ade80":est.cls==="btn-y"?"#fbbf24":"#f87171"}">${est.emo} ${est.lbl}</span>`:""}
             ${reg?`<span style="font-size:10px;color:#475569">${reg.ts||""}</span>`:""}
           </div>
         </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:${reg?8:0}px">`;
-      ESTADOS.forEach(e => {
-        html += `<button class="btn ${reg?.estado===e.val?e.cls:""}" onclick="marcarEntreno('${sesion.id}','${q}','${e.val}')">${e.emoji} ${e.label}</button>`;
-      });
-      html += `</div>`;
-      if (reg) {
-        html += `<input class="note-input" placeholder="Nota (ej: omiti plancha...)" value="${reg.nota||""}" onblur="updateNota('${sesion.id}','${q}',this.value)">`;
-      }
-      html += `</div>`;
+        <div style="display:flex;gap:6px;flex-wrap:wrap">`;
+      ESTADOS.forEach(e=>{h+=`<button class="btn ${reg?.estado===e.val?e.cls:""}" onclick="marcarEnt('${ses.id}','${q}','${e.val}')">${e.emo} ${e.lbl}</button>`;});
+      h+=`</div>`;
+      if(reg)h+=`<input class="note-inp" placeholder="Nota opcional..." value="${reg.nota||""}" onblur="updateNota('${ses.id}','${q}',this.value)">`;
+      h+=`</div>`;
     });
-    html += `</div>`;
+    h+=`</div>`;
   });
-
-  document.getElementById("vista-entrenos").innerHTML = html;
+  document.getElementById("v-entrenos").innerHTML=h;
 }
 
-function renderStock() {
-  const filtrado = stock.filter(i=>(catFiltro==="Todas"||i.cat===catFiltro)&&(busq===""||i.nombre.toLowerCase().includes(busq.toLowerCase())));
-  let html = `<input class="search-input" placeholder="🔍 Buscar..." value="${busq}" oninput="setBusq(this.value)">
+function renderStock(){
+  const fil=stock.filter(i=>(catF==="Todas"||i.cat===catF)&&(busq===""||i.n.toLowerCase().includes(busq.toLowerCase())));
+  let h=`<input class="search" placeholder="🔍 Buscar..." value="${busq}" oninput="setBusq(this.value)">
     <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;margin-bottom:8px">`;
-  ["Todas",...CATS].forEach(c => {
-    const ac = COL[c]?.ac||"#22c55e";
-    const active = catFiltro===c;
-    html += `<button class="btn" onclick="setCat('${c}')" style="${active?`background:${ac};color:#0f172a;border-color:${ac}`:""}">  ${c}</button>`;
-  });
-  html += `</div>`;
-
-  CATS.filter(c=>catFiltro==="Todas"||catFiltro===c).forEach(catName => {
-    const items = filtrado.filter(i=>i.cat===catName);
-    if (!items.length) return;
-    const col = COL[catName];
-    html += `<div class="cat-label" style="color:${col.ac}">${catName}</div>`;
-    items.forEach(item => {
-      const p = barPct(item);
-      const empty = item.cantidad<=0;
-      const low = !empty&&item.cantidad<=item.minimo;
-      const bc = getBarColor(item);
-      html += `<div class="card" style="background:${empty?"#1f0808":low?"#1f1208":col.bg};border-color:${empty?"#7f1d1d":low?"#78350f":"#334155"}">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <div style="font-size:15px;font-weight:700">${item.emoji} ${item.nombre}</div>
+  ["Todas",...CATS].forEach(c=>{const ac=COL[c]?.ac||"#22c55e",on=catF===c;h+=`<button class="btn" onclick="setCat('${c}')" style="${on?`background:${ac};color:#0f172a;border-color:${ac}`:""}"> ${c}</button>`;});
+  h+=`</div>`;
+  CATS.filter(c=>catF==="Todas"||catF===c).forEach(catName=>{
+    const items=fil.filter(i=>i.cat===catName);
+    if(!items.length)return;
+    const col=COL[catName];
+    h+=`<div class="cat-lbl" style="color:${col.ac}">${catName}</div>`;
+    items.forEach(item=>{
+      const p=barPct(item),empty=item.q<=0,low=!empty&&item.q<=item.m,bc=getBC(item),urg=item.urgent;
+      h+=`<div class="card" style="background:${empty?"#1f0808":low?"#1f1208":urg?"#1a1a08":col.bg};border-color:${empty?"#7f1d1d":low?"#78350f":urg?"#854d0e":"#334155"}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div style="flex:1;margin-right:8px">
+            <div style="font-size:15px;font-weight:700">${item.emoji} ${item.n}</div>
+            ${urg?`<div style="font-size:10px;color:#fbbf24;margin-top:2px">⚠️ Usar pronto</div>`:""}
+          </div>
           ${empty?`<span class="badge" style="background:#7f1d1d;color:#fca5a5">AGOTADO</span>`:""}
-          ${low?`<span class="badge" style="background:#78350f;color:#fdba74">POCO</span>`:""}
+          ${low&&!empty?`<span class="badge" style="background:#78350f;color:#fdba74">POCO</span>`:""}
         </div>
-        <div class="bar-container"><div class="bar-fill" style="width:${p}%;background:${bc}"></div></div>
+        <div class="bar-wrap"><div class="bar" style="width:${p}%;background:${bc}"></div></div>
         <div class="controls">
-          <button class="cir-btn" onclick="ajustar('${item.id}',${-item.paso})">-</button>
-          <span class="qty-display" style="color:${bc}" onclick="startEdit('${item.id}')">${fmtQ(item)}</span>
-          <button class="cir-btn" onclick="ajustar('${item.id}',${item.paso})">+</button>
-          <span style="font-size:11px;color:#475569">+/-${item.paso} ${item.unidad}</span>
+          <button class="cir" onclick="ajustar('${item.id}',${-item.s})">-</button>
+          <span class="qty" style="color:${bc}" onclick="editQ('${item.id}')">${fmtQ(item)}</span>
+          <button class="cir" onclick="ajustar('${item.id}',${item.s})">+</button>
+          <span style="font-size:11px;color:#475569">+/-${item.s} ${item.u}</span>
         </div>
       </div>`;
     });
   });
-  document.getElementById("vista-stock").innerHTML = html;
+  document.getElementById("v-stock").innerHTML=h;
 }
 
-function renderConsumir() {
-  let html = `<div class="card" style="background:#111827;border-color:#374151;margin-bottom:16px">
+function renderConsumir(){
+  let h=`<div class="card" style="background:#111827;border-color:#374151;margin-bottom:16px">
     <div style="font-size:12px;font-weight:800;color:#9ca3af;margin-bottom:8px">Quien y cuando?</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">`;
-  QUIEN_OPC.forEach(q => {
-    html += `<button class="btn ${quien===q?"active-purple":""}" onclick="setQuien('${q}')">${q}</button>`;
-  });
-  html += `</div><div style="display:flex;gap:8px;flex-wrap:wrap">`;
-  MOMENTOS.forEach(m => {
-    html += `<button class="btn ${momento===m?"active-green":""}" onclick="setMomento('${m}')">${m}</button>`;
-  });
-  html += `</div></div><div style="font-size:12px;color:#64748b;margin-bottom:12px">Ingresa cuanto consumiste:</div>`;
-
-  CATS.forEach(catName => {
-    const items = stock.filter(i=>i.cat===catName&&i.cantidad>0);
-    if (!items.length) return;
-    const col = COL[catName];
-    html += `<div class="cat-label" style="color:${col.ac}">${catName}</div>`;
-    items.forEach(item => {
-      const q = uso[item.id]||0;
-      html += `<div class="card" style="background:${col.bg};display:flex;align-items:center;justify-content:space-between">
+  QUIEN_OPC.forEach(q=>{h+=`<button class="btn ${quien===q?"btn-p":""}" onclick="setQuien('${q}')">${q}</button>`;});
+  h+=`</div><div style="display:flex;gap:8px;flex-wrap:wrap">`;
+  MOMENTOS.forEach(m=>{h+=`<button class="btn ${momento===m?"btn-g":""}" onclick="setMomento('${m}')">${m}</button>`;});
+  h+=`</div></div><div style="font-size:12px;color:#64748b;margin-bottom:12px">Cuanto consumiste:</div>`;
+  CATS.forEach(catName=>{
+    const items=stock.filter(i=>i.cat===catName&&i.q>0);
+    if(!items.length)return;
+    const col=COL[catName];
+    h+=`<div class="cat-lbl" style="color:${col.ac}">${catName}</div>`;
+    items.forEach(item=>{
+      const q=uso[item.id]||0;
+      h+=`<div class="card" style="background:${col.bg};display:flex;align-items:center;justify-content:space-between">
         <div style="flex:1;margin-right:10px">
-          <div style="font-size:14px;font-weight:700">${item.emoji} ${item.nombre}</div>
+          <div style="font-size:14px;font-weight:700">${item.emoji} ${item.n}</div>
           <div style="font-size:11px;color:#64748b">Disponible: ${fmtQ(item)}</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-          <button class="cir-btn" onclick="setUso('${item.id}',${-item.paso})">-</button>
-          <input type="number" min="0" value="${q}" style="background:#0f172a;border:1px solid #475569;color:#f1f5f9;border-radius:8px;padding:5px 8px;font-size:14px;width:60px;text-align:center;outline:none" onchange="setUsoVal('${item.id}',this.value)">
-          <button class="cir-btn" onclick="setUso('${item.id}',${item.paso})">+</button>
+          <button class="cir" onclick="setUso('${item.id}',${-item.s})">-</button>
+          <input type="number" min="0" value="${q}" style="background:#0f172a;border:1px solid #475569;color:#f1f5f9;border-radius:8px;padding:5px 8px;font-size:14px;width:60px;text-align:center;outline:none" onchange="setUsoV('${item.id}',this.value)">
+          <button class="cir" onclick="setUso('${item.id}',${item.s})">+</button>
         </div>
       </div>`;
     });
   });
-
-  html += `<button class="register-btn" id="reg-btn" style="background:#22c55e;color:#0f172a" onclick="registrar()">
-    Registrar · ${momento} · ${quien}
-  </button>`;
-  document.getElementById("vista-consumir").innerHTML = html;
+  h+=`<button class="reg-btn" id="reg-btn" style="background:#22c55e;color:#0f172a" onclick="registrar()">Registrar · ${momento} · ${quien}</button>`;
+  document.getElementById("v-consumir").innerHTML=h;
 }
 
-function renderLog() {
-  let html = "";
-  if (!log.length) {
-    html = `<div style="text-align:center;color:#475569;padding:50px 0;font-size:14px">Todavia no hay consumos.<br><span style="font-size:12px">Usa Consumir para empezar.</span></div>`;
-  } else {
-    log.forEach(e => {
-      const items = typeof e.items === "string" ? JSON.parse(e.items||"[]") : (e.items||[]);
-      html += `<div class="card">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-          <span style="font-size:13px;font-weight:800;color:#22c55e">🍽️ ${e.momento}</span>
-          <span style="font-size:11px;color:#64748b">${e.ts}</span>
-        </div>
-        <div style="font-size:12px;color:#94a3b8;margin-bottom:8px">👤 ${e.quien}</div>`;
-      items.forEach(it => {
-        html += `<div style="background:#0f172a;border-radius:8px;padding:6px 12px;margin-bottom:4px;font-size:13px;display:flex;justify-content:space-between">
-          <span>${it.emoji||""} ${it.nombre}</span>
-          <span style="color:#f87171;font-weight:700">-${it.qty} ${it.unidad}</span>
-        </div>`;
-      });
-      html += `</div>`;
+function renderLog(){
+  let h="";
+  if(!log.length){h=`<div style="text-align:center;color:#475569;padding:50px 0;font-size:14px">Todavia no hay consumos.<br><span style="font-size:12px">Usa Consumir para empezar.</span></div>`;}
+  else{
+    log.forEach(e=>{
+      const items=typeof e.items==="string"?JSON.parse(e.items||"[]"):(e.items||[]);
+      h+=`<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:800;color:#22c55e">🍽️ ${e.momento}</span><span style="font-size:11px;color:#64748b">${e.ts}</span></div><div style="font-size:12px;color:#94a3b8;margin-bottom:8px">👤 ${e.quien}</div>`;
+      items.forEach(it=>{h+=`<div style="background:#0f172a;border-radius:8px;padding:6px 12px;margin-bottom:4px;font-size:13px;display:flex;justify-content:space-between"><span>${it.emoji||""} ${it.n||it.nombre}</span><span style="color:#f87171;font-weight:700">-${it.qty} ${it.u||it.unidad}</span></div>`;});
+      h+=`</div>`;
     });
-    html += `<button class="btn" style="color:#f87171;border-color:#7f1d1d;margin-top:4px;margin-bottom:20px" onclick="if(confirm('Borrar historial?')) clearLog()">🗑 Borrar historial</button>`;
+    h+=`<button class="btn" style="color:#f87171;border-color:#7f1d1d;margin-top:4px;margin-bottom:20px" onclick="if(confirm('Borrar historial?')){log=[];saveRemote();renderLog();}">🗑 Borrar historial</button>`;
   }
-  document.getElementById("vista-log").innerHTML = html;
+  document.getElementById("v-log").innerHTML=h;
 }
 
-// ── ACCIONES ──────────────────────────────────────────────────────
-function setVista(v) {
-  vistaActual = v;
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  event.target.classList.add("active");
-  ["plan","entrenos","stock","consumir","log"].forEach(n => {
-    document.getElementById("vista-"+n).classList.toggle("hidden", n!==v);
-  });
+function setV(v,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));el.classList.add("on");["plan","entrenos","stock","consumir","log"].forEach(n=>document.getElementById("v-"+n).classList.toggle("hidden",n!==v));}
+function setDia(i){diaIdx=i;saveRemote();renderPlan();renderAlerts();}
+function setPTab(t){planTab=t;renderPlan();}
+function setCat(c){catF=c;renderStock();}
+function setBusq(v){busq=v;renderStock();}
+function setQuien(q){quien=q;renderConsumir();}
+function setMomento(m){momento=m;renderConsumir();}
+function setUso(id,d){uso[id]=Math.max(0,(Number(uso[id])||0)+d);renderConsumir();}
+function setUsoV(id,v){uso[id]=Math.max(0,Number(v)||0);}
+function ajustar(id,d){stock=stock.map(i=>i.id===id?{...i,q:Math.max(0,i.q+d)}:i);saveRemote();renderStock();renderAlerts();}
+function editQ(id){
+  const item=stock.find(i=>i.id===id);
+  const v=prompt(`Nueva cantidad para ${item.n} (actual: ${fmtQ(item)}):`,item.q);
+  if(v!==null&&!isNaN(parseFloat(v))&&parseFloat(v)>=0){stock=stock.map(i=>i.id===id?{...i,q:parseFloat(v)}:i);saveRemote();renderStock();renderAlerts();}
 }
-
-function setDia(i) {
-  diaIdx = i;
-  saveRemote();
-  renderPlan();
-  renderAlerts();
+function registrar(){
+  const usados=Object.entries(uso).filter(([,v])=>Number(v)>0);
+  if(!usados.length){alert("No marcaste ningun consumo.");return;}
+  const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
+  const items=usados.map(([id,qty])=>{const it=stock.find(i=>i.id===id);return{emoji:it.emoji,n:it.n,qty:Number(qty),u:it.u};});
+  stock=stock.map(i=>{const q=Number(uso[i.id]||0);return q>0?{...i,q:Math.max(0,i.q-q)}:i;});
+  log=[{ts,quien,momento,items},...log];
+  uso={};saveRemote();renderAll();
+  const btn=document.getElementById("reg-btn");
+  if(btn){btn.textContent="Registrado!";btn.style.background="#16a34a";setTimeout(()=>renderConsumir(),2000);}
 }
-
-function setPlanTab(t) {
-  planTab = t;
-  renderPlan();
+function marcarEnt(sesionId,q,estado){
+  const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
+  const existe=entrenos.find(e=>e.sesionId===sesionId&&e.quien===q);
+  if(existe)entrenos=entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,estado,ts}:e);
+  else entrenos=[...entrenos,{sesionId,quien:q,estado,nota:"",ts}];
+  saveRemote();renderEntrenos();renderAlerts();
 }
+function updateNota(sesionId,q,nota){entrenos=entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,nota}:e);saveRemote();}
 
-function setCat(c) {
-  catFiltro = c;
-  renderStock();
-}
-
-function setBusq(v) {
-  busq = v;
-  renderStock();
-}
-
-function setQuien(q) {
-  quien = q;
-  renderConsumir();
-}
-
-function setMomento(m) {
-  momento = m;
-  renderConsumir();
-}
-
-function setUso(id, delta) {
-  const item = stock.find(i=>i.id===id);
-  uso[id] = Math.max(0, (Number(uso[id])||0) + delta);
-  renderConsumir();
-}
-
-function setUsoVal(id, val) {
-  uso[id] = Math.max(0, Number(val)||0);
-}
-
-function ajustar(id, delta) {
-  stock = stock.map(i => i.id===id ? {...i, cantidad:Math.max(0,i.cantidad+delta)} : i);
-  saveRemote();
-  renderStock();
-  renderAlerts();
-}
-
-function startEdit(id) {
-  const item = stock.find(i=>i.id===id);
-  const val = prompt(`Nueva cantidad para ${item.nombre} (actual: ${fmtQ(item)}):`, item.cantidad);
-  if (val !== null && !isNaN(parseFloat(val)) && parseFloat(val)>=0) {
-    stock = stock.map(i => i.id===id ? {...i, cantidad:parseFloat(val)} : i);
-    saveRemote();
-    renderStock();
-    renderAlerts();
-  }
-}
-
-function registrar() {
-  const usados = Object.entries(uso).filter(([,v])=>Number(v)>0);
-  if (!usados.length) { alert("No marcaste ningun consumo."); return; }
-  
-  const ts = new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
-  const items = usados.map(([id,qty]) => {
-    const it = stock.find(i=>i.id===id);
-    return {emoji:it.emoji, nombre:it.nombre, qty:Number(qty), unidad:it.unidad};
-  });
-  
-  stock = stock.map(i => {
-    const q = Number(uso[i.id]||0);
-    return q>0 ? {...i, cantidad:Math.max(0,i.cantidad-q)} : i;
-  });
-  
-  log = [{ts, quien, momento, items}, ...log];
-  uso = {};
-  saveRemote();
-  renderAll();
-  
-  const btn = document.getElementById("reg-btn");
-  if (btn) { btn.textContent = "Registrado!"; btn.style.background = "#16a34a"; setTimeout(()=>renderConsumir(),2000); }
-}
-
-function marcarEntreno(sesionId, q, estado) {
-  const ts = new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
-  const existe = entrenos.find(e=>e.sesionId===sesionId&&e.quien===q);
-  if (existe) {
-    entrenos = entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,estado,ts}:e);
-  } else {
-    entrenos = [...entrenos, {sesionId, quien:q, estado, nota:"", ts}];
-  }
-  saveRemote();
-  renderEntrenos();
-  renderAlerts();
-}
-
-function updateNota(sesionId, q, nota) {
-  entrenos = entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,nota}:e);
-  saveRemote();
-}
-
-function clearLog() {
-  log = [];
-  saveRemote();
-  renderLog();
-}
-
-// ── INIT ──────────────────────────────────────────────────────────
-window.addEventListener("DOMContentLoaded", () => {
-  // Mostrar app inmediatamente con datos locales
-  const hasLocal = loadLocal();
-  if (hasLocal) {
-    document.getElementById("loading").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    renderAll();
-    setSyncTime();
-  }
-  // Siempre intentar cargar desde Sheets
-  cargarTodo();
+window.addEventListener("DOMContentLoaded",()=>{
+  const hasLocal=loadLocal();
+  if(hasLocal){document.getElementById("loading").classList.add("hidden");document.getElementById("app").classList.remove("hidden");renderAll();setSyncTime();}
+  cargar();
 });
 </script>
 </body>
