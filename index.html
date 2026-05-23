@@ -89,7 +89,9 @@ input[type=number]{-moz-appearance:textfield}
   <div id="v-log" class="content hidden"></div>
 </div>
 <script>
-const GAS="https://script.google.com/macros/s/AKfycbzAJreQr-PmOE5wMeJWHZHGEGKMr4C_vTrTI1i582KyNeAc-zjA8yY_qps0GqMNT-do/exec";
+const BIN_ID="6a1225626877513b27c050ca";
+const API_KEY="$2a$10$aFCwvuu3jz1xZ7z3prWoi.U6b3Poi7ieWjBpP3xFHK/9/IscK3CW2";
+const BIN_URL="https://api.jsonbin.io/v3/b/"+BIN_ID;
 
 const PLAN=[
   {fecha:"25/05",dia:"Lunes",tipo:"entreno",
@@ -298,31 +300,38 @@ function loadLocal(){
 async function saveRemote(){
   saveLocal();
   try{
-    await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"stock2",data:[["id","q"],...stock.map(i=>[i.id,i.q])]})});
-    if(log.length) await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"log2",data:[["ts","quien","momento","items"],...log.slice(0,80).map(e=>[e.ts,e.quien,e.momento,JSON.stringify(e.items||[])])]})});
-    if(entrenos.length) await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"entrenos2",data:[["sesionId","quien","estado","nota","ts"],...entrenos.map(e=>[e.sesionId,e.quien,e.estado,e.nota||"",e.ts||""])]})});
-    await fetch(GAS,{method:"POST",body:JSON.stringify({sheet:"config2",data:[["key","value"],["diaIdx",diaIdx]]})});
+    const data={
+      stock:stock.map(({id,q})=>({id,q})),
+      log:log.slice(0,80),
+      entrenos:entrenos,
+      dia:diaIdx
+    };
+    await fetch(BIN_URL,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},
+      body:JSON.stringify(data)
+    });
     setSyncTime();
-  }catch{}
+  }catch(e){console.log("save error",e);}
 }
 async function cargar(){
   try{
-    const[rs,rl,re,rd]=await Promise.all([
-      fetch(GAS+"?sheet=stock2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
-      fetch(GAS+"?sheet=log2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
-      fetch(GAS+"?sheet=entrenos2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
-      fetch(GAS+"?sheet=config2&t="+Date.now()).then(r=>r.json()).catch(()=>null),
-    ]);
+    const res=await fetch(BIN_URL+"/latest",{
+      headers:{"X-Master-Key":API_KEY,"X-Bin-Meta":false}
+    });
+    if(!res.ok) throw new Error("fetch failed");
+    const data=await res.json();
     let ch=false;
-    if(rs&&rs.length>1){const hi=rs[0].indexOf("id"),hq=rs[0].indexOf("q");if(hi>=0&&hq>=0){stock=STOCK_DEFAULT.map(i=>{const r=rs.slice(1).find(x=>x[hi]===i.id);return r&&r[hq]!==""?{...i,q:Number(r[hq])}:{...i;};});ch=true;}}
-    if(rl&&rl.length>1){const h=rl[0];log=rl.slice(1).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]);try{if(typeof o.items==="string")o.items=JSON.parse(o.items);}catch{};return o;});ch=true;}
-    if(re&&re.length>1){const h=re[0];entrenos=re.slice(1).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]);return o;});ch=true;}
-    if(rd&&rd.length>1){const d=rd[1];if(d&&d[1]!==undefined){diaIdx=parseInt(d[1])||0;ch=true;}}
+    if(data.stock&&data.stock.length>0){
+      stock=STOCK_DEFAULT.map(i=>{const f=data.stock.find(x=>x.id===i.id);return f?{...i,q:f.q}:{...i};});
+      ch=true;
+    }
+    if(data.log&&data.log.length>0){log=data.log;ch=true;}
+    if(data.entrenos&&data.entrenos.length>0){entrenos=data.entrenos;ch=true;}
+    if(data.dia!==undefined&&data.dia!==null){diaIdx=parseInt(data.dia)||0;ch=true;}
     if(ch){saveLocal();renderAll();}
-  }catch{}
+  }catch(e){console.log("load error",e);}
   setSyncTime();
-  document.getElementById("loading").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
 }
 function setSyncTime(){const t=new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});const el=document.getElementById("sync-txt");if(el)el.textContent="Sync "+t;}
 function fmtQ(i){
@@ -594,9 +603,14 @@ function marcarEnt(sesionId,q,estado){
 function updateNota(sesionId,q,nota){entrenos=entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,nota}:e);saveRemote();}
 
 window.addEventListener("DOMContentLoaded",()=>{
-  const hasLocal=loadLocal();
-  if(hasLocal){document.getElementById("loading").classList.add("hidden");document.getElementById("app").classList.remove("hidden");renderAll();setSyncTime();}
-  cargar();
+  // Mostrar app inmediatamente con defaults o datos locales
+  loadLocal();
+  document.getElementById("loading").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderAll();
+  setSyncTime();
+  // Intentar sincronizar con Google Sheets en background (sin bloquear)
+  setTimeout(()=>{ cargar(); }, 500);
 });
 </script>
 </body>
