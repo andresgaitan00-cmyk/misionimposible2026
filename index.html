@@ -3,367 +3,342 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Ray & Cyn · Semana 2</title>
+<title>Ray & Cyn · Sem 2</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nunito','Segoe UI',sans-serif;background:#0f172a;color:#f1f5f9;max-width:680px;margin:0 auto;padding-bottom:80px}
-.header{padding:18px 16px 12px;background:#0f172a;position:sticky;top:0;z-index:20;border-bottom:1px solid #1e293b}
+.hdr{padding:18px 16px 12px;background:#0f172a;position:sticky;top:0;z-index:20;border-bottom:1px solid #1e293b}
 .htop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.htitle{font-size:18px;font-weight:900;letter-spacing:-0.5px}
-.hsub{font-size:11px;color:#475569;margin-top:2px}
 .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 5px #4ade80;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.hsync{font-size:10px;color:#475569;text-align:right}
-.hrefresh{background:transparent;border:none;color:#475569;font-size:11px;cursor:pointer;padding:0;margin-top:2px;display:block;text-align:right}
-.alerts{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.al{border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
-.al-r{background:#450a0a;border:1px solid #ef4444;color:#fca5a5}
-.al-o{background:#431407;border:1px solid #f97316;color:#fdba74}
-.al-g{background:#052e16;border:1px solid #4ade80;color:#4ade80}
-.al-p{background:#1c1030;border:1px solid #a78bfa;color:#a78bfa}
 .tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{background:#1e293b;color:#94a3b8;border:1px solid #334155;border-radius:20px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
 .tab.on{background:#22c55e;color:#0f172a;border-color:#22c55e}
-.content{padding:14px 16px 0}
+.con{padding:14px 16px 0}
 .card{background:#1e293b;border-radius:14px;padding:14px 16px;margin-bottom:8px;border:1px solid #334155}
-.card-dark{background:#0f172a;border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.cd{background:#0f172a;border-radius:10px;padding:10px 12px;margin-bottom:6px}
 .btn{border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border:1px solid #334155;background:#1e293b;color:#94a3b8}
-.btn-g{background:#22c55e;color:#0f172a;border-color:#22c55e}
-.btn-y{background:#fbbf24;color:#0f172a;border-color:#fbbf24}
-.btn-r{background:#f87171;color:#0f172a;border-color:#f87171}
-.btn-p{background:#818cf8;color:#0f172a;border-color:#818cf8}
+.bg{background:#22c55e;color:#0f172a;border-color:#22c55e}
+.by{background:#fbbf24;color:#0f172a;border-color:#fbbf24}
+.br{background:#f87171;color:#0f172a;border-color:#f87171}
+.bp{background:#818cf8;color:#0f172a;border-color:#818cf8}
+.bb{background:#38bdf8;color:#0f172a;border-color:#38bdf8}
 .days{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;margin-bottom:12px}
 .days::-webkit-scrollbar{display:none}
-.day-btn{border-radius:12px;padding:8px 12px;cursor:pointer;flex-shrink:0;text-align:center;min-width:54px;border:2px solid #334155;background:#1e293b;color:#94a3b8}
-.bar-wrap{background:#0f172a;border-radius:99px;height:5px;margin:8px 0;overflow:hidden}
-.bar{height:100%;border-radius:99px;transition:width 0.3s}
-.controls{display:flex;align-items:center;gap:10px;margin-top:4px}
+.db{border-radius:12px;padding:8px 12px;cursor:pointer;flex-shrink:0;text-align:center;min-width:54px;border:2px solid #334155;background:#1e293b;color:#94a3b8}
+.bw{background:#0f172a;border-radius:99px;height:5px;margin:8px 0;overflow:hidden}
+.bf{height:100%;border-radius:99px;transition:width 0.3s}
+.ctl{display:flex;align-items:center;gap:10px;margin-top:4px}
 .cir{background:#334155;border:none;color:#f1f5f9;border-radius:8px;width:32px;height:32px;font-size:20px;cursor:pointer;font-weight:900;line-height:30px;text-align:center;flex-shrink:0}
-.qty{min-width:80px;text-align:center;font-weight:800;font-size:15px;cursor:pointer}
-.search{width:100%;background:#1e293b;border:1px solid #334155;color:#f1f5f9;border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:12px;outline:none}
-.cat-lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;padding-left:4px;margin-top:4px}
-.reg-btn{width:100%;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:900;cursor:pointer;margin-bottom:24px;transition:background 0.2s}
-.badge{border-radius:20px;padding:2px 9px;font-size:10px;font-weight:800}
-.note-inp{width:100%;background:#1e293b;border:1px solid #334155;color:#c4b5fd;border-radius:8px;padding:6px 10px;font-size:12px;outline:none;margin-top:6px}
-.loading{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.subtabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.nav-btn{background:#334155;border:none;color:#f1f5f9;border-radius:8px;width:32px;height:32px;font-size:18px;cursor:pointer;line-height:32px;text-align:center}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hidden{display:none}
+.srch{width:100%;background:#1e293b;border:1px solid #334155;color:#f1f5f9;border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:12px;outline:none}
+.cl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;padding-left:4px;margin-top:4px}
+.rbtn{width:100%;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:900;cursor:pointer;margin-bottom:24px;transition:background 0.2s}
+.bdg{border-radius:20px;padding:2px 9px;font-size:10px;font-weight:800}
+.ni{width:100%;background:#1e293b;border:1px solid #334155;color:#c4b5fd;border-radius:8px;padding:6px 10px;font-size:12px;outline:none;margin-top:6px}
+.ld{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.st{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.nb{background:#334155;border:none;color:#f1f5f9;border-radius:8px;width:32px;height:32px;font-size:18px;cursor:pointer;line-height:32px;text-align:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hid{display:none}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 input[type=number]{-moz-appearance:textfield}
-.prog-bar{background:#0f172a;border-radius:99px;height:8px;overflow:hidden;margin:8px 0}
-.prog-fill{height:100%;border-radius:99px;transition:width 0.4s}
+.pb{background:#0f172a;border-radius:99px;height:8px;overflow:hidden;margin:8px 0}
+.pf{height:100%;border-radius:99px;transition:width 0.4s}
+.agua-bar{background:#0f172a;border-radius:99px;height:14px;overflow:hidden;margin:10px 0}
+.agua-fill{height:100%;border-radius:99px;transition:width 0.5s;background:linear-gradient(90deg,#38bdf8,#0ea5e9)}
 </style>
 </head>
 <body>
-<div id="loading" class="loading">
+<div id="ld" class="ld">
   <div style="font-size:36px">🏠</div>
   <div style="font-size:16px;font-weight:700">Cargando Ray & Cyn...</div>
   <div style="font-size:12px;color:#475569;margin-top:4px">Semana 2 · Borgosesia</div>
 </div>
-<div id="app" class="hidden">
-  <div class="header">
+<div id="app" class="hid">
+  <div class="hdr">
     <div class="htop">
-      <div><div class="htitle">🏠 Ray & Cyn · Sem 2</div><div class="hsub">25/05 – 01/06/2026 · Borgosesia</div></div>
+      <div>
+        <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px">🏠 Ray & Cyn · Sem 2</div>
+        <div style="font-size:11px;color:#475569;margin-top:2px">25/05–01/06/2026 · Borgosesia</div>
+      </div>
       <div>
         <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end"><div class="dot"></div><span style="font-size:10px;color:#4ade80;font-weight:700">EN VIVO</span></div>
-        <div class="hsync" id="sync-txt"></div>
-        <button class="hrefresh" onclick="cargar()">↻ actualizar</button>
+        <div style="font-size:10px;color:#475569;text-align:right" id="syt"></div>
+        <button onclick="cargar()" style="background:transparent;border:none;color:#475569;font-size:11px;cursor:pointer;padding:0;margin-top:2px;display:block;text-align:right;width:100%">↻ actualizar</button>
       </div>
     </div>
-    <div class="alerts" id="alerts"></div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="alts"></div>
     <div class="tabs">
       <button class="tab on" onclick="setV('plan',this)">📅 Plan</button>
+      <button class="tab" onclick="setV('agua',this)">💧 Agua</button>
       <button class="tab" onclick="setV('entrenos',this)">💪 Entrenos</button>
       <button class="tab" onclick="setV('stock',this)">📦 Stock</button>
       <button class="tab" onclick="setV('consumir',this)">🍽️ Consumir</button>
       <button class="tab" onclick="setV('log',this)">📋 Historial</button>
     </div>
   </div>
-  <div id="v-plan" class="content"></div>
-  <div id="v-entrenos" class="content hidden"></div>
-  <div id="v-stock" class="content hidden"></div>
-  <div id="v-consumir" class="content hidden"></div>
-  <div id="v-log" class="content hidden"></div>
+  <div id="v-plan" class="con"></div>
+  <div id="v-agua" class="con hid"></div>
+  <div id="v-entrenos" class="con hid"></div>
+  <div id="v-stock" class="con hid"></div>
+  <div id="v-consumir" class="con hid"></div>
+  <div id="v-log" class="con hid"></div>
 </div>
 <script>
 const BIN_ID="6a1225626877513b27c050ca";
 const API_KEY="$2a$10$aFCwvuu3jz1xZ7z3prWoi.U6b3Poi7ieWjBpP3xFHK/9/IscK3CW2";
-const BIN_URL="https://api.jsonbin.io/v3/b/"+BIN_ID;
+const BURL="https://api.jsonbin.io/v3/b/"+BIN_ID;
 
+// ── PLAN ─────────────────────────────────────────────────────────
 const PLAN=[
   {fecha:"25/05",dia:"Lunes",tipo:"entreno",
-    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
-    entreno:{hora:"15:30-16:50",nombre:"Sem 2 Dia 1 - Lower progresado",
-      ej:["Trote suave 15 min","Sentadilla libre 3x14 (+2 vs sem1)","Zancada estatica 3x10 c/lado NUEVO","Puente de gluteos 3x15 (+3 vs sem1)","Plancha completa 3x25 seg (+5 vs sem1)","Descanso 60 seg"]},
+    info:"Ray: 8:30→~14:30 · Cyn: 9:00→siesta (desayuna en hotel)",
+    entreno:{h:"15:30-16:50",n:"Sem 2 Dia 1 - Lower progresado",
+      ej:["Trote suave 15 min","Sentadilla libre 3x14","Zancada estatica 3x10 c/lado NUEVO","Puente de gluteos 3x15","Plancha completa 3x25 seg","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45",l:"Desayuno JUNTOS",r:"Avena 60g + leche + banana + cafe",c:"Yogurt griego + frutillas + avena + cafe · juntos antes de salir"},
-      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Tupper: arroz + pollo + tomate + oliva",c:"Tupper: bowl garbanzos + zanahoria + huevo duro + 1/4 palta + limon"},
-      {h:"14:30",l:"Pre-entreno",r:"Banana + crema de mani",c:"Kiwi + L-Carnitina 30min antes"},
-      {h:"15:30",l:"ENTRENO",r:"Juntos",c:"Juntos"},
-      {h:"17:00",l:"Post-entreno",r:"Whey con leche + 2 huevos + pan",c:"Whey con agua + yogurt"},
-      {h:"23:00",l:"Cena juntos",r:"Pechuga al horno + batata + ensalada lechuga + tomate",c:"Idem batata chica + mas ensalada + 1/4 palta"},
-    ],prep:"Preparar 2 tuppers la noche anterior. Desayunar juntos 7:45 antes de salir a las 9."},
+      {h:"7:45", l:"Desayuno Ray",      r:"Avena 60g + leche + banana + cafe",                          c:"🏨 Hotel: huevos revueltos 2-3 + jamon 2 fetas + pan integral + jugo (dia de entreno)"},
+      {h:"12:00",l:"Almuerzo hotel x2", r:"Come en el hotel (proteina + ensalada)",                     c:"Come en el hotel"},
+      {h:"14:30",l:"Pre-entreno",       r:"Banana + crema de mani",                                     c:"Fruta + L-Carnitina 30min antes"},
+      {h:"15:30",l:"ENTRENO",           r:"Juntos",                                                     c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",      r:"Whey con leche + 2 huevos + pan",                            c:"Whey con agua + yogurt"},
+      {h:"23:00",l:"Cena juntos",       r:"Pechuga al horno + batata + ensalada tomate cherry",         c:"Idem batata chica + mas ensalada + 1/4 palta"},
+    ],prep:"Cyn desayuna en hotel. Ambos almuerzan en hotel. Cena: Ray cocina a la tarde."},
   {fecha:"26/05",dia:"Martes",tipo:"entreno",
-    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
-    entreno:{hora:"15:30-16:50",nombre:"Sem 2 Dia 2 - Upper intro",
+    info:"Ray: 8:30→~14:30 · Cyn: 9:00→siesta (desayuna en hotel)",
+    entreno:{h:"15:30-16:50",n:"Sem 2 Dia 2 - Upper intro",
       ej:["Trote suave 10 min","Flexion de brazos en rodillas 3x8","Remo con botella o mochila 3x10","Elevacion lateral brazos 3x12","Plancha completa 3x25 seg","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45",l:"Desayuno JUNTOS",r:"2 huevos revueltos + 2 fetas pan + 1/4 palta + cafe",c:"Yogurt griego + kiwi + cafe · juntos antes de salir"},
-      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Wrap x2: piadina + pollo + rucula + tomate + mostaza + 1/4 palta",c:"Tupper: ensalada novella + atun + mais + zanahoria + limon"},
-      {h:"14:30",l:"Pre-entreno",r:"Banana + crema de mani",c:"Frutillas + L-Carnitina 30min antes"},
-      {h:"15:30",l:"ENTRENO",r:"Juntos",c:"Juntos"},
-      {h:"17:00",l:"Post-entreno",r:"Whey con leche + 2 huevos + pan",c:"Whey con agua + yogurt griego"},
-      {h:"20:00",l:"Cena",r:"Piadina + espinaca salteada + pollo + mozzarella + peperoni rossi",c:"Idem porcion mas chica · USAR ESPINACA HOY"},
-    ],prep:"Espinaca hay que usarla HOY. Preparar 2 tuppers la noche anterior."},
+      {h:"7:45", l:"Desayuno Ray",      r:"2 huevos revueltos + 2 fetas pan + 1/4 palta + cafe",       c:"🏨 Hotel: huevos revueltos + queso + pan integral + jugo (dia de entreno)"},
+      {h:"12:00",l:"Almuerzo hotel x2", r:"Come en el hotel",                                           c:"Come en el hotel"},
+      {h:"14:30",l:"Pre-entreno",       r:"Banana + crema de mani",                                     c:"Fruta + L-Carnitina 30min antes"},
+      {h:"15:30",l:"ENTRENO",           r:"Juntos",                                                     c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",      r:"Whey con leche + 2 huevos + pan",                            c:"Whey con agua + yogurt"},
+      {h:"20:00",l:"Cena",              r:"Pasta fusilli + carne molida + passata",                     c:"Idem porcion mas chica + zucchini"},
+    ],prep:"Cyn desayuna en hotel. Ambos almuerzan en hotel. Usar passata hoy."},
   {fecha:"27/05",dia:"Miercoles",tipo:"descanso",
-    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
-    entreno:{hora:"-",nombre:"Descanso activo",
+    info:"Ray: 8:30→~14:30 · Cyn: REPOSO",
+    entreno:{h:"-",n:"Descanso activo",
       ej:["Caminata suave 20-30 min opcional","Stretching 10 min","SIN circuitos ni cardio","El musculo crece descansando"]},
     comidas:[
-      {h:"7:45",l:"Desayuno JUNTOS",r:"Avena + leche + arandanos + cafe",c:"Smoothie: avena + leche + banana + frutillas · juntos antes de salir"},
-      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Tupper: pasta + carne molida + passata",c:"Tupper: ensalada cesar: lechuga + pollo + grana padano + huevo duro + salsa caesar"},
-      {h:"14:30",l:"Merienda",r:"Pan con crema de mani + leche",c:"1/2 palta con limon y sal"},
-      {h:"20:00",l:"Cena",r:"Arroz + pollo salteado + zucchini + cebolla",c:"Idem 1/2 porcion arroz + mas zucchini + 1/4 palta"},
-    ],prep:"Usar lechuga restante hoy. Preparar 2 tuppers la noche anterior."},
+      {h:"7:45", l:"Desayuno Ray",      r:"Avena + leche + banana + cafe",                             c:"Reposo - desayuna en casa cuando quiera"},
+      {h:"12:00",l:"Almuerzo",          r:"Come en el hotel",                                          c:"Almuerza en casa: garbanzos + zanahoria + huevo + tomate + 1/4 palta"},
+      {h:"14:30",l:"Merienda",          r:"Pan con crema de mani + leche",                             c:"Kiwi + yogurt"},
+      {h:"20:00",l:"Cena",              r:"Pasta + carne molida + passata",                            c:"Idem porcion mas chica + broccoletti"},
+    ],prep:"Cyn libre. Usar passata. Preparar tupper si hace falta."},
   {fecha:"28/05",dia:"Jueves",tipo:"entreno",
-    horarios:"Ray: trabajo 9-14/15 · Cyn: trabajo 9-siesta",
-    entreno:{hora:"15:30-16:50",nombre:"Sem 2 Dia 3 - Full body",
+    info:"Ray: 9:30→~12:30 (reunion) · Cyn: 9:30→~12:30 (reunion)",
+    entreno:{h:"15:30-16:50",n:"Sem 2 Dia 3 - Full body",
       ej:["Trote suave 15 min","Sentadilla libre 3x14","Flexion de brazos rodillas 3x10","Puente de gluteos 3x15","Plancha completa 3x25 seg","Zancada estatica 3x10 c/lado","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45",l:"Desayuno JUNTOS",r:"2 huevos + 2 fetas pan + banana + cafe",c:"Avena + leche + kiwi + cafe · juntos antes de salir"},
-      {h:"11:20",l:"Almuerzo VIANDA x2",r:"Tupper: arroz + bistecca en tiras + zanahoria + limon",c:"Tupper plato inteligente: lentejas + brocoli + huevo duro + 1/4 palta"},
-      {h:"14:30",l:"Pre-entreno",r:"Banana + frutos secos",c:"Frutillas + L-Carnitina 30min antes"},
-      {h:"15:30",l:"ENTRENO",r:"Juntos",c:"Juntos"},
-      {h:"17:00",l:"Post-entreno",r:"Whey con leche + 2 huevos + pan",c:"Whey con agua + yogurt griego"},
-      {h:"20:00",l:"Cena",r:"Tortilla de huevos + papa + tomate + mozzarella",c:"Idem sin papa + ensalada grande + 1/4 palta"},
-    ],prep:"Semana 2 completa! Cena contundente bien merecida. Preparar tuppers viernes."},
+      {h:"9:00", l:"Desayuno Ray",      r:"2 huevos + 2 fetas pan + banana + cafe (antes de salir)",   c:"🏨 Hotel: huevos revueltos 2-3 + jamon + pan integral + jugo (dia de entreno)"},
+      {h:"12:30",l:"Almuerzo hotel x2", r:"Come en el hotel (fin de reunion)",                         c:"Come en el hotel"},
+      {h:"15:00",l:"Pre-entreno",       r:"Banana + crema de mani",                                    c:"Fruta + L-Carnitina 30min antes"},
+      {h:"15:30",l:"ENTRENO",           r:"Juntos - Sem 2 completada!",                                c:"Juntos - Sem 2 completada!"},
+      {h:"17:00",l:"Post-entreno",      r:"Whey con leche + 2 huevos + pan",                           c:"Whey con agua + yogurt"},
+      {h:"20:00",l:"Cena",              r:"Pechuga al horno + patatas + tomate cherry + oliva",        c:"Idem menos patatas + 1/4 palta + mozzarella"},
+    ],prep:"Semana 2 completada! Cena contundente. Palta hay que usarla hoy o manana."},
   {fecha:"29/05",dia:"Viernes",tipo:"libre",
-    horarios:"Horarios a confirmar",
-    entreno:{hora:"Sin horario",nombre:"Dia libre o recuperacion",
-      ej:["Stretching suave 15 min opcional","Caminata tranquila","SIN entreno estructurado","Descanso antes del finde"]},
+    info:"Ray: REPOSO · Cyn: REPOSO — dia libre los dos!",
+    entreno:{h:"Sin horario",n:"Dia libre - sendero o descanso",
+      ej:["Opcion A: Sendero Riba Valdobbia 45-60 min","Opcion B: Caminata suave por el pueblo","Opcion C: Descanso total","SIN circuitos - semana 2 ya completada"]},
     comidas:[
-      {h:"8:00",l:"Desayuno juntos",r:"Smoothie: avena + leche + banana + arandanos",c:"Yogurt griego + frutillas + avena"},
-      {h:"11:30",l:"Snack",r:"Frutos secos + kiwi",c:"1/2 palta con limon + frutillas"},
-      {h:"14:00",l:"Almuerzo juntos",r:"Wrap x2: piadina + atun + rucula + tomate + 1/4 palta",c:"Plato inteligente: ensalada novella + atun + mais + zanahoria + limon"},
-      {h:"17:00",l:"Merienda",r:"Pan con crema de mani + leche",c:"Yogurt griego + arandanos"},
-      {h:"20:30",l:"Cena juntos",r:"Bife a la plancha + patatas + ensalada lechuga + tomate",c:"Bife + ensalada grande sin patatas + 1/4 palta"},
-    ],prep:"Buen dia para preparar tuppers del finde y repasar el stock."},
+      {h:"8:30", l:"Desayuno juntos",   r:"Avena + leche + banana + cafe sin apuro",                   c:"Avena + leche + frutillas (ultimas) + cafe"},
+      {h:"11:00",l:"Snack",             r:"Manzana + frutos secos",                                    c:"Kiwi + 1/2 palta"},
+      {h:"14:00",l:"Almuerzo juntos",   r:"Bistecca/Tagliata a la plancha + patatas + tomate cherry",  c:"Bistecca + broccoletti salteado + 1/4 palta"},
+      {h:"17:00",l:"Merienda",          r:"Pan con crema de mani + leche",                             c:"Yogurt + banana"},
+      {h:"20:30",l:"Cena juntos",       r:"Pasta fusilli + crema de hongos o zucchini salteado",       c:"Idem porcion mas chica"},
+    ],prep:"Dia libre los dos. Usar las ultimas frutillas y palta hoy si no se usaron ayer."},
   {fecha:"30/05",dia:"Sabado",tipo:"libre",
-    horarios:"Dia libre",
-    entreno:{hora:"Sin horario",nombre:"Dia libre - Sendero o descanso",
-      ej:["Opcion A: Sendero Riba Valdobbia 45-60 min","Opcion B: Caminata suave por el pueblo","Opcion C: Descanso total","SIN circuitos"]},
+    info:"Ray: a definir (violeta) · Cyn: 7:00→13:00 + 19:00→22:30 (desayuna en hotel)",
+    entreno:{h:"Sin horario",n:"Dia libre o descanso",
+      ej:["Sendero o caminata si tienen ganas","Descanso total completamente valido","SIN entreno estructurado"]},
     comidas:[
-      {h:"9:00",l:"Desayuno juntos",r:"Avena + huevos revueltos + frutillas + cafe",c:"Idem · el mas tranquilo de la semana"},
-      {h:"11:30",l:"Snack",r:"Frutos secos + banana",c:"Kiwi + yogurt griego"},
-      {h:"14:00",l:"Almuerzo juntos",r:"Ensalada cesar completa: lechuga + pollo + grana padano + huevo + salsa caesar + bruschette",c:"Idem porcion normal"},
-      {h:"17:00",l:"Merienda",r:"Pan con crema de mani + leche",c:"1/2 palta con limon y sal"},
-      {h:"20:30",l:"Cena juntos",r:"Pechuga al hornito + batata + ensalada + mozzarella",c:"Idem batata chica + mas ensalada + mozzarella fresca"},
-    ],prep:"Super si hace falta reponer algo. Preparar tuppers semana siguiente."},
-  {fecha:"01/06",dia:"Domingo",tipo:"planificacion",
-    horarios:"Dia libre · planificacion semana 3",
-    entreno:{hora:"Opcional tarde",nombre:"Planificacion semana 3",
-      ej:["PASO 1: Compartir horarios semana siguiente","PASO 2: Definir 3 dias entreno semana 3","PASO 3: Anotar dias y horas","PASO 4: Preparar tuppers Ray y Cyn para lunes y martes","Opcional: movilidad 20 min"]},
+      {h:"7:00", l:"Desayuno Cyn",      r:"Ray desayuna en casa: avena + huevos + cafe",               c:"🏨 Hotel: yogurt griego + frutos secos + pan integral + cafe (dia sin entreno)"},
+      {h:"12:30",l:"Almuerzo",          r:"Ray en casa: pollo + patatas + tomate",                     c:"Come en el hotel (servicio mediodia)"},
+      {h:"20:30",l:"Cena juntos",       r:"Pechuga al hornito + broccoletti + mozzarella",             c:"Idem cuando llega a las 22:30"},
+    ],prep:"Cyn turno partido. Ray prepara cena lista y caliente para cuando Cyn llega."},
+  {fecha:"31/05",dia:"Domingo",tipo:"planificacion",
+    info:"Ray: 9:00→~16:00 · Cyn: 7:00→13:00 + 19:00→22:30 (desayuna en hotel)",
+    entreno:{h:"Opcional",n:"Planificacion semana 3",
+      ej:["PASO 1: Pasarme los horarios de la semana siguiente","PASO 2: Definir 3 dias de entreno semana 3","PASO 3: Anotar dias y horas","PASO 4: Preparar lo necesario para lunes","Opcional: movilidad 20 min"]},
     comidas:[
-      {h:"9:00",l:"Desayuno juntos",r:"Huevos revueltos + 2 fetas pan + 1/4 palta + cafe",c:"Idem"},
-      {h:"12:00",l:"Snack",r:"Frutos secos + banana",c:"Yogurt + frutillas"},
-      {h:"14:00",l:"Almuerzo juntos",r:"Bowl: garbanzos + espinaca + huevo duro + zanahoria + 1/4 palta + limon",c:"Idem sin pan extra"},
-      {h:"16:00",l:"PLANIFICACION",r:"Cruzar horarios · definir entrenos · preparar tuppers",c:"Los dos juntos 20-30 min"},
-      {h:"17:30",l:"Merienda",r:"Avena con leche + banana",c:"Yogurt con arandanos"},
-      {h:"20:30",l:"Cena + tuppers",r:"Sopa Knorr + 2 huevos + pan · preparar tupper lunes",c:"Sopa + huevo · liviano"},
-    ],prep:"Cerrar semana 2 y arrancar semana 3 con todo planificado."},
+      {h:"7:00", l:"Desayuno Cyn",      r:"Ray desayuna en casa antes de salir: huevos + pan + cafe",  c:"🏨 Hotel: yogurt griego + frutos secos + pan integral + jugo (dia sin entreno)"},
+      {h:"12:00",l:"Almuerzo",          r:"Come en el hotel",                                          c:"Come en el hotel"},
+      {h:"20:30",l:"Cena juntos",       r:"Sopa Knorr + 2 huevos duros + pan - rapido",               c:"Idem liviano antes de semana nueva"},
+    ],prep:"Pasarme los horarios semana 3 para actualizar la app. Preparar para lunes."},
 ];
 
-const SESIONES=[
-  {id:"s5",fecha:"25/05",dia:"Lunes",  nombre:"Sem 2 Dia 1 - Lower progresado",hora:"15:30-16:50"},
-  {id:"s6",fecha:"26/05",dia:"Martes", nombre:"Sem 2 Dia 2 - Upper intro",     hora:"15:30-16:50"},
-  {id:"s7",fecha:"28/05",dia:"Jueves", nombre:"Sem 2 Dia 3 - Full body",       hora:"15:30-16:50"},
+// ── SESIONES ──────────────────────────────────────────────────────
+const SEM1=[
+  {id:"s1",f:"19/05",d:"Martes",   n:"Sem 1 Dia 1 - Cardio + Lower intro",      h:"15:30-16:45"},
+  {id:"s2",f:"20/05",d:"Miercoles",n:"Sem 1 Dia 2 - Movilidad + Core",           h:"15:30-16:20"},
+  {id:"s3",f:"22/05",d:"Viernes",  n:"Sem 1 Dia 3 - Cardio + Circuito completo", h:"15:30-17:00"},
 ];
-
+const SEM2=[
+  {id:"s5",f:"25/05",d:"Lunes",  n:"Sem 2 Dia 1 - Lower progresado",hora:"15:30-16:50"},
+  {id:"s6",f:"26/05",d:"Martes", n:"Sem 2 Dia 2 - Upper intro",     hora:"15:30-16:50"},
+  {id:"s7",f:"28/05",d:"Jueves", n:"Sem 2 Dia 3 - Full body",       hora:"15:30-16:50"},
+];
 const HIST_SEM1=[
-  {sesionId:"s1",quien:"Ray",estado:"completo",nota:"",ts:"19/5/26, 11:22 p.m."},
-  {sesionId:"s1",quien:"Cyn",estado:"completo",nota:"",ts:"19/5/26, 11:22 p.m."},
-  {sesionId:"s2",quien:"Ray",estado:"completo",nota:"",ts:"20/5/26, 6:17 p.m."},
-  {sesionId:"s2",quien:"Cyn",estado:"completo",nota:"",ts:"20/5/26, 6:17 p.m."},
-  {sesionId:"s3",quien:"Ray",estado:"completo",nota:"",ts:"22/5/26, 11:48 p.m."},
-  {sesionId:"s3",quien:"Cyn",estado:"completo",nota:"",ts:"22/5/26, 11:48 p.m."},
+  {id:"s1",q:"Ray",e:"completo",n:"",t:"19/5/26, 11:22 p.m."},
+  {id:"s1",q:"Cyn",e:"completo",n:"",t:"19/5/26, 11:22 p.m."},
+  {id:"s2",q:"Ray",e:"completo",n:"",t:"20/5/26, 6:17 p.m."},
+  {id:"s2",q:"Cyn",e:"completo",n:"",t:"20/5/26, 6:17 p.m."},
+  {id:"s3",q:"Ray",e:"completo",n:"",t:"22/5/26, 11:48 p.m."},
+  {id:"s3",q:"Cyn",e:"completo",n:"",t:"22/5/26, 11:48 p.m."},
 ];
 
-const SEM1_INFO=[
-  {id:"s1",fecha:"19/05",dia:"Martes",   nombre:"Sem 1 Dia 1 - Cardio + Lower intro",     hora:"15:30-16:45"},
-  {id:"s2",fecha:"20/05",dia:"Miercoles",nombre:"Sem 1 Dia 2 - Movilidad + Core",          hora:"15:30-16:20"},
-  {id:"s3",fecha:"22/05",dia:"Viernes",  nombre:"Sem 1 Dia 3 - Cardio + Circuito completo",hora:"15:30-17:00"},
+// ── STOCK ─────────────────────────────────────────────────────────
+const SD=[
+  {id:"huevos",    e:"🥚",n:"Huevos",                  c:"Proteinas",      q:21,  u:"ud",      s:1,  m:6},
+  {id:"pollo",     e:"🍗",n:"Pechuga de pollo",         c:"Proteinas",      q:600, u:"g",       s:100,m:200},
+  {id:"bistecca",  e:"🥩",n:"Bistecca / Tagliata",      c:"Proteinas",      q:700, u:"g",       s:100,m:0},
+  {id:"macinato",  e:"🥩",n:"Carne molida bovina",      c:"Proteinas",      q:900, u:"g",       s:100,m:0},
+  {id:"tonno",     e:"🐟",n:"Atun en lata",             c:"Proteinas",      q:3,   u:"latas",   s:1,  m:1},
+  {id:"jamon",     e:"🍖",n:"Prosciutto cotto",         c:"Proteinas",      q:50,  u:"g",       s:50, m:0},
+  {id:"latte",     e:"🥛",n:"Leche entera UHT",         c:"Lacteos",        q:4250,u:"ml",      s:250,m:500},
+  {id:"yogurt",    e:"🫙",n:"Yogurt griego",            c:"Lacteos",        q:3,   u:"ud",      s:1,  m:1},
+  {id:"mozza",     e:"🧀",n:"Mozzarella fresca",        c:"Lacteos",        q:4,   u:"ud",      s:1,  m:0},
+  {id:"grana",     e:"🧀",n:"Grana Padano grattugiato", c:"Lacteos",        q:50,  u:"g",       s:10, m:0},
+  {id:"kefir",     e:"🥤",n:"Kefir",                    c:"Lacteos",        q:1,   u:"ud",      s:1,  m:0},
+  {id:"banane",    e:"🍌",n:"Bananas bio",              c:"Fruta y verdura",q:9,   u:"ud",      s:1,  m:3},
+  {id:"palta",     e:"🥑",n:"Palta / Avocado",          c:"Fruta y verdura",q:2,   u:"ud",      s:1,  m:0,urg:true},
+  {id:"frutillas", e:"🍓",n:"Frutillas",                c:"Fruta y verdura",q:150, u:"g",       s:50, m:0,urg:true},
+  {id:"kiwi",      e:"🥝",n:"Kiwi",                     c:"Fruta y verdura",q:4,   u:"ud",      s:1,  m:0},
+  {id:"mele",      e:"🍎",n:"Manzanas",                 c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
+  {id:"pomodori",  e:"🍅",n:"Tomates cherry",           c:"Fruta y verdura",q:400, u:"g",       s:100,m:0},
+  {id:"zanahoria", e:"🥕",n:"Zanahoria julienne",       c:"Fruta y verdura",q:2,   u:"bolsa",   s:1,  m:0},
+  {id:"brocoli",   e:"🥦",n:"Broccoletti",              c:"Fruta y verdura",q:500, u:"g",       s:100,m:0},
+  {id:"zucchine",  e:"🥒",n:"Zucchine",                 c:"Fruta y verdura",q:794, u:"g",       s:150,m:0},
+  {id:"peperoni",  e:"🫑",n:"Peperoni rossi",           c:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0},
+  {id:"mais",      e:"🌽",n:"Mais (choclo)",            c:"Fruta y verdura",q:240, u:"g",       s:80, m:0},
+  {id:"patate",    e:"🥔",n:"Patatas rojas",            c:"Fruta y verdura",q:1500,u:"g",       s:250,m:0},
+  {id:"limoni",    e:"🍋",n:"Limones",                  c:"Fruta y verdura",q:916, u:"g",       s:100,m:0},
+  {id:"aglio",     e:"🧄",n:"Ajo",                      c:"Fruta y verdura",q:3,   u:"cabezas", s:1,  m:0},
+  {id:"cipolla",   e:"🧅",n:"Cebolla blanca",           c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
+  {id:"avena",     e:"🌾",n:"Avena",                    c:"Dispensa",       q:380, u:"g",       s:60, m:60},
+  {id:"riso",      e:"🍚",n:"Arroz parboiled",          c:"Dispensa",       q:140, u:"g",       s:80, m:0},
+  {id:"fusilli",   e:"🍝",n:"Pasta fusilli Barilla",    c:"Dispensa",       q:2670,u:"g",       s:80, m:0},
+  {id:"sedanini",  e:"🍝",n:"Pasta sedanini",           c:"Dispensa",       q:500, u:"g",       s:80, m:0},
+  {id:"spaghetti", e:"🍝",n:"Spaghettini Barilla",      c:"Dispensa",       q:500, u:"g",       s:80, m:0},
+  {id:"pane",      e:"🍞",n:"Pan de molde integral",    c:"Dispensa",       q:10,  u:"fetas",   s:2,  m:2},
+  {id:"bruschette",e:"🍞",n:"Bruschette al rosmarino",  c:"Dispensa",       q:1,   u:"paquete", s:1,  m:0},
+  {id:"ceci",      e:"🫘",n:"Garbanzos en lata",        c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
+  {id:"lenticchie",e:"🟤",n:"Lentejas en lata",         c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
+  {id:"passata",   e:"🥫",n:"Passata / tomate triturado",c:"Dispensa",      q:1,   u:"latas",   s:1,  m:0,urg:true},
+  {id:"o_oliva",   e:"🫒",n:"Aceite de oliva",          c:"Dispensa",       q:500, u:"ml",      s:10, m:0},
+  {id:"o_gir",     e:"🌻",n:"Aceite de girasol",        c:"Dispensa",       q:750, u:"ml",      s:50, m:0},
+  {id:"mani",      e:"🥜",n:"Crema de mani",            c:"Dispensa",       q:240, u:"g",       s:15, m:0},
+  {id:"dadi",      e:"🟡",n:"Dados vegetales Knorr",    c:"Dispensa",       q:9,   u:"cubos",   s:1,  m:0},
+  {id:"knorr",     e:"🥣",n:"Sopa Knorr (sobres)",      c:"Dispensa",       q:3,   u:"sobres",  s:1,  m:0},
+  {id:"caesar",    e:"🫙",n:"Salsa Caesar proteica",    c:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
+  {id:"porcini",   e:"🍄",n:"Crema de hongos",          c:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
+  {id:"asparagi",  e:"🌿",n:"Crema de esparragos",      c:"Dispensa",       q:1,   u:"sobres",  s:1,  m:0},
+  {id:"pesoforma", e:"🍪",n:"Pesoforma Biscotti",       c:"Dispensa",       q:1,   u:"caja",    s:1,  m:0},
+  {id:"whey",      e:"💪",n:"Whey Protein",             c:"Suplementos",    q:26,  u:"porciones",s:1, m:5},
+  {id:"lcarni",    e:"💊",n:"L-Carnitina 500 (Cyn)",    c:"Suplementos",    q:23,  u:"capsulas", s:1, m:5},
 ];
-
-const STOCK_DEFAULT=[
-  {id:"huevos",     emoji:"🥚",n:"Huevos",                  cat:"Proteinas",      q:18,  u:"ud",      s:1,  m:6},
-  {id:"pollo",      emoji:"🍗",n:"Pechuga de pollo",         cat:"Proteinas",      q:1100,u:"g",       s:100,m:200},
-  {id:"bistecca",   emoji:"🥩",n:"Bistecca / Tagliata",      cat:"Proteinas",      q:700, u:"g",       s:100,m:0},
-  {id:"macinato",   emoji:"🥩",n:"Carne molida bovina",      cat:"Proteinas",      q:900, u:"g",       s:100,m:0},
-  {id:"tonno",      emoji:"🐟",n:"Atun en lata",             cat:"Proteinas",      q:6,   u:"latas",   s:1,  m:1},
-  {id:"jamon",      emoji:"🍖",n:"Prosciutto cotto",         cat:"Proteinas",      q:150, u:"g",       s:50, m:0},
-  {id:"latte",      emoji:"🥛",n:"Leche entera UHT",         cat:"Lacteos",        q:4250,u:"ml",      s:250,m:500},
-  {id:"yogurt",     emoji:"🫙",n:"Yogurt griego",            cat:"Lacteos",        q:4,   u:"ud",      s:1,  m:1},
-  {id:"mozzarella", emoji:"🧀",n:"Mozzarella fresca",        cat:"Lacteos",        q:4,   u:"ud",      s:1,  m:0},
-  {id:"emmental",   emoji:"🧀",n:"Emmental bavarese",        cat:"Lacteos",        q:1,   u:"paquete", s:1,  m:0},
-  {id:"grana",      emoji:"🧀",n:"Grana Padano grattugiato", cat:"Lacteos",        q:100, u:"g",       s:10, m:0},
-  {id:"kefir",      emoji:"🥤",n:"Kefir",                    cat:"Lacteos",        q:1,   u:"ud",      s:1,  m:0},
-  {id:"banane",     emoji:"🍌",n:"Bananas bio",              cat:"Fruta y verdura",q:10,  u:"ud",      s:1,  m:3},
-  {id:"palta",      emoji:"🥑",n:"Palta / Avocado",          cat:"Fruta y verdura",q:3,   u:"ud",      s:1,  m:1,urgent:true},
-  {id:"frutillas",  emoji:"🍓",n:"Frutillas",                cat:"Fruta y verdura",q:500, u:"g",       s:50, m:0},
-  {id:"kiwi",       emoji:"🥝",n:"Kiwi",                     cat:"Fruta y verdura",q:4,   u:"ud",      s:1,  m:0},
-  {id:"mele",       emoji:"🍎",n:"Manzanas",                 cat:"Fruta y verdura",q:900, u:"g",       s:100,m:0},
-  {id:"pomodori",   emoji:"🍅",n:"Tomates cherry",           cat:"Fruta y verdura",q:1000,u:"g",       s:100,m:0},
-  {id:"zanahoria",  emoji:"🥕",n:"Zanahoria julienne",       cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0},
-  {id:"brocoli",    emoji:"🥦",n:"Broccoletti",              cat:"Fruta y verdura",q:1000,u:"g",       s:100,m:0},
-  {id:"zucchine",   emoji:"🥒",n:"Zucchine",                 cat:"Fruta y verdura",q:794, u:"g",       s:150,m:0},
-  {id:"peperoni",   emoji:"🫑",n:"Peperoni rossi",           cat:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0},
-  {id:"mais",       emoji:"🌽",n:"Mais (choclo)",            cat:"Fruta y verdura",q:240, u:"g",       s:80, m:0},
-  {id:"spinaci",    emoji:"🥬",n:"Espinacas",                cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0,urgent:true},
-  {id:"rucola",     emoji:"🥗",n:"Rucula",                   cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0,urgent:true},
-  {id:"insalata",   emoji:"🥬",n:"Insalata novella XXL",     cat:"Fruta y verdura",q:1,   u:"bolsa",   s:1,  m:0,urgent:true},
-  {id:"patate",     emoji:"🥔",n:"Patatas rojas",            cat:"Fruta y verdura",q:1500,u:"g",       s:250,m:0},
-  {id:"limoni",     emoji:"🍋",n:"Limones",                  cat:"Fruta y verdura",q:916, u:"g",       s:100,m:0},
-  {id:"aglio",      emoji:"🧄",n:"Ajo",                      cat:"Fruta y verdura",q:3,   u:"cabezas", s:1,  m:0},
-  {id:"cipolla",    emoji:"🧅",n:"Cebolla blanca",           cat:"Fruta y verdura",q:800, u:"g",       s:100,m:0},
-  {id:"avena",      emoji:"🌾",n:"Avena",                    cat:"Dispensa",       q:380, u:"g",       s:60, m:60},
-  {id:"riso",       emoji:"🍚",n:"Arroz parboiled",          cat:"Dispensa",       q:140, u:"g",       s:80, m:0},
-  {id:"fusilli",    emoji:"🍝",n:"Pasta fusilli Barilla",    cat:"Dispensa",       q:2670,u:"g",       s:80, m:0},
-  {id:"sedanini",   emoji:"🍝",n:"Pasta sedanini",           cat:"Dispensa",       q:500, u:"g",       s:80, m:0},
-  {id:"spaghetti",  emoji:"🍝",n:"Spaghettini Barilla",      cat:"Dispensa",       q:500, u:"g",       s:80, m:0},
-  {id:"piadina",    emoji:"🫓",n:"Piadina integrale",        cat:"Dispensa",       q:3,   u:"ud",      s:1,  m:0},
-  {id:"pane",       emoji:"🍞",n:"Pan de molde integral",    cat:"Dispensa",       q:20,  u:"fetas",   s:2,  m:2},
-  {id:"bruschette", emoji:"🍞",n:"Bruschette al rosmarino",  cat:"Dispensa",       q:1,   u:"paquete", s:1,  m:0},
-  {id:"ceci",       emoji:"🫘",n:"Garbanzos en lata",        cat:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
-  {id:"lenticchie", emoji:"🟤",n:"Lentejas en lata",         cat:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
-  {id:"passata",    emoji:"🥫",n:"Passata / tomate triturado",cat:"Dispensa",      q:2,   u:"latas",   s:1,  m:0},
-  {id:"olio_oliva", emoji:"🫒",n:"Aceite de oliva",          cat:"Dispensa",       q:500, u:"ml",      s:10, m:0},
-  {id:"olio_gir",   emoji:"🌻",n:"Aceite de girasol",        cat:"Dispensa",       q:750, u:"ml",      s:50, m:0},
-  {id:"mani",       emoji:"🥜",n:"Crema de mani",            cat:"Dispensa",       q:300, u:"g",       s:15, m:0},
-  {id:"dadi",       emoji:"🟡",n:"Dados vegetales Knorr",    cat:"Dispensa",       q:9,   u:"cubos",   s:1,  m:0},
-  {id:"knorr",      emoji:"🥣",n:"Sopa Knorr (sobres)",      cat:"Dispensa",       q:3,   u:"sobres",  s:1,  m:0},
-  {id:"caesar_s",   emoji:"🫙",n:"Salsa Caesar proteica",    cat:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
-  {id:"miele",      emoji:"🍯",n:"Miel millefiori",          cat:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
-  {id:"pepe",       emoji:"🌶",n:"Pimienta negra molida",    cat:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
-  {id:"porcini",    emoji:"🍄",n:"Crema de hongos",          cat:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
-  {id:"asparagi",   emoji:"🌿",n:"Crema de esparragos",      cat:"Dispensa",       q:1,   u:"sobres",  s:1,  m:0},
-  {id:"pancake",    emoji:"🥞",n:"Misura Pancake Proteico",  cat:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
-  {id:"pesoforma",  emoji:"🍪",n:"Pesoforma Biscotti",       cat:"Dispensa",       q:1,   u:"caja",    s:1,  m:0},
-  {id:"whey",       emoji:"💪",n:"Whey Protein",             cat:"Suplementos",    q:26,  u:"porciones",s:1, m:5},
-  {id:"lcarnitina", emoji:"💊",n:"L-Carnitina 500 (Cyn)",    cat:"Suplementos",    q:23,  u:"capsulas", s:1, m:5},
-];
-
 const CATS=["Proteinas","Lacteos","Fruta y verdura","Dispensa","Suplementos"];
-const MOMENTOS=["Desayuno","Pre-entreno","Almuerzo / Vianda","Post-entreno","Merienda","Cena","Otro"];
-const QUIEN_OPC=["Ambos","Ray","Cyn"];
-const ESTADOS=[
-  {val:"completo",lbl:"Completo",emo:"✅",cls:"btn-g"},
-  {val:"parcial", lbl:"Parcial", emo:"⚡",cls:"btn-y"},
-  {val:"salteado",lbl:"Salteado",emo:"❌",cls:"btn-r"},
-];
-const COL={
-  "Proteinas":      {ac:"#f87171",bg:"#2d1010"},
-  "Lacteos":        {ac:"#60a5fa",bg:"#0f1f35"},
-  "Fruta y verdura":{ac:"#4ade80",bg:"#0f2a14"},
-  "Dispensa":       {ac:"#fbbf24",bg:"#2a1f05"},
-  "Suplementos":    {ac:"#a78bfa",bg:"#1c1030"},
-};
-const TIPO_COL={entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
-const SK="rc2_stock_v2",LK="rc2_log_v2",EK="rc2_ent_v2",DK="rc2_dia_v2";
+const MOMS=["Desayuno","Pre-entreno","Almuerzo / Vianda","Post-entreno","Merienda","Cena","Otro"];
+const QUIENES=["Ambos","Ray","Cyn"];
+const ESTADOS=[{v:"completo",l:"Completo",e:"✅",c:"bg"},{v:"parcial",l:"Parcial",e:"⚡",c:"by"},{v:"salteado",l:"Salteado",e:"❌",c:"br"}];
+const COL={"Proteinas":{ac:"#f87171",bg:"#2d1010"},"Lacteos":{ac:"#60a5fa",bg:"#0f1f35"},"Fruta y verdura":{ac:"#4ade80",bg:"#0f2a14"},"Dispensa":{ac:"#fbbf24",bg:"#2a1f05"},"Suplementos":{ac:"#a78bfa",bg:"#1c1030"}};
+const TC={entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
+const META_AGUA=2000;
+const SK="rc3_stock_v1",LK="rc3_log_v1",EK="rc3_ent_v1",DK="rc3_dia_v1",AK="rc3_agua_v1";
 
-let stock=STOCK_DEFAULT.map(i=>({...i}));
+let stock=SD.map(i=>({...i}));
 let log=[];
 let entrenos=[...HIST_SEM1];
 let diaIdx=0;
-let catF="Todas",busq="",momento="Desayuno",quien="Ambos",uso={},planTab="comidas";
+let agua={ray:0,cyn:0,fecha:""};
+let catF="Todas",busq="",mom="Desayuno",quien="Ambos",uso={},pTab="comidas";
+
+function hoy(){return new Date().toLocaleDateString("es-AR",{day:"2-digit",month:"2-digit",year:"2-digit"});}
 
 function saveLocal(){
   try{
     localStorage.setItem(SK,JSON.stringify(stock.map(({id,q})=>({id,q}))));
-    localStorage.setItem(LK,JSON.stringify(log.slice(0,80)));
+    localStorage.setItem(LK,JSON.stringify(log.slice(0,100)));
     localStorage.setItem(EK,JSON.stringify(entrenos));
     localStorage.setItem(DK,String(diaIdx));
+    localStorage.setItem(AK,JSON.stringify(agua));
   }catch{}
 }
 function loadLocal(){
   try{
-    const s=localStorage.getItem(SK),l=localStorage.getItem(LK),e=localStorage.getItem(EK),d=localStorage.getItem(DK);
-    if(s){const g=JSON.parse(s);stock=STOCK_DEFAULT.map(i=>{const f=g.find(x=>x.id===i.id);return f?{...i,q:f.q}:{...i};});}
+    const s=localStorage.getItem(SK),l=localStorage.getItem(LK),e=localStorage.getItem(EK),d=localStorage.getItem(DK),a=localStorage.getItem(AK);
+    if(s){const g=JSON.parse(s);stock=SD.map(i=>{const f=g.find(x=>x.id===i.id);return f?{...i,q:f.q}:{...i};});}
     if(l)log=JSON.parse(l);
     if(e)entrenos=JSON.parse(e);
     if(d)diaIdx=parseInt(d)||0;
+    if(a){agua=JSON.parse(a); if(agua.fecha!==hoy()){agua={ray:0,cyn:0,fecha:hoy()};}}
     return !!(s||l||e);
   }catch{return false;}
 }
 async function saveRemote(){
   saveLocal();
   try{
-    const data={
-      stock:stock.map(({id,q})=>({id,q})),
-      log:log.slice(0,80),
-      entrenos:entrenos,
-      dia:diaIdx
-    };
-    await fetch(BIN_URL,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},
-      body:JSON.stringify(data)
-    });
-    setSyncTime();
-  }catch(e){console.log("save error",e);}
+    const data={stock:stock.map(({id,q})=>({id,q})),log:log.slice(0,100),entrenos,dia:diaIdx,agua};
+    await fetch(BURL,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},body:JSON.stringify(data)});
+    setST();
+  }catch{}
 }
 async function cargar(){
   try{
-    const res=await fetch(BIN_URL+"/latest",{
-      headers:{"X-Master-Key":API_KEY,"X-Bin-Meta":false}
-    });
-    if(!res.ok) throw new Error("fetch failed");
-    const data=await res.json();
+    const r=await fetch(BURL+"/latest",{headers:{"X-Master-Key":API_KEY,"X-Bin-Meta":false}});
+    if(!r.ok)throw new Error();
+    const d=await r.json();
     let ch=false;
-    if(data.stock&&data.stock.length>0){
-      stock=STOCK_DEFAULT.map(i=>{const f=data.stock.find(x=>x.id===i.id);return f?{...i,q:f.q}:{...i};});
+    if(d.stock&&d.stock.length){stock=SD.map(i=>{const f=d.stock.find(x=>x.id===i.id);return f?{...i,q:f.q}:{...i};});ch=true;}
+    if(d.log&&d.log.length){log=d.log;ch=true;}
+    if(d.entrenos&&d.entrenos.length){entrenos=d.entrenos;ch=true;}
+    if(d.dia!=null){diaIdx=parseInt(d.dia)||0;ch=true;}
+    if(d.agua){
+      if(d.agua.fecha===hoy()){agua=d.agua;}
+      else{agua={ray:0,cyn:0,fecha:hoy()};}
       ch=true;
     }
-    if(data.log&&data.log.length>0){log=data.log;ch=true;}
-    if(data.entrenos&&data.entrenos.length>0){entrenos=data.entrenos;ch=true;}
-    if(data.dia!==undefined&&data.dia!==null){diaIdx=parseInt(data.dia)||0;ch=true;}
     if(ch){saveLocal();renderAll();}
-  }catch(e){console.log("load error",e);}
-  setSyncTime();
+  }catch{}
+  setST();
+  document.getElementById("ld").classList.add("hid");
+  document.getElementById("app").classList.remove("hid");
 }
-function setSyncTime(){const t=new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});const el=document.getElementById("sync-txt");if(el)el.textContent="Sync "+t;}
-function fmtQ(i){
+function setST(){const t=new Date().toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"});const el=document.getElementById("syt");if(el)el.textContent="Sync "+t;}
+function fQ(i){
   if(i.u==="g"&&i.q>=1000)return +(i.q/1000).toFixed(2).replace(/\.?0+$/,"")+" kg";
   if(i.u==="ml"&&i.q>=1000)return +(i.q/1000).toFixed(2).replace(/\.?0+$/,"")+" L";
   if(i.u==="ml")return i.q+" ml";
   return i.q+" "+i.u;
 }
-function barPct(i){const orig=STOCK_DEFAULT.find(d=>d.id===i.id)?.q??4;return Math.min(100,Math.round((i.q/Math.max(orig,1))*100));}
-function getBC(i){if(i.q<=0)return "#ef4444";if(i.q<=i.m)return "#f97316";return COL[i.cat]?.ac||"#22c55e";}
+function bP(i){const o=SD.find(d=>d.id===i.id)?.q??4;return Math.min(100,Math.round((i.q/Math.max(o,1))*100));}
+function gBC(i){if(i.q<=0)return "#ef4444";if(i.q<=i.m)return "#f97316";return COL[i.c]?.ac||"#22c55e";}
 
-function renderAll(){renderAlerts();renderPlan();renderEntrenos();renderStock();renderConsumir();renderLog();}
+function renderAll(){rAlts();rPlan();rAgua();rEnt();rStock();rCon();rLog();}
 
-function renderAlerts(){
+function rAlts(){
   const ag=stock.filter(i=>i.q<=0).length,bj=stock.filter(i=>i.q>0&&i.q<=i.m).length;
-  const allSes=[...SEM1_INFO,...SESIONES];
-  const comp=entrenos.filter(e=>e.estado==="completo").length;
-  const pct=allSes.length>0?Math.round((comp/(allSes.length*2))*100):0;
+  const allS=[...SEM1,...SEM2];
+  const comp=entrenos.filter(e=>e.e==="completo").length;
+  const pct=allS.length>0?Math.round((comp/(allS.length*2))*100):0;
+  const rayA=Math.round((agua.ray/META_AGUA)*100),cynA=Math.round((agua.cyn/META_AGUA)*100);
   let h="";
-  if(ag>0)h+=`<span class="al al-r">🔴 ${ag} agotado${ag>1?"s":""}</span>`;
-  if(bj>0)h+=`<span class="al al-o">🟠 ${bj} por acabar</span>`;
-  if(ag===0&&bj===0)h+=`<span class="al al-g">✅ Stock OK</span>`;
-  h+=`<span class="al al-p">💪 ${pct}% entrenos</span>`;
-  document.getElementById("alerts").innerHTML=h;
+  if(ag>0)h+=`<span style="background:#450a0a;border:1px solid #ef4444;border-radius:20px;padding:3px 10px;font-size:11px;color:#fca5a5">🔴 ${ag} agotado${ag>1?"s":""}</span>`;
+  if(bj>0)h+=`<span style="background:#431407;border:1px solid #f97316;border-radius:20px;padding:3px 10px;font-size:11px;color:#fdba74">🟠 ${bj} poco</span>`;
+  if(ag===0&&bj===0)h+=`<span style="background:#052e16;border:1px solid #4ade80;border-radius:20px;padding:3px 10px;font-size:11px;color:#4ade80">✅ Stock OK</span>`;
+  h+=`<span style="background:#1c1030;border:1px solid #a78bfa;border-radius:20px;padding:3px 10px;font-size:11px;color:#a78bfa">💪 ${pct}% entrenos</span>`;
+  h+=`<span style="background:#0c2233;border:1px solid #38bdf8;border-radius:20px;padding:3px 10px;font-size:11px;color:#38bdf8">💧 R:${rayA}% C:${cynA}%</span>`;
+  document.getElementById("alts").innerHTML=h;
 }
 
-function renderPlan(){
-  const dia=PLAN[diaIdx],tc=TIPO_COL[dia.tipo];
+function rPlan(){
+  const dia=PLAN[diaIdx],tc=TC[dia.tipo];
   let h=`<div class="days">`;
   PLAN.forEach((d,i)=>{
-    const ac=TIPO_COL[d.tipo],on=i===diaIdx;
-    h+=`<button class="day-btn" onclick="setDia(${i})" style="border-color:${on?ac:"#334155"};background:${on?ac:"#1e293b"};color:${on?"#0f172a":"#94a3b8"}">
+    const ac=TC[d.tipo],on=i===diaIdx;
+    h+=`<button class="db" onclick="setDia(${i})" style="border-color:${on?ac:"#334155"};background:${on?ac:"#1e293b"};color:${on?"#0f172a":"#94a3b8"}">
       <div style="font-size:10px;font-weight:800">${d.dia.slice(0,3).toUpperCase()}</div>
       <div style="font-size:15px;font-weight:900">${d.fecha.split("/")[0]}</div>
     </button>`;
@@ -375,31 +350,30 @@ function renderPlan(){
       <div>
         <div style="font-size:17px;font-weight:900">${dia.dia} ${dia.fecha}</div>
         <span style="display:inline-block;margin-top:4px;background:${tc}33;color:${tc};border-radius:20px;padding:2px 12px;font-size:12px;font-weight:700">${icon} ${dia.tipo.charAt(0).toUpperCase()+dia.tipo.slice(1)}</span>
-        <div style="font-size:11px;color:#64748b;margin-top:4px">🕐 ${dia.horarios}</div>
+        <div style="font-size:11px;color:#64748b;margin-top:4px">🕐 ${dia.info}</div>
       </div>
       <div style="display:flex;gap:8px">
-        <button class="nav-btn" onclick="setDia(${Math.max(0,diaIdx-1)})" style="opacity:${diaIdx>0?1:0.3}">&#x2039;</button>
-        <button class="nav-btn" onclick="setDia(${Math.min(PLAN.length-1,diaIdx+1)})" style="opacity:${diaIdx<PLAN.length-1?1:0.3}">&#x203a;</button>
+        <button class="nb" onclick="setDia(${Math.max(0,diaIdx-1)})" style="opacity:${diaIdx>0?1:0.3}">&#x2039;</button>
+        <button class="nb" onclick="setDia(${Math.min(PLAN.length-1,diaIdx+1)})" style="opacity:${diaIdx<PLAN.length-1?1:0.3}">&#x203a;</button>
       </div>
     </div>
   </div>`;
-  h+=`<div class="subtabs">
-    <button class="btn ${planTab==="comidas"?"btn-g":""}" onclick="setPTab('comidas')">🥗 Comidas</button>
-    <button class="btn" onclick="setPTab('entreno')" style="${planTab==="entreno"?`background:${tc};color:#0f172a;border-color:${tc}`:""}">
+  h+=`<div class="st">
+    <button class="btn ${pTab==="comidas"?"bg":""}" onclick="setPT('comidas')">🥗 Comidas</button>
+    <button class="btn" onclick="setPT('entreno')" style="${pTab==="entreno"?`background:${tc};color:#0f172a;border-color:${tc}`:""}">
       ${icon} ${dia.tipo==="entreno"?"Entreno":dia.tipo==="descanso"?"Descanso":"Plan"}
     </button>
   </div>`;
-  if(planTab==="comidas"){
+  if(pTab==="comidas"){
     dia.comidas.forEach(c=>{
-      const esE=c.l==="ENTRENO"||c.l==="PLANIFICACION";
-      const esDes=c.l.includes("JUNTOS")||c.l.includes("VIANDA");
-      h+=`<div class="card" style="background:${esE?"#0f2a14":esDes?"#0f1f2a":"#1a2332"};border-color:${esE?"#4ade8066":esDes?"#60a5fa44":"#334155"};padding:12px 16px">
+      const esE=c.l==="ENTRENO",esH=c.l.includes("hotel")||c.l.includes("Hotel");
+      h+=`<div class="card" style="background:${esE?"#0f2a14":esH?"#0a1a2a":"#1a2332"};border-color:${esE?"#4ade8066":esH?"#60a5fa44":"#334155"};padding:12px 16px">
         <div style="display:flex;gap:10px;align-items:flex-start">
-          <div style="min-width:42px;text-align:center;background:#0f172a;border-radius:8px;padding:4px 0;font-size:11px;font-weight:800;color:${esE?"#4ade80":esDes?"#60a5fa":"#64748b"};flex-shrink:0">${c.h}</div>
+          <div style="min-width:42px;text-align:center;background:#0f172a;border-radius:8px;padding:4px 0;font-size:11px;font-weight:800;color:${esE?"#4ade80":esH?"#60a5fa":"#64748b"};flex-shrink:0">${c.h}</div>
           <div style="flex:1">
-            <div style="font-size:12px;font-weight:800;color:${esE?"#4ade80":esDes?"#60a5fa":"#94a3b8"};margin-bottom:6px">${c.l}</div>
-            <div class="card-dark" style="margin-bottom:6px"><div style="font-size:10px;font-weight:800;color:#60a5fa;margin-bottom:2px">🧔 RAY</div><div style="font-size:13px;line-height:1.5">${c.r}</div></div>
-            <div class="card-dark"><div style="font-size:10px;font-weight:800;color:#f9a8d4;margin-bottom:2px">👩 CYN</div><div style="font-size:13px;line-height:1.5">${c.c}</div></div>
+            <div style="font-size:12px;font-weight:800;color:${esE?"#4ade80":esH?"#60a5fa":"#94a3b8"};margin-bottom:6px">${c.l}</div>
+            <div class="cd" style="margin-bottom:6px"><div style="font-size:10px;font-weight:800;color:#60a5fa;margin-bottom:2px">🧔 RAY</div><div style="font-size:13px;line-height:1.5">${c.r}</div></div>
+            <div class="cd"><div style="font-size:10px;font-weight:800;color:#f9a8d4;margin-bottom:2px">👩 CYN</div><div style="font-size:13px;line-height:1.5">${c.c}</div></div>
           </div>
         </div>
       </div>`;
@@ -410,8 +384,8 @@ function renderPlan(){
     </div>`;
   }else{
     h+=`<div class="card" style="border-color:${tc}55">
-      <div style="font-size:15px;font-weight:800;color:${tc};margin-bottom:4px">${dia.entreno.nombre}</div>
-      <div style="font-size:12px;color:#64748b;margin-bottom:14px">🕐 ${dia.entreno.hora}</div>`;
+      <div style="font-size:15px;font-weight:800;color:${tc};margin-bottom:4px">${dia.entreno.n}</div>
+      <div style="font-size:12px;color:#64748b;margin-bottom:14px">🕐 ${dia.entreno.h}</div>`;
     dia.entreno.ej.forEach((ej,i)=>{
       h+=`<div style="display:flex;gap:10px;align-items:flex-start;background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:13px;line-height:1.4">
         <span style="color:${tc};font-weight:800;flex-shrink:0">${i+1}.</span><span>${ej}</span>
@@ -422,32 +396,83 @@ function renderPlan(){
   document.getElementById("v-plan").innerHTML=h;
 }
 
-function renderEntrenos(){
-  const allSes=[...SEM1_INFO,...SESIONES];
-  const comp=entrenos.filter(e=>e.estado==="completo").length;
-  const pctG=allSes.length>0?Math.round((comp/(allSes.length*2))*100):0;
-  let h=`<div class="card" style="background:#1c1030;border-color:#a78bfa55;margin-bottom:16px">
-    <div style="font-size:13px;font-weight:800;color:#a78bfa;margin-bottom:12px">📊 Resumen total</div>
-    <div class="grid2" style="margin-bottom:14px">`;
-  [["🧔 Ray","Ray","#60a5fa"],["👩 Cyn","Cyn","#f9a8d4"]].forEach(([lbl,q,color])=>{
-    const c=allSes.filter(s=>entrenos.find(e=>e.sesionId===s.id&&e.quien===q&&e.estado==="completo")).length;
-    const pq=Math.round((c/allSes.length)*100);
+function rAgua(){
+  const rPct=Math.min(100,Math.round((agua.ray/META_AGUA)*100));
+  const cPct=Math.min(100,Math.round((agua.cyn/META_AGUA)*100));
+  const rColor=agua.ray>=META_AGUA?"#4ade80":agua.ray>=1000?"#fbbf24":"#38bdf8";
+  const cColor=agua.cyn>=META_AGUA?"#4ade80":agua.cyn>=1000?"#fbbf24":"#38bdf8";
+  let h=`<div class="card" style="background:#0c1a2a;border-color:#38bdf855;margin-bottom:16px">
+    <div style="font-size:14px;font-weight:800;color:#38bdf8;margin-bottom:4px">💧 Hidratacion del dia</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:12px">Meta: 2 litros cada uno · ${hoy()}</div>
+    <div class="g2" style="margin-bottom:16px">`;
+  [{l:"🧔 RAY",q:agua.ray,pct:rPct,col:rColor,fn:"addAgua('ray',"},{l:"👩 CYN",q:agua.cyn,pct:cPct,col:cColor,fn:"addAgua('cyn',"}].forEach(({l,q,pct,col,fn})=>{
     h+=`<div style="background:#0f172a;border-radius:12px;padding:14px 12px">
-      <div style="font-size:13px;font-weight:800;color:${color};margin-bottom:6px">${lbl}</div>
-      <div style="font-size:26px;font-weight:900;color:${color};line-height:1">${c}<span style="font-size:12px;color:#475569;font-weight:400">/${allSes.length}</span></div>
-      <div style="font-size:11px;color:#64748b;margin-bottom:6px">completados</div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${pq}%;background:${color}"></div></div>
+      <div style="font-size:13px;font-weight:800;color:${col};margin-bottom:6px">${l}</div>
+      <div style="font-size:24px;font-weight:900;color:${col};line-height:1">${q<1000?q+"ml":+(q/1000).toFixed(2).replace(/\.?0+$/,"")+"L"}</div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px">de 2L · ${pct}%</div>
+      <div class="agua-bar"><div style="width:${pct}%;height:100%;border-radius:99px;background:${col};transition:width 0.4s"></div></div>
+      ${q>=META_AGUA?`<div style="font-size:12px;color:#4ade80;margin-top:4px;font-weight:700">✅ Meta cumplida!</div>`:""}
+    </div>`;
+  });
+  h+=`</div>
+    <div style="font-size:12px;font-weight:800;color:#64748b;margin-bottom:10px">Agregar:</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">`;
+  ["Ray","Cyn"].forEach(p=>{
+    const pk=p.toLowerCase();
+    h+=`<div style="background:#0f172a;border-radius:12px;padding:12px">
+      <div style="font-size:12px;font-weight:800;color:${p==="Ray"?"#60a5fa":"#f9a8d4"};margin-bottom:8px">${p==="Ray"?"🧔":"👩"} ${p}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn bb" onclick="addAgua('${pk}',250)" style="font-size:11px;padding:4px 10px">+250ml</button>
+        <button class="btn bb" onclick="addAgua('${pk}',500)" style="font-size:11px;padding:4px 10px">+500ml</button>
+        <button class="btn bb" onclick="addAgua('${pk}',750)" style="font-size:11px;padding:4px 10px">+750ml</button>
+      </div>
+      <button class="btn" onclick="resetAgua('${pk}')" style="margin-top:8px;font-size:10px;color:#475569">↺ resetear</button>
+    </div>`;
+  });
+  h+=`</div>
+    <div style="font-size:11px;color:#475569;text-align:center">Se resetea automaticamente cada dia</div>
+  </div>
+  <div class="card" style="background:#0a1a0a;border-color:#4ade8044">
+    <div style="font-size:13px;font-weight:800;color:#4ade80;margin-bottom:8px">💡 Guia de hidratacion</div>
+    <div style="font-size:12px;color:#86efac;line-height:1.8">
+      🌅 Al despertar — 1 vaso (250ml)<br>
+      🍳 Con el desayuno — 1 vaso (250ml)<br>
+      💼 Durante el trabajo — 500ml (llevar botella)<br>
+      ⚡ Pre-entreno — 1 vaso (250ml)<br>
+      🏋️ Durante el entreno — 500ml minimo<br>
+      🌙 Con la cena — 1 vaso (250ml)
+    </div>
+  </div>`;
+  document.getElementById("v-agua").innerHTML=h;
+}
+
+function rEnt(){
+  const allS=[...SEM1,...SEM2];
+  const comp=entrenos.filter(e=>e.e==="completo").length;
+  const pctG=allS.length>0?Math.round((comp/(allS.length*2))*100):0;
+  let h=`<div class="card" style="background:#1c1030;border-color:#a78bfa55;margin-bottom:16px">
+    <div style="font-size:13px;font-weight:800;color:#a78bfa;margin-bottom:12px">📊 Historial total</div>
+    <div class="g2" style="margin-bottom:14px">`;
+  [["🧔 Ray","Ray","#60a5fa"],["👩 Cyn","Cyn","#f9a8d4"]].forEach(([lb,q,col])=>{
+    const c=allS.filter(s=>entrenos.find(e=>e.id===s.id&&e.q===q&&e.e==="completo")).length;
+    const p=allS.filter(s=>entrenos.find(e=>e.id===s.id&&e.q===q&&e.e==="parcial")).length;
+    const pq=Math.round((c/allS.length)*100);
+    h+=`<div style="background:#0f172a;border-radius:12px;padding:14px 12px">
+      <div style="font-size:13px;font-weight:800;color:${col};margin-bottom:6px">${lb}</div>
+      <div style="font-size:26px;font-weight:900;color:${col};line-height:1">${c}<span style="font-size:12px;color:#475569;font-weight:400">/${allS.length}</span></div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px">completados ${p>0?`· ${p} parcial`:""}</div>
+      <div class="pb"><div class="pf" style="width:${pq}%;background:${col}"></div></div>
     </div>`;
   });
   h+=`</div>
     <div style="font-size:11px;color:#64748b;margin-bottom:6px">Cumplimiento combinado</div>
-    <div class="prog-bar" style="height:10px"><div class="prog-fill" style="width:${pctG}%;background:linear-gradient(90deg,#a78bfa,#4ade80)"></div></div>
+    <div class="pb" style="height:10px"><div class="pf" style="width:${pctG}%;background:linear-gradient(90deg,#a78bfa,#4ade80)"></div></div>
     <div style="font-size:14px;font-weight:900;color:#4ade80;text-align:right">${pctG}%</div>
   </div>`;
   h+=`<div style="font-size:12px;font-weight:800;color:#64748b;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">✅ Semana 1 — Completada</div>`;
-  SEM1_INFO.forEach(ses=>{
+  SEM1.forEach(s=>{
     h+=`<div class="card" style="margin-bottom:8px;opacity:0.7">
-      <div style="font-size:13px;font-weight:800">${ses.dia} ${ses.fecha} · ${ses.nombre}</div>
+      <div style="font-size:13px;font-weight:800">${s.d} ${s.f} · ${s.n}</div>
       <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
         <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Ray Completo</span>
         <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Cyn Completo</span>
@@ -455,29 +480,29 @@ function renderEntrenos(){
     </div>`;
   });
   h+=`<div style="font-size:12px;font-weight:800;color:#4ade80;margin:16px 0 8px;text-transform:uppercase;letter-spacing:1px">💪 Semana 2 — En curso</div>`;
-  SESIONES.forEach(ses=>{
+  SEM2.forEach(s=>{
     h+=`<div class="card" style="margin-bottom:12px">
       <div style="margin-bottom:10px">
-        <div style="font-size:14px;font-weight:800">${ses.dia} ${ses.fecha}</div>
-        <div style="font-size:12px;color:#4ade80;font-weight:600">${ses.nombre}</div>
-        <div style="font-size:11px;color:#64748b">🕐 ${ses.hora}</div>
+        <div style="font-size:14px;font-weight:800">${s.d} ${s.f}</div>
+        <div style="font-size:12px;color:#4ade80;font-weight:600">${s.n}</div>
+        <div style="font-size:11px;color:#64748b">🕐 ${s.hora}</div>
       </div>`;
     ["Ray","Cyn"].forEach(q=>{
-      const reg=entrenos.find(e=>e.sesionId===ses.id&&e.quien===q);
-      const est=ESTADOS.find(e=>e.val===reg?.estado);
-      const colorQ=q==="Ray"?"#60a5fa":"#f9a8d4";
-      h+=`<div class="card-dark" style="margin-bottom:6px">
+      const reg=entrenos.find(e=>e.id===s.id&&e.q===q);
+      const est=ESTADOS.find(e=>e.v===reg?.e);
+      const cq=q==="Ray"?"#60a5fa":"#f9a8d4";
+      h+=`<div class="cd" style="margin-bottom:6px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:12px;font-weight:800;color:${colorQ}">${q==="Ray"?"🧔":"👩"} ${q}</span>
+          <span style="font-size:12px;font-weight:800;color:${cq}">${q==="Ray"?"🧔":"👩"} ${q}</span>
           <div style="display:flex;align-items:center;gap:8px">
-            ${est?`<span style="font-size:12px;font-weight:700;color:${est.cls==="btn-g"?"#4ade80":est.cls==="btn-y"?"#fbbf24":"#f87171"}">${est.emo} ${est.lbl}</span>`:""}
-            ${reg?`<span style="font-size:10px;color:#475569">${reg.ts||""}</span>`:""}
+            ${est?`<span style="font-size:12px;font-weight:700;color:${est.c==="bg"?"#4ade80":est.c==="by"?"#fbbf24":"#f87171"}">${est.e} ${est.l}</span>`:""}
+            ${reg?`<span style="font-size:10px;color:#475569">${reg.t||""}</span>`:""}
           </div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">`;
-      ESTADOS.forEach(e=>{h+=`<button class="btn ${reg?.estado===e.val?e.cls:""}" onclick="marcarEnt('${ses.id}','${q}','${e.val}')">${e.emo} ${e.lbl}</button>`;});
+      ESTADOS.forEach(e=>{h+=`<button class="btn ${reg?.e===e.v?e.c:""}" onclick="mEnt('${s.id}','${q}','${e.v}')">${e.e} ${e.l}</button>`;});
       h+=`</div>`;
-      if(reg)h+=`<input class="note-inp" placeholder="Nota opcional..." value="${reg.nota||""}" onblur="updateNota('${ses.id}','${q}',this.value)">`;
+      if(reg)h+=`<input class="ni" placeholder="Nota opcional..." value="${reg.n||""}" onblur="uNota('${s.id}','${q}',this.value)">`;
       h+=`</div>`;
     });
     h+=`</div>`;
@@ -485,33 +510,33 @@ function renderEntrenos(){
   document.getElementById("v-entrenos").innerHTML=h;
 }
 
-function renderStock(){
-  const fil=stock.filter(i=>(catF==="Todas"||i.cat===catF)&&(busq===""||i.n.toLowerCase().includes(busq.toLowerCase())));
-  let h=`<input class="search" placeholder="🔍 Buscar..." value="${busq}" oninput="setBusq(this.value)">
+function rStock(){
+  const fil=stock.filter(i=>(catF==="Todas"||i.c===catF)&&(busq===""||i.n.toLowerCase().includes(busq.toLowerCase())));
+  let h=`<input class="srch" placeholder="🔍 Buscar..." value="${busq}" oninput="setBusq(this.value)">
     <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;margin-bottom:8px">`;
   ["Todas",...CATS].forEach(c=>{const ac=COL[c]?.ac||"#22c55e",on=catF===c;h+=`<button class="btn" onclick="setCat('${c}')" style="${on?`background:${ac};color:#0f172a;border-color:${ac}`:""}"> ${c}</button>`;});
   h+=`</div>`;
-  CATS.filter(c=>catF==="Todas"||catF===c).forEach(catName=>{
-    const items=fil.filter(i=>i.cat===catName);
+  CATS.filter(c=>catF==="Todas"||catF===c).forEach(cn=>{
+    const items=fil.filter(i=>i.c===cn);
     if(!items.length)return;
-    const col=COL[catName];
-    h+=`<div class="cat-lbl" style="color:${col.ac}">${catName}</div>`;
+    const col=COL[cn];
+    h+=`<div class="cl" style="color:${col.ac}">${cn}</div>`;
     items.forEach(item=>{
-      const p=barPct(item),empty=item.q<=0,low=!empty&&item.q<=item.m,bc=getBC(item),urg=item.urgent;
-      h+=`<div class="card" style="background:${empty?"#1f0808":low?"#1f1208":urg?"#1a1a08":col.bg};border-color:${empty?"#7f1d1d":low?"#78350f":urg?"#854d0e":"#334155"}">
+      const p=bP(item),em=item.q<=0,lw=!em&&item.q<=item.m,bc=gBC(item),urg=item.urg;
+      h+=`<div class="card" style="background:${em?"#1f0808":lw?"#1f1208":urg?"#1a1a08":col.bg};border-color:${em?"#7f1d1d":lw?"#78350f":urg?"#854d0e":"#334155"}">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
           <div style="flex:1;margin-right:8px">
-            <div style="font-size:15px;font-weight:700">${item.emoji} ${item.n}</div>
+            <div style="font-size:15px;font-weight:700">${item.e} ${item.n}</div>
             ${urg?`<div style="font-size:10px;color:#fbbf24;margin-top:2px">⚠️ Usar pronto</div>`:""}
           </div>
-          ${empty?`<span class="badge" style="background:#7f1d1d;color:#fca5a5">AGOTADO</span>`:""}
-          ${low&&!empty?`<span class="badge" style="background:#78350f;color:#fdba74">POCO</span>`:""}
+          ${em?`<span class="bdg" style="background:#7f1d1d;color:#fca5a5">AGOTADO</span>`:""}
+          ${lw&&!em?`<span class="bdg" style="background:#78350f;color:#fdba74">POCO</span>`:""}
         </div>
-        <div class="bar-wrap"><div class="bar" style="width:${p}%;background:${bc}"></div></div>
-        <div class="controls">
-          <button class="cir" onclick="ajustar('${item.id}',${-item.s})">-</button>
-          <span class="qty" style="color:${bc}" onclick="editQ('${item.id}')">${fmtQ(item)}</span>
-          <button class="cir" onclick="ajustar('${item.id}',${item.s})">+</button>
+        <div class="bw"><div class="bf" style="width:${p}%;background:${bc}"></div></div>
+        <div class="ctl">
+          <button class="cir" onclick="adj('${item.id}',${-item.s})">-</button>
+          <span style="min-width:80px;text-align:center;font-weight:800;font-size:15px;cursor:pointer;color:${bc}" onclick="edQ('${item.id}')">${fQ(item)}</span>
+          <button class="cir" onclick="adj('${item.id}',${item.s})">+</button>
           <span style="font-size:11px;color:#475569">+/-${item.s} ${item.u}</span>
         </div>
       </div>`;
@@ -520,97 +545,102 @@ function renderStock(){
   document.getElementById("v-stock").innerHTML=h;
 }
 
-function renderConsumir(){
+function rCon(){
   let h=`<div class="card" style="background:#111827;border-color:#374151;margin-bottom:16px">
     <div style="font-size:12px;font-weight:800;color:#9ca3af;margin-bottom:8px">Quien y cuando?</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">`;
-  QUIEN_OPC.forEach(q=>{h+=`<button class="btn ${quien===q?"btn-p":""}" onclick="setQuien('${q}')">${q}</button>`;});
+  QUIENES.forEach(q=>{h+=`<button class="btn ${quien===q?"bp":""}" onclick="setQ('${q}')">${q}</button>`;});
   h+=`</div><div style="display:flex;gap:8px;flex-wrap:wrap">`;
-  MOMENTOS.forEach(m=>{h+=`<button class="btn ${momento===m?"btn-g":""}" onclick="setMomento('${m}')">${m}</button>`;});
+  MOMS.forEach(m=>{h+=`<button class="btn ${mom===m?"bg":""}" onclick="setM('${m}')">${m}</button>`;});
   h+=`</div></div><div style="font-size:12px;color:#64748b;margin-bottom:12px">Cuanto consumiste:</div>`;
-  CATS.forEach(catName=>{
-    const items=stock.filter(i=>i.cat===catName&&i.q>0);
+  CATS.forEach(cn=>{
+    const items=stock.filter(i=>i.c===cn&&i.q>0);
     if(!items.length)return;
-    const col=COL[catName];
-    h+=`<div class="cat-lbl" style="color:${col.ac}">${catName}</div>`;
+    const col=COL[cn];
+    h+=`<div class="cl" style="color:${col.ac}">${cn}</div>`;
     items.forEach(item=>{
       const q=uso[item.id]||0;
       h+=`<div class="card" style="background:${col.bg};display:flex;align-items:center;justify-content:space-between">
         <div style="flex:1;margin-right:10px">
-          <div style="font-size:14px;font-weight:700">${item.emoji} ${item.n}</div>
-          <div style="font-size:11px;color:#64748b">Disponible: ${fmtQ(item)}</div>
+          <div style="font-size:14px;font-weight:700">${item.e} ${item.n}</div>
+          <div style="font-size:11px;color:#64748b">Disponible: ${fQ(item)}</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-          <button class="cir" onclick="setUso('${item.id}',${-item.s})">-</button>
-          <input type="number" min="0" value="${q}" style="background:#0f172a;border:1px solid #475569;color:#f1f5f9;border-radius:8px;padding:5px 8px;font-size:14px;width:60px;text-align:center;outline:none" onchange="setUsoV('${item.id}',this.value)">
-          <button class="cir" onclick="setUso('${item.id}',${item.s})">+</button>
+          <button class="cir" onclick="sUso('${item.id}',${-item.s})">-</button>
+          <input type="number" min="0" value="${q}" style="background:#0f172a;border:1px solid #475569;color:#f1f5f9;border-radius:8px;padding:5px 8px;font-size:14px;width:60px;text-align:center;outline:none" onchange="sUsoV('${item.id}',this.value)">
+          <button class="cir" onclick="sUso('${item.id}',${item.s})">+</button>
         </div>
       </div>`;
     });
   });
-  h+=`<button class="reg-btn" id="reg-btn" style="background:#22c55e;color:#0f172a" onclick="registrar()">Registrar · ${momento} · ${quien}</button>`;
+  h+=`<button class="rbtn" id="rb" style="background:#22c55e;color:#0f172a" onclick="reg()">Registrar · ${mom} · ${quien}</button>`;
   document.getElementById("v-consumir").innerHTML=h;
 }
 
-function renderLog(){
+function rLog(){
   let h="";
-  if(!log.length){h=`<div style="text-align:center;color:#475569;padding:50px 0;font-size:14px">Todavia no hay consumos.<br><span style="font-size:12px">Usa Consumir para empezar.</span></div>`;}
+  if(!log.length){h=`<div style="text-align:center;color:#475569;padding:50px 0;font-size:14px">Todavia no hay consumos.</div>`;}
   else{
-    log.forEach(e=>{
-      const items=typeof e.items==="string"?JSON.parse(e.items||"[]"):(e.items||[]);
-      h+=`<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:800;color:#22c55e">🍽️ ${e.momento}</span><span style="font-size:11px;color:#64748b">${e.ts}</span></div><div style="font-size:12px;color:#94a3b8;margin-bottom:8px">👤 ${e.quien}</div>`;
-      items.forEach(it=>{h+=`<div style="background:#0f172a;border-radius:8px;padding:6px 12px;margin-bottom:4px;font-size:13px;display:flex;justify-content:space-between"><span>${it.emoji||""} ${it.n||it.nombre}</span><span style="color:#f87171;font-weight:700">-${it.qty} ${it.u||it.unidad}</span></div>`;});
+    log.forEach(en=>{
+      const items=typeof en.items==="string"?JSON.parse(en.items||"[]"):(en.items||[]);
+      h+=`<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:800;color:#22c55e">🍽️ ${en.momento||en.mom||""}</span><span style="font-size:11px;color:#64748b">${en.ts||""}</span></div><div style="font-size:12px;color:#94a3b8;margin-bottom:8px">👤 ${en.quien||""}</div>`;
+      items.forEach(it=>{h+=`<div style="background:#0f172a;border-radius:8px;padding:6px 12px;margin-bottom:4px;font-size:13px;display:flex;justify-content:space-between"><span>${it.e||it.emoji||""} ${it.n||it.nombre||""}</span><span style="color:#f87171;font-weight:700">-${it.qty} ${it.u||it.unidad||""}</span></div>`;});
       h+=`</div>`;
     });
-    h+=`<button class="btn" style="color:#f87171;border-color:#7f1d1d;margin-top:4px;margin-bottom:20px" onclick="if(confirm('Borrar historial?')){log=[];saveRemote();renderLog();}">🗑 Borrar historial</button>`;
+    h+=`<button class="btn" style="color:#f87171;border-color:#7f1d1d;margin-top:4px;margin-bottom:20px" onclick="if(confirm('Borrar historial?')){log=[];saveRemote();rLog();}">🗑 Borrar historial</button>`;
   }
   document.getElementById("v-log").innerHTML=h;
 }
 
-function setV(v,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));el.classList.add("on");["plan","entrenos","stock","consumir","log"].forEach(n=>document.getElementById("v-"+n).classList.toggle("hidden",n!==v));}
-function setDia(i){diaIdx=i;saveRemote();renderPlan();renderAlerts();}
-function setPTab(t){planTab=t;renderPlan();}
-function setCat(c){catF=c;renderStock();}
-function setBusq(v){busq=v;renderStock();}
-function setQuien(q){quien=q;renderConsumir();}
-function setMomento(m){momento=m;renderConsumir();}
-function setUso(id,d){uso[id]=Math.max(0,(Number(uso[id])||0)+d);renderConsumir();}
-function setUsoV(id,v){uso[id]=Math.max(0,Number(v)||0);}
-function ajustar(id,d){stock=stock.map(i=>i.id===id?{...i,q:Math.max(0,i.q+d)}:i);saveRemote();renderStock();renderAlerts();}
-function editQ(id){
-  const item=stock.find(i=>i.id===id);
-  const v=prompt(`Nueva cantidad para ${item.n} (actual: ${fmtQ(item)}):`,item.q);
-  if(v!==null&&!isNaN(parseFloat(v))&&parseFloat(v)>=0){stock=stock.map(i=>i.id===id?{...i,q:parseFloat(v)}:i);saveRemote();renderStock();renderAlerts();}
+// ── ACCIONES ─────────────────────────────────────────────────────
+function setV(v,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));el.classList.add("on");["plan","agua","entrenos","stock","consumir","log"].forEach(n=>document.getElementById("v-"+n).classList.toggle("hid",n!==v));}
+function setDia(i){diaIdx=i;saveRemote();rPlan();rAlts();}
+function setPT(t){pTab=t;rPlan();}
+function setCat(c){catF=c;rStock();}
+function setBusq(v){busq=v;rStock();}
+function setQ(q){quien=q;rCon();}
+function setM(m){mom=m;rCon();}
+function sUso(id,d){uso[id]=Math.max(0,(Number(uso[id])||0)+d);rCon();}
+function sUsoV(id,v){uso[id]=Math.max(0,Number(v)||0);}
+function adj(id,d){stock=stock.map(i=>i.id===id?{...i,q:Math.max(0,i.q+d)}:i);saveRemote();rStock();rAlts();}
+function edQ(id){
+  const it=stock.find(i=>i.id===id);
+  const v=prompt(`Nueva cantidad para ${it.n} (actual: ${fQ(it)}):`,it.q);
+  if(v!==null&&!isNaN(parseFloat(v))&&parseFloat(v)>=0){stock=stock.map(i=>i.id===id?{...i,q:parseFloat(v)}:i);saveRemote();rStock();rAlts();}
 }
-function registrar(){
+function reg(){
   const usados=Object.entries(uso).filter(([,v])=>Number(v)>0);
   if(!usados.length){alert("No marcaste ningun consumo.");return;}
   const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
-  const items=usados.map(([id,qty])=>{const it=stock.find(i=>i.id===id);return{emoji:it.emoji,n:it.n,qty:Number(qty),u:it.u};});
+  const items=usados.map(([id,qty])=>{const it=stock.find(i=>i.id===id);return{e:it.e,n:it.n,qty:Number(qty),u:it.u};});
   stock=stock.map(i=>{const q=Number(uso[i.id]||0);return q>0?{...i,q:Math.max(0,i.q-q)}:i;});
-  log=[{ts,quien,momento,items},...log];
+  log=[{ts,quien,momento:mom,items},...log];
   uso={};saveRemote();renderAll();
-  const btn=document.getElementById("reg-btn");
-  if(btn){btn.textContent="Registrado!";btn.style.background="#16a34a";setTimeout(()=>renderConsumir(),2000);}
+  const rb=document.getElementById("rb");
+  if(rb){rb.textContent="Registrado!";rb.style.background="#16a34a";setTimeout(()=>rCon(),2000);}
 }
-function marcarEnt(sesionId,q,estado){
+function mEnt(sId,q,estado){
   const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
-  const existe=entrenos.find(e=>e.sesionId===sesionId&&e.quien===q);
-  if(existe)entrenos=entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,estado,ts}:e);
-  else entrenos=[...entrenos,{sesionId,quien:q,estado,nota:"",ts}];
-  saveRemote();renderEntrenos();renderAlerts();
+  const ex=entrenos.find(e=>e.id===sId&&e.q===q);
+  if(ex)entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,e:estado,t:ts}:e);
+  else entrenos=[...entrenos,{id:sId,q,e:estado,n:"",t:ts}];
+  saveRemote();rEnt();rAlts();
 }
-function updateNota(sesionId,q,nota){entrenos=entrenos.map(e=>e.sesionId===sesionId&&e.quien===q?{...e,nota}:e);saveRemote();}
+function uNota(sId,q,nota){entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,n:nota}:e);saveRemote();}
+function addAgua(p,ml){
+  if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};
+  agua[p]=Math.min(3000,agua[p]+ml);
+  saveRemote();rAgua();rAlts();
+}
+function resetAgua(p){agua[p]=0;saveRemote();rAgua();rAlts();}
 
 window.addEventListener("DOMContentLoaded",()=>{
-  // Mostrar app inmediatamente con defaults o datos locales
   loadLocal();
-  document.getElementById("loading").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  renderAll();
-  setSyncTime();
-  // Intentar sincronizar con Google Sheets en background (sin bloquear)
-  setTimeout(()=>{ cargar(); }, 500);
+  if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};
+  document.getElementById("ld").classList.add("hid");
+  document.getElementById("app").classList.remove("hid");
+  renderAll();setST();
+  setTimeout(()=>cargar(),500);
 });
 </script>
 </body>
