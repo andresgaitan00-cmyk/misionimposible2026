@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Ray & Cyn · Sem 2</title>
+<title>Ray & Cyn · Sem 3</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nunito','Segoe UI',sans-serif;background:#0f172a;color:#f1f5f9;max-width:680px;margin:0 auto;padding-bottom:80px}
@@ -45,27 +45,25 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 input[type=number]{-moz-appearance:textfield}
 .pb{background:#0f172a;border-radius:99px;height:8px;overflow:hidden;margin:8px 0}
 .pf{height:100%;border-radius:99px;transition:width 0.4s}
-.agua-bar{background:#0f172a;border-radius:99px;height:14px;overflow:hidden;margin:10px 0}
-.agua-fill{height:100%;border-radius:99px;transition:width 0.5s;background:linear-gradient(90deg,#38bdf8,#0ea5e9)}
 </style>
 </head>
 <body>
 <div id="ld" class="ld">
   <div style="font-size:36px">🏠</div>
   <div style="font-size:16px;font-weight:700">Cargando Ray & Cyn...</div>
-  <div style="font-size:12px;color:#475569;margin-top:4px">Semana 2 · Borgosesia</div>
+  <div style="font-size:12px;color:#475569;margin-top:4px">Semana 3 · Borgosesia</div>
 </div>
 <div id="app" class="hid">
   <div class="hdr">
     <div class="htop">
       <div>
-        <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px">🏠 Ray & Cyn · Sem 2</div>
-        <div style="font-size:11px;color:#475569;margin-top:2px">25/05–01/06/2026 · Borgosesia</div>
+        <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px">🏠 Ray & Cyn · Sem 3</div>
+        <div style="font-size:11px;color:#475569;margin-top:2px">01/06–07/06/2026 · Borgosesia</div>
       </div>
       <div>
         <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end"><div class="dot"></div><span style="font-size:10px;color:#4ade80;font-weight:700">EN VIVO</span></div>
         <div style="font-size:10px;color:#475569;text-align:right" id="syt"></div>
-        <button onclick="cargar()" style="background:transparent;border:none;color:#475569;font-size:11px;cursor:pointer;padding:0;margin-top:2px;display:block;text-align:right;width:100%">↻ actualizar</button>
+        <button onclick="cargar()" style="background:transparent;border:none;color:#475569;font-size:11px;cursor:pointer;padding:0;margin-top:2px;display:block;text-align:right;width:100%">actualizar</button>
       </div>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="alts"></div>
@@ -90,182 +88,178 @@ const BIN_ID="6a1225626877513b27c050ca";
 const API_KEY="$2a$10$aFCwvuu3jz1xZ7z3prWoi.U6b3Poi7ieWjBpP3xFHK/9/IscK3CW2";
 const BURL="https://api.jsonbin.io/v3/b/"+BIN_ID;
 
-// ── PLAN ─────────────────────────────────────────────────────────
 const PLAN=[
-  {fecha:"25/05",dia:"Lunes",tipo:"entreno",
-    info:"Ray: 8:30→~14:30 · Cyn: 9:00→siesta (desayuna en hotel)",
-    entreno:{h:"15:30-16:50",n:"Sem 2 Dia 1 - Lower progresado",
-      ej:["Trote suave 15 min","Sentadilla libre 3x14","Zancada estatica 3x10 c/lado NUEVO","Puente de gluteos 3x15","Plancha completa 3x25 seg","Descanso 60 seg"]},
+  {fecha:"01/06",dia:"Lunes",tipo:"entreno",
+    info:"Ray: 9:00→~14:30 · Cyn: 7:00-12:00 + 19:00-23:00",
+    entreno:{h:"15:00-16:30",n:"Sem 3 Dia 1 - Lower progresado",
+      ej:["Trote suave 15 min","Sentadilla libre 3x16","Zancada estatica 3x12 c/lado","Puente de gluteos 3x18","Plancha completa 3x30 seg","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45", l:"Desayuno Ray",      r:"Avena 60g + leche + banana + cafe",                          c:"🏨 Hotel: huevos revueltos 2-3 + jamon 2 fetas + pan integral + jugo (dia de entreno)"},
-      {h:"12:00",l:"Almuerzo hotel x2", r:"Come en el hotel (proteina + ensalada)",                     c:"Come en el hotel"},
-      {h:"14:30",l:"Pre-entreno",       r:"Banana + crema de mani",                                     c:"Fruta + L-Carnitina 30min antes"},
-      {h:"15:30",l:"ENTRENO",           r:"Juntos",                                                     c:"Juntos"},
-      {h:"17:00",l:"Post-entreno",      r:"Whey con leche + 2 huevos + pan",                            c:"Whey con agua + yogurt"},
-      {h:"23:00",l:"Cena juntos",       r:"Pechuga al horno + batata + ensalada tomate cherry",         c:"Idem batata chica + mas ensalada + 1/4 palta"},
-    ],prep:"Cyn desayuna en hotel. Ambos almuerzan en hotel. Cena: Ray cocina a la tarde."},
-  {fecha:"26/05",dia:"Martes",tipo:"entreno",
-    info:"Ray: 8:30→~14:30 · Cyn: 9:00→siesta (desayuna en hotel)",
-    entreno:{h:"15:30-16:50",n:"Sem 2 Dia 2 - Upper intro",
-      ej:["Trote suave 10 min","Flexion de brazos en rodillas 3x8","Remo con botella o mochila 3x10","Elevacion lateral brazos 3x12","Plancha completa 3x25 seg","Descanso 60 seg"]},
+      {h:"7:45", l:"Desayuno Ray",     r:"Avena 60g + leche + banana + cafe",                              c:"🏨 Hotel: huevos revueltos + jamon + pan integral + jugo (entreno)"},
+      {h:"12:00",l:"Almuerzo hotel",   r:"Come en el hotel",                                               c:"Come en el hotel (libre 12-19)"},
+      {h:"14:30",l:"Pre-entreno",      r:"Banana + crema de mani",                                         c:"Kiwi + L-Carnitina 30min antes"},
+      {h:"15:00",l:"ENTRENO",          r:"Juntos · ventana 15:00-16:30",                                   c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",     r:"Whey + leche + 2 huevos",                                        c:"Whey + yogurt"},
+      {h:"20:00",l:"Cena",             r:"Pasta fusilli + macinato + passata + cebolla + ajo",             c:"Idem porcion chica · USAR PASSATA HOY"},
+    ],prep:"USAR PASSATA HOY es la ultima. Cyn llega 23:00 - dejar cena caliente."},
+  {fecha:"02/06",dia:"Martes",tipo:"entreno",
+    info:"Ray: 10:00→~15:30 · Cyn: 7:00-12:00 + 19:00-23:00",
+    entreno:{h:"16:00-17:30",n:"Sem 3 Dia 2 - Upper intro",
+      ej:["Trote suave 10 min","Flexion de brazos en rodillas 3x10","Remo con botella o mochila 3x12","Elevacion lateral brazos 3x12","Plancha completa 3x30 seg","Descanso 60 seg"]},
     comidas:[
-      {h:"7:45", l:"Desayuno Ray",      r:"2 huevos revueltos + 2 fetas pan + 1/4 palta + cafe",       c:"🏨 Hotel: huevos revueltos + queso + pan integral + jugo (dia de entreno)"},
-      {h:"12:00",l:"Almuerzo hotel x2", r:"Come en el hotel",                                           c:"Come en el hotel"},
-      {h:"14:30",l:"Pre-entreno",       r:"Banana + crema de mani",                                     c:"Fruta + L-Carnitina 30min antes"},
-      {h:"15:30",l:"ENTRENO",           r:"Juntos",                                                     c:"Juntos"},
-      {h:"17:00",l:"Post-entreno",      r:"Whey con leche + 2 huevos + pan",                            c:"Whey con agua + yogurt"},
-      {h:"20:00",l:"Cena",              r:"Pasta fusilli + carne molida + passata",                     c:"Idem porcion mas chica + zucchini"},
-    ],prep:"Cyn desayuna en hotel. Ambos almuerzan en hotel. Usar passata hoy."},
-  {fecha:"27/05",dia:"Miercoles",tipo:"descanso",
-    info:"Ray: 8:30→~14:30 · Cyn: REPOSO",
+      {h:"8:00", l:"Desayuno Ray",     r:"2 huevos + 2 fetas pan + kiwi + cafe",                          c:"🏨 Hotel: huevos revueltos + jamon + pan integral + jugo (entreno)"},
+      {h:"12:00",l:"Almuerzo hotel",   r:"Come en el hotel",                                               c:"Come en el hotel (libre 12-19)"},
+      {h:"15:30",l:"Pre-entreno",      r:"Banana + crema de mani",                                         c:"Banana + L-Carnitina 30min antes"},
+      {h:"16:00",l:"ENTRENO",          r:"Juntos",                                                         c:"Juntos"},
+      {h:"17:30",l:"Post-entreno",     r:"Whey + leche + 2 huevos",                                        c:"Whey + yogurt"},
+      {h:"20:00",l:"Cena",             r:"Bistecca a la plancha + patatas + tomate cherry + ajo",          c:"Idem menos patatas + palta (ULTIMA usar hoy) + mozzarella"},
+    ],prep:"Palta es la ultima - usarla hoy. Cyn llega 23:00 - cena lista y caliente."},
+  {fecha:"03/06",dia:"Miercoles",tipo:"descanso",
+    info:"Ray: 9:00+BLU→~14:30 · Cyn: 7:00-12:00 + 19:00-23:00",
     entreno:{h:"-",n:"Descanso activo",
-      ej:["Caminata suave 20-30 min opcional","Stretching 10 min","SIN circuitos ni cardio","El musculo crece descansando"]},
+      ej:["Caminata suave 20-30 min opcional","Stretching 10 min","SIN circuitos ni cardio","Recuperacion entre sesiones"]},
     comidas:[
-      {h:"7:45", l:"Desayuno Ray",      r:"Avena + leche + banana + cafe",                             c:"Reposo - desayuna en casa cuando quiera"},
-      {h:"12:00",l:"Almuerzo",          r:"Come en el hotel",                                          c:"Almuerza en casa: garbanzos + zanahoria + huevo + tomate + 1/4 palta"},
-      {h:"14:30",l:"Merienda",          r:"Pan con crema de mani + leche",                             c:"Kiwi + yogurt"},
-      {h:"20:00",l:"Cena",              r:"Pasta + carne molida + passata",                            c:"Idem porcion mas chica + broccoletti"},
-    ],prep:"Cyn libre. Usar passata. Preparar tupper si hace falta."},
-  {fecha:"28/05",dia:"Jueves",tipo:"entreno",
-    info:"Ray: 9:30→~12:30 (reunion) · Cyn: 9:30→~12:30 (reunion)",
-    entreno:{h:"15:30-16:50",n:"Sem 2 Dia 3 - Full body",
-      ej:["Trote suave 15 min","Sentadilla libre 3x14","Flexion de brazos rodillas 3x10","Puente de gluteos 3x15","Plancha completa 3x25 seg","Zancada estatica 3x10 c/lado","Descanso 60 seg"]},
+      {h:"7:45", l:"Desayuno Ray",     r:"Avena + leche + banana + cafe",                                 c:"🏨 Hotel: yogurt griego + frutos secos + pan integral (descanso)"},
+      {h:"12:00",l:"Almuerzo hotel",   r:"Come en el hotel",                                               c:"Come en el hotel (libre 12-19)"},
+      {h:"14:30",l:"Merienda",         r:"Manzana + crema de mani",                                        c:"Manzana + yogurt"},
+      {h:"20:00",l:"Cena",             r:"Pasta sedanini + crema de hongos + zucchini + ajo",             c:"Idem porcion chica + broccoletti al lado"},
+    ],prep:"Descanso real. Usar crema de hongos hoy. Cyn llega 23:00."},
+  {fecha:"04/06",dia:"Jueves",tipo:"entreno",
+    info:"Ray: 9:00+Alpino→~14:30 · Cyn: REPOSO",
+    entreno:{h:"15:00-16:30",n:"Sem 3 Dia 3 - Full body",
+      ej:["Trote suave 15 min","Sentadilla libre 3x16","Flexion de brazos rodillas 3x12","Puente de gluteos 3x18","Plancha completa 3x30 seg","Zancada estatica 3x12 c/lado","Descanso 60 seg"]},
     comidas:[
-      {h:"9:00", l:"Desayuno Ray",      r:"2 huevos + 2 fetas pan + banana + cafe (antes de salir)",   c:"🏨 Hotel: huevos revueltos 2-3 + jamon + pan integral + jugo (dia de entreno)"},
-      {h:"12:30",l:"Almuerzo hotel x2", r:"Come en el hotel (fin de reunion)",                         c:"Come en el hotel"},
-      {h:"15:00",l:"Pre-entreno",       r:"Banana + crema de mani",                                    c:"Fruta + L-Carnitina 30min antes"},
-      {h:"15:30",l:"ENTRENO",           r:"Juntos - Sem 2 completada!",                                c:"Juntos - Sem 2 completada!"},
-      {h:"17:00",l:"Post-entreno",      r:"Whey con leche + 2 huevos + pan",                           c:"Whey con agua + yogurt"},
-      {h:"20:00",l:"Cena",              r:"Pechuga al horno + patatas + tomate cherry + oliva",        c:"Idem menos patatas + 1/4 palta + mozzarella"},
-    ],prep:"Semana 2 completada! Cena contundente. Palta hay que usarla hoy o manana."},
-  {fecha:"29/05",dia:"Viernes",tipo:"libre",
+      {h:"7:45", l:"Desayuno Ray",     r:"2 huevos + 2 fetas pan + banana + cafe",                        c:"Desayuna en casa (reposo) - huevos + pan + cafe"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Almuerza en casa: garbanzos + zucchini + huevo + oliva + cebolla"},
+      {h:"14:30",l:"Pre-entreno",      r:"Banana + crema de mani",                                         c:"L-Carnitina 30min antes + banana"},
+      {h:"15:00",l:"ENTRENO",          r:"Juntos",                                                         c:"Juntos"},
+      {h:"16:30",l:"Post-entreno",     r:"Whey + leche + 2 huevos",                                        c:"Whey + yogurt"},
+      {h:"20:00",l:"Cena",             r:"Huevos revueltos + patatas + broccoletti + mozzarella",          c:"Idem + lentejas al lado"},
+    ],prep:"Cyn reposo - cocina a la tarde. Compra general manana viernes 5."},
+  {fecha:"05/06",dia:"Viernes",tipo:"libre",
     info:"Ray: REPOSO · Cyn: REPOSO — dia libre los dos!",
-    entreno:{h:"Sin horario",n:"Dia libre - sendero o descanso",
-      ej:["Opcion A: Sendero Riba Valdobbia 45-60 min","Opcion B: Caminata suave por el pueblo","Opcion C: Descanso total","SIN circuitos - semana 2 ya completada"]},
+    entreno:{h:"15:00-16:30",n:"Sem 3 Dia 4 - Cardio + circuito",
+      ej:["Trote suave 15 min","Sentadilla libre 3x16","Mountain climber 3x20 c/lado","Plancha completa 3x30 seg","Puente de gluteos 3x18","Rodillas al pecho 3x18","Descanso 60 seg"]},
     comidas:[
-      {h:"8:30", l:"Desayuno juntos",   r:"Avena + leche + banana + cafe sin apuro",                   c:"Avena + leche + frutillas (ultimas) + cafe"},
-      {h:"11:00",l:"Snack",             r:"Manzana + frutos secos",                                    c:"Kiwi + 1/2 palta"},
-      {h:"14:00",l:"Almuerzo juntos",   r:"Bistecca/Tagliata a la plancha + patatas + tomate cherry",  c:"Bistecca + broccoletti salteado + 1/4 palta"},
-      {h:"17:00",l:"Merienda",          r:"Pan con crema de mani + leche",                             c:"Yogurt + banana"},
-      {h:"20:30",l:"Cena juntos",       r:"Pasta fusilli + crema de hongos o zucchini salteado",       c:"Idem porcion mas chica"},
-    ],prep:"Dia libre los dos. Usar las ultimas frutillas y palta hoy si no se usaron ayer."},
-  {fecha:"30/05",dia:"Sabado",tipo:"libre",
-    info:"Ray: a definir (violeta) · Cyn: 7:00→13:00 + 19:00→22:30 (desayuna en hotel)",
-    entreno:{h:"Sin horario",n:"Dia libre o descanso",
-      ej:["Sendero o caminata si tienen ganas","Descanso total completamente valido","SIN entreno estructurado"]},
+      {h:"8:30", l:"Desayuno juntos",  r:"Avena + leche + banana + cafe sin apuro",                       c:"Avena + leche + fruta fresca (compra nueva) + cafe"},
+      {h:"11:00",l:"Snack",            r:"Frutos secos + fruta",                                           c:"Fruta + yogurt"},
+      {h:"14:00",l:"Almuerzo juntos",  r:"Con ingredientes de compra nueva",                               c:"Plato inteligente con compra nueva"},
+      {h:"15:00",l:"ENTRENO",          r:"Juntos - Sem 3 completa!",                                       c:"Juntos - Sem 3 completa!"},
+      {h:"17:00",l:"Post-entreno",     r:"Whey + leche + huevos",                                          c:"Whey + yogurt"},
+      {h:"20:30",l:"Cena juntos",      r:"Cena libre con ingredientes nuevos",                             c:"Plato inteligente con verdura fresca"},
+    ],prep:"DIA DE COMPRA GENERAL. 4 dias de entreno completados - celebrar!"},
+  {fecha:"06/06",dia:"Sabado",tipo:"libre",
+    info:"Ray: a definir · Cyn: 7:00-12:00 + 19:00-23:00",
+    entreno:{h:"Sin horario",n:"Descanso o actividad libre",
+      ej:["Sendero opcional","Caminata suave","Descanso total si el cuerpo lo pide"]},
     comidas:[
-      {h:"7:00", l:"Desayuno Cyn",      r:"Ray desayuna en casa: avena + huevos + cafe",               c:"🏨 Hotel: yogurt griego + frutos secos + pan integral + cafe (dia sin entreno)"},
-      {h:"12:30",l:"Almuerzo",          r:"Ray en casa: pollo + patatas + tomate",                     c:"Come en el hotel (servicio mediodia)"},
-      {h:"20:30",l:"Cena juntos",       r:"Pechuga al hornito + broccoletti + mozzarella",             c:"Idem cuando llega a las 22:30"},
-    ],prep:"Cyn turno partido. Ray prepara cena lista y caliente para cuando Cyn llega."},
-  {fecha:"31/05",dia:"Domingo",tipo:"planificacion",
-    info:"Ray: 9:00→~16:00 · Cyn: 7:00→13:00 + 19:00→22:30 (desayuna en hotel)",
-    entreno:{h:"Opcional",n:"Planificacion semana 3",
-      ej:["PASO 1: Pasarme los horarios de la semana siguiente","PASO 2: Definir 3 dias de entreno semana 3","PASO 3: Anotar dias y horas","PASO 4: Preparar lo necesario para lunes","Opcional: movilidad 20 min"]},
+      {h:"7:00", l:"Desayuno Cyn",     r:"Ray desayuna en casa con ingredientes nuevos",                   c:"🏨 Hotel: yogurt griego + frutos secos + pan integral"},
+      {h:"12:00",l:"Almuerzo",         r:"Almuerza en casa",                                               c:"Come en el hotel"},
+      {h:"20:30",l:"Cena juntos",      r:"Cena con ingredientes nuevos",                                   c:"Idem cuando llega 23:00"},
+    ],prep:"Cyn turno partido. Ray prepara cena caliente para cuando Cyn llega."},
+  {fecha:"07/06",dia:"Domingo",tipo:"planificacion",
+    info:"Ray: 9:30→~16:00 · Cyn: 7:00-12:00 + 19:00-23:00",
+    entreno:{h:"Opcional",n:"Planificacion semana 4",
+      ej:["PASO 1: Pasarme los horarios semana siguiente","PASO 2: Definir dias de entreno semana 4","PASO 3: Anotar dias y horas","PASO 4: Preparar lo necesario","Opcional: movilidad 20 min"]},
     comidas:[
-      {h:"7:00", l:"Desayuno Cyn",      r:"Ray desayuna en casa antes de salir: huevos + pan + cafe",  c:"🏨 Hotel: yogurt griego + frutos secos + pan integral + jugo (dia sin entreno)"},
-      {h:"12:00",l:"Almuerzo",          r:"Come en el hotel",                                          c:"Come en el hotel"},
-      {h:"20:30",l:"Cena juntos",       r:"Sopa Knorr + 2 huevos duros + pan - rapido",               c:"Idem liviano antes de semana nueva"},
-    ],prep:"Pasarme los horarios semana 3 para actualizar la app. Preparar para lunes."},
+      {h:"7:00", l:"Desayuno Cyn",     r:"Ray desayuna en casa antes de salir",                            c:"🏨 Hotel: yogurt griego + frutos secos + pan integral"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel"},
+      {h:"20:30",l:"Cena juntos",      r:"Cena liviana + planificacion semana 4",                          c:"Idem cuando llega 23:00"},
+    ],prep:"Pasarme horarios semana 4 para actualizar la app. Planificar entrenos."},
 ];
 
-// ── SESIONES ──────────────────────────────────────────────────────
 const SEM1=[
-  {id:"s1",f:"19/05",d:"Martes",   n:"Sem 1 Dia 1 - Cardio + Lower intro",      h:"15:30-16:45"},
-  {id:"s2",f:"20/05",d:"Miercoles",n:"Sem 1 Dia 2 - Movilidad + Core",           h:"15:30-16:20"},
-  {id:"s3",f:"22/05",d:"Viernes",  n:"Sem 1 Dia 3 - Cardio + Circuito completo", h:"15:30-17:00"},
+  {id:"s1",f:"19/05",d:"Mar",n:"Sem 1 D1 - Cardio + Lower intro",h:"15:30-16:45"},
+  {id:"s2",f:"20/05",d:"Mie",n:"Sem 1 D2 - Movilidad + Core",h:"15:30-16:20"},
+  {id:"s3",f:"22/05",d:"Vie",n:"Sem 1 D3 - Cardio + Circuito",h:"15:30-17:00"},
 ];
 const SEM2=[
-  {id:"s5",f:"25/05",d:"Lunes",  n:"Sem 2 Dia 1 - Lower progresado",hora:"15:30-16:50"},
-  {id:"s6",f:"26/05",d:"Martes", n:"Sem 2 Dia 2 - Upper intro",     hora:"15:30-16:50"},
-  {id:"s7",f:"28/05",d:"Jueves", n:"Sem 2 Dia 3 - Full body",       hora:"15:30-16:50"},
+  {id:"s5",f:"25/05",d:"Lun",n:"Sem 2 D1 - Lower progresado",h:"15:30-16:50"},
+  {id:"s6",f:"26/05",d:"Mar",n:"Sem 2 D2 - Upper intro",h:"15:30-16:50"},
+  {id:"s7",f:"28/05",d:"Jue",n:"Sem 2 D3 - Full body",h:"15:30-16:50"},
 ];
-const HIST_SEM1=[
-  {id:"s1",q:"Ray",e:"completo",n:"",t:"19/5/26, 11:22 p.m."},
-  {id:"s1",q:"Cyn",e:"completo",n:"",t:"19/5/26, 11:22 p.m."},
-  {id:"s2",q:"Ray",e:"completo",n:"",t:"20/5/26, 6:17 p.m."},
-  {id:"s2",q:"Cyn",e:"completo",n:"",t:"20/5/26, 6:17 p.m."},
-  {id:"s3",q:"Ray",e:"completo",n:"",t:"22/5/26, 11:48 p.m."},
-  {id:"s3",q:"Cyn",e:"completo",n:"",t:"22/5/26, 11:48 p.m."},
+const SEM3=[
+  {id:"s8", f:"01/06",d:"Lun",n:"Sem 3 D1 - Lower progresado",h:"15:00-16:30"},
+  {id:"s9", f:"02/06",d:"Mar",n:"Sem 3 D2 - Upper intro",h:"16:00-17:30"},
+  {id:"s10",f:"04/06",d:"Jue",n:"Sem 3 D3 - Full body",h:"15:00-16:30"},
+  {id:"s11",f:"05/06",d:"Vie",n:"Sem 3 D4 - Cardio + Circuito",h:"15:00-16:30"},
+];
+const HIST=[
+  {id:"s1",q:"Ray",e:"completo",n:"",t:"19/5/26"},
+  {id:"s1",q:"Cyn",e:"completo",n:"",t:"19/5/26"},
+  {id:"s2",q:"Ray",e:"completo",n:"",t:"20/5/26"},
+  {id:"s2",q:"Cyn",e:"completo",n:"",t:"20/5/26"},
+  {id:"s3",q:"Ray",e:"completo",n:"",t:"22/5/26"},
+  {id:"s3",q:"Cyn",e:"completo",n:"",t:"22/5/26"},
+  {id:"s5",q:"Ray",e:"completo",n:"",t:"25/5/26"},
+  {id:"s5",q:"Cyn",e:"completo",n:"",t:"25/5/26"},
+  {id:"s6",q:"Ray",e:"completo",n:"",t:"26/5/26"},
+  {id:"s6",q:"Cyn",e:"completo",n:"",t:"26/5/26"},
+  {id:"s7",q:"Ray",e:"completo",n:"",t:"28/5/26"},
+  {id:"s7",q:"Cyn",e:"completo",n:"",t:"28/5/26"},
 ];
 
-// ── STOCK ─────────────────────────────────────────────────────────
 const SD=[
-  {id:"huevos",    e:"🥚",n:"Huevos",                  c:"Proteinas",      q:21,  u:"ud",      s:1,  m:6},
-  {id:"pollo",     e:"🍗",n:"Pechuga de pollo",         c:"Proteinas",      q:600, u:"g",       s:100,m:200},
-  {id:"bistecca",  e:"🥩",n:"Bistecca / Tagliata",      c:"Proteinas",      q:700, u:"g",       s:100,m:0},
-  {id:"macinato",  e:"🥩",n:"Carne molida bovina",      c:"Proteinas",      q:900, u:"g",       s:100,m:0},
-  {id:"tonno",     e:"🐟",n:"Atun en lata",             c:"Proteinas",      q:3,   u:"latas",   s:1,  m:1},
-  {id:"jamon",     e:"🍖",n:"Prosciutto cotto",         c:"Proteinas",      q:50,  u:"g",       s:50, m:0},
-  {id:"latte",     e:"🥛",n:"Leche entera UHT",         c:"Lacteos",        q:4250,u:"ml",      s:250,m:500},
-  {id:"yogurt",    e:"🫙",n:"Yogurt griego",            c:"Lacteos",        q:3,   u:"ud",      s:1,  m:1},
-  {id:"mozza",     e:"🧀",n:"Mozzarella fresca",        c:"Lacteos",        q:4,   u:"ud",      s:1,  m:0},
-  {id:"grana",     e:"🧀",n:"Grana Padano grattugiato", c:"Lacteos",        q:50,  u:"g",       s:10, m:0},
-  {id:"kefir",     e:"🥤",n:"Kefir",                    c:"Lacteos",        q:1,   u:"ud",      s:1,  m:0},
-  {id:"banane",    e:"🍌",n:"Bananas bio",              c:"Fruta y verdura",q:9,   u:"ud",      s:1,  m:3},
-  {id:"palta",     e:"🥑",n:"Palta / Avocado",          c:"Fruta y verdura",q:2,   u:"ud",      s:1,  m:0,urg:true},
-  {id:"frutillas", e:"🍓",n:"Frutillas",                c:"Fruta y verdura",q:150, u:"g",       s:50, m:0,urg:true},
-  {id:"kiwi",      e:"🥝",n:"Kiwi",                     c:"Fruta y verdura",q:4,   u:"ud",      s:1,  m:0},
-  {id:"mele",      e:"🍎",n:"Manzanas",                 c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
-  {id:"pomodori",  e:"🍅",n:"Tomates cherry",           c:"Fruta y verdura",q:400, u:"g",       s:100,m:0},
-  {id:"zanahoria", e:"🥕",n:"Zanahoria julienne",       c:"Fruta y verdura",q:2,   u:"bolsa",   s:1,  m:0},
-  {id:"brocoli",   e:"🥦",n:"Broccoletti",              c:"Fruta y verdura",q:500, u:"g",       s:100,m:0},
-  {id:"zucchine",  e:"🥒",n:"Zucchine",                 c:"Fruta y verdura",q:794, u:"g",       s:150,m:0},
-  {id:"peperoni",  e:"🫑",n:"Peperoni rossi",           c:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0},
-  {id:"mais",      e:"🌽",n:"Mais (choclo)",            c:"Fruta y verdura",q:240, u:"g",       s:80, m:0},
-  {id:"patate",    e:"🥔",n:"Patatas rojas",            c:"Fruta y verdura",q:1500,u:"g",       s:250,m:0},
-  {id:"limoni",    e:"🍋",n:"Limones",                  c:"Fruta y verdura",q:916, u:"g",       s:100,m:0},
-  {id:"aglio",     e:"🧄",n:"Ajo",                      c:"Fruta y verdura",q:3,   u:"cabezas", s:1,  m:0},
-  {id:"cipolla",   e:"🧅",n:"Cebolla blanca",           c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
-  {id:"avena",     e:"🌾",n:"Avena",                    c:"Dispensa",       q:380, u:"g",       s:60, m:60},
-  {id:"riso",      e:"🍚",n:"Arroz parboiled",          c:"Dispensa",       q:140, u:"g",       s:80, m:0},
-  {id:"fusilli",   e:"🍝",n:"Pasta fusilli Barilla",    c:"Dispensa",       q:2670,u:"g",       s:80, m:0},
-  {id:"sedanini",  e:"🍝",n:"Pasta sedanini",           c:"Dispensa",       q:500, u:"g",       s:80, m:0},
-  {id:"spaghetti", e:"🍝",n:"Spaghettini Barilla",      c:"Dispensa",       q:500, u:"g",       s:80, m:0},
-  {id:"pane",      e:"🍞",n:"Pan de molde integral",    c:"Dispensa",       q:10,  u:"fetas",   s:2,  m:2},
-  {id:"bruschette",e:"🍞",n:"Bruschette al rosmarino",  c:"Dispensa",       q:1,   u:"paquete", s:1,  m:0},
-  {id:"ceci",      e:"🫘",n:"Garbanzos en lata",        c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
-  {id:"lenticchie",e:"🟤",n:"Lentejas en lata",         c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
-  {id:"passata",   e:"🥫",n:"Passata / tomate triturado",c:"Dispensa",      q:1,   u:"latas",   s:1,  m:0,urg:true},
-  {id:"o_oliva",   e:"🫒",n:"Aceite de oliva",          c:"Dispensa",       q:500, u:"ml",      s:10, m:0},
-  {id:"o_gir",     e:"🌻",n:"Aceite de girasol",        c:"Dispensa",       q:750, u:"ml",      s:50, m:0},
-  {id:"mani",      e:"🥜",n:"Crema de mani",            c:"Dispensa",       q:240, u:"g",       s:15, m:0},
-  {id:"dadi",      e:"🟡",n:"Dados vegetales Knorr",    c:"Dispensa",       q:9,   u:"cubos",   s:1,  m:0},
-  {id:"knorr",     e:"🥣",n:"Sopa Knorr (sobres)",      c:"Dispensa",       q:3,   u:"sobres",  s:1,  m:0},
-  {id:"caesar",    e:"🫙",n:"Salsa Caesar proteica",    c:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
-  {id:"porcini",   e:"🍄",n:"Crema de hongos",          c:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
-  {id:"asparagi",  e:"🌿",n:"Crema de esparragos",      c:"Dispensa",       q:1,   u:"sobres",  s:1,  m:0},
-  {id:"pesoforma", e:"🍪",n:"Pesoforma Biscotti",       c:"Dispensa",       q:1,   u:"caja",    s:1,  m:0},
-  {id:"whey",      e:"💪",n:"Whey Protein",             c:"Suplementos",    q:26,  u:"porciones",s:1, m:5},
-  {id:"lcarni",    e:"💊",n:"L-Carnitina 500 (Cyn)",    c:"Suplementos",    q:23,  u:"capsulas", s:1, m:5},
+  {id:"huevos",   e:"🥚",n:"Huevos",                  c:"Proteinas",      q:13,  u:"ud",      s:1,  m:6},
+  {id:"bistecca", e:"🥩",n:"Bistecca / Tagliata",      c:"Proteinas",      q:400, u:"g",       s:100,m:0},
+  {id:"macinato", e:"🥩",n:"Carne molida bovina",      c:"Proteinas",      q:900, u:"g",       s:100,m:0},
+  {id:"tonno",    e:"🐟",n:"Atun en lata",             c:"Proteinas",      q:2,   u:"latas",   s:1,  m:1},
+  {id:"latte",    e:"🥛",n:"Leche entera UHT",         c:"Lacteos",        q:4250,u:"ml",      s:250,m:500},
+  {id:"yogurt",   e:"🫙",n:"Yogurt griego",            c:"Lacteos",        q:2,   u:"ud",      s:1,  m:1},
+  {id:"mozza",    e:"🧀",n:"Mozzarella fresca",        c:"Lacteos",        q:4,   u:"ud",      s:1,  m:0},
+  {id:"grana",    e:"🧀",n:"Grana Padano grattugiato", c:"Lacteos",        q:50,  u:"g",       s:10, m:0},
+  {id:"kefir",    e:"🥤",n:"Kefir",                    c:"Lacteos",        q:1,   u:"ud",      s:1,  m:0},
+  {id:"banane",   e:"🍌",n:"Bananas bio",              c:"Fruta y verdura",q:5,   u:"ud",      s:1,  m:2},
+  {id:"palta",    e:"🥑",n:"Palta / Avocado",          c:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0,urg:true},
+  {id:"kiwi",     e:"🥝",n:"Kiwi",                     c:"Fruta y verdura",q:2,   u:"ud",      s:1,  m:0},
+  {id:"mele",     e:"🍎",n:"Manzanas",                 c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
+  {id:"pomodori", e:"🍅",n:"Tomates cherry",           c:"Fruta y verdura",q:200, u:"g",       s:100,m:0},
+  {id:"brocoli",  e:"🥦",n:"Broccoletti",              c:"Fruta y verdura",q:500, u:"g",       s:100,m:0},
+  {id:"zucchine", e:"🥒",n:"Zucchine",                 c:"Fruta y verdura",q:494, u:"g",       s:150,m:0},
+  {id:"peperoni", e:"🫑",n:"Peperoni rossi",           c:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0},
+  {id:"mais",     e:"🌽",n:"Mais (choclo)",            c:"Fruta y verdura",q:80,  u:"g",       s:80, m:0},
+  {id:"patate",   e:"🥔",n:"Patatas rojas",            c:"Fruta y verdura",q:1500,u:"g",       s:250,m:0},
+  {id:"aglio",    e:"🧄",n:"Ajo",                      c:"Fruta y verdura",q:3,   u:"cabezas", s:1,  m:0},
+  {id:"cipolla",  e:"🧅",n:"Cebolla blanca",           c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
+  {id:"avena",    e:"🌾",n:"Avena",                    c:"Dispensa",       q:380, u:"g",       s:60, m:60},
+  {id:"riso",     e:"🍚",n:"Arroz parboiled",          c:"Dispensa",       q:140, u:"g",       s:80, m:0},
+  {id:"fusilli",  e:"🍝",n:"Pasta fusilli Barilla",    c:"Dispensa",       q:2670,u:"g",       s:80, m:0},
+  {id:"sedanini", e:"🍝",n:"Pasta sedanini",           c:"Dispensa",       q:500, u:"g",       s:80, m:0},
+  {id:"spaghetti",e:"🍝",n:"Spaghettini Barilla",      c:"Dispensa",       q:500, u:"g",       s:80, m:0},
+  {id:"pane",     e:"🍞",n:"Pan de molde integral",    c:"Dispensa",       q:6,   u:"fetas",   s:2,  m:0},
+  {id:"ceci",     e:"🫘",n:"Garbanzos en lata",        c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
+  {id:"lenticchie",e:"🟤",n:"Lentejas en lata",        c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
+  {id:"passata",  e:"🥫",n:"Passata / tomate triturado",c:"Dispensa",      q:1,   u:"latas",   s:1,  m:0,urg:true},
+  {id:"o_oliva",  e:"🫒",n:"Aceite de oliva",          c:"Dispensa",       q:500, u:"ml",      s:10, m:0},
+  {id:"o_gir",    e:"🌻",n:"Aceite de girasol",        c:"Dispensa",       q:750, u:"ml",      s:50, m:0},
+  {id:"mani",     e:"🥜",n:"Crema de mani",            c:"Dispensa",       q:240, u:"g",       s:15, m:0},
+  {id:"dadi",     e:"🟡",n:"Dados vegetales Knorr",    c:"Dispensa",       q:9,   u:"cubos",   s:1,  m:0},
+  {id:"knorr",    e:"🥣",n:"Sopa Knorr (sobres)",      c:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
+  {id:"caesar",   e:"🫙",n:"Salsa Caesar proteica",    c:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
+  {id:"porcini",  e:"🍄",n:"Crema de hongos",          c:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
+  {id:"asparagi", e:"🌿",n:"Crema de esparragos",      c:"Dispensa",       q:1,   u:"sobres",  s:1,  m:0},
+  {id:"pesoforma",e:"🍪",n:"Pesoforma Biscotti",       c:"Dispensa",       q:1,   u:"caja",    s:1,  m:0},
+  {id:"whey",     e:"💪",n:"Whey Protein",             c:"Suplementos",    q:26,  u:"porciones",s:1, m:5},
+  {id:"lcarni",   e:"💊",n:"L-Carnitina 500 (Cyn)",    c:"Suplementos",    q:22,  u:"capsulas", s:1, m:5},
 ];
+
 const CATS=["Proteinas","Lacteos","Fruta y verdura","Dispensa","Suplementos"];
 const MOMS=["Desayuno","Pre-entreno","Almuerzo / Vianda","Post-entreno","Merienda","Cena","Otro"];
 const QUIENES=["Ambos","Ray","Cyn"];
 const ESTADOS=[{v:"completo",l:"Completo",e:"✅",c:"bg"},{v:"parcial",l:"Parcial",e:"⚡",c:"by"},{v:"salteado",l:"Salteado",e:"❌",c:"br"}];
 const COL={"Proteinas":{ac:"#f87171",bg:"#2d1010"},"Lacteos":{ac:"#60a5fa",bg:"#0f1f35"},"Fruta y verdura":{ac:"#4ade80",bg:"#0f2a14"},"Dispensa":{ac:"#fbbf24",bg:"#2a1f05"},"Suplementos":{ac:"#a78bfa",bg:"#1c1030"}};
 const TC={entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
-const META_AGUA=2000;
-const SK="rc3_stock_v1",LK="rc3_log_v1",EK="rc3_ent_v1",DK="rc3_dia_v1",AK="rc3_agua_v1";
+const META=2000;
+const SK="rc4_s",LK="rc4_l",EK="rc4_e",DK="rc4_d",AK="rc4_a";
 
 let stock=SD.map(i=>({...i}));
 let log=[];
-let entrenos=[...HIST_SEM1];
+let entrenos=[...HIST];
 let diaIdx=0;
 let agua={ray:0,cyn:0,fecha:""};
 let catF="Todas",busq="",mom="Desayuno",quien="Ambos",uso={},pTab="comidas";
 
 function hoy(){return new Date().toLocaleDateString("es-AR",{day:"2-digit",month:"2-digit",year:"2-digit"});}
-
-function saveLocal(){
-  try{
-    localStorage.setItem(SK,JSON.stringify(stock.map(({id,q})=>({id,q}))));
-    localStorage.setItem(LK,JSON.stringify(log.slice(0,100)));
-    localStorage.setItem(EK,JSON.stringify(entrenos));
-    localStorage.setItem(DK,String(diaIdx));
-    localStorage.setItem(AK,JSON.stringify(agua));
-  }catch{}
-}
+function saveLocal(){try{localStorage.setItem(SK,JSON.stringify(stock.map(({id,q})=>({id,q}))));localStorage.setItem(LK,JSON.stringify(log.slice(0,100)));localStorage.setItem(EK,JSON.stringify(entrenos));localStorage.setItem(DK,String(diaIdx));localStorage.setItem(AK,JSON.stringify(agua));}catch{}}
 function loadLocal(){
   try{
     const s=localStorage.getItem(SK),l=localStorage.getItem(LK),e=localStorage.getItem(EK),d=localStorage.getItem(DK),a=localStorage.getItem(AK);
@@ -273,15 +267,14 @@ function loadLocal(){
     if(l)log=JSON.parse(l);
     if(e)entrenos=JSON.parse(e);
     if(d)diaIdx=parseInt(d)||0;
-    if(a){agua=JSON.parse(a); if(agua.fecha!==hoy()){agua={ray:0,cyn:0,fecha:hoy()};}}
+    if(a){agua=JSON.parse(a);if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};}
     return !!(s||l||e);
   }catch{return false;}
 }
 async function saveRemote(){
   saveLocal();
   try{
-    const data={stock:stock.map(({id,q})=>({id,q})),log:log.slice(0,100),entrenos,dia:diaIdx,agua};
-    await fetch(BURL,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},body:JSON.stringify(data)});
+    await fetch(BURL,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},body:JSON.stringify({stock:stock.map(({id,q})=>({id,q})),log:log.slice(0,100),entrenos,dia:diaIdx,agua})});
     setST();
   }catch{}
 }
@@ -295,11 +288,7 @@ async function cargar(){
     if(d.log&&d.log.length){log=d.log;ch=true;}
     if(d.entrenos&&d.entrenos.length){entrenos=d.entrenos;ch=true;}
     if(d.dia!=null){diaIdx=parseInt(d.dia)||0;ch=true;}
-    if(d.agua){
-      if(d.agua.fecha===hoy()){agua=d.agua;}
-      else{agua={ray:0,cyn:0,fecha:hoy()};}
-      ch=true;
-    }
+    if(d.agua){agua=d.agua.fecha===hoy()?d.agua:{ray:0,cyn:0,fecha:hoy()};ch=true;}
     if(ch){saveLocal();renderAll();}
   }catch{}
   setST();
@@ -315,21 +304,20 @@ function fQ(i){
 }
 function bP(i){const o=SD.find(d=>d.id===i.id)?.q??4;return Math.min(100,Math.round((i.q/Math.max(o,1))*100));}
 function gBC(i){if(i.q<=0)return "#ef4444";if(i.q<=i.m)return "#f97316";return COL[i.c]?.ac||"#22c55e";}
-
 function renderAll(){rAlts();rPlan();rAgua();rEnt();rStock();rCon();rLog();}
 
 function rAlts(){
   const ag=stock.filter(i=>i.q<=0).length,bj=stock.filter(i=>i.q>0&&i.q<=i.m).length;
-  const allS=[...SEM1,...SEM2];
+  const allS=[...SEM1,...SEM2,...SEM3];
   const comp=entrenos.filter(e=>e.e==="completo").length;
   const pct=allS.length>0?Math.round((comp/(allS.length*2))*100):0;
-  const rayA=Math.round((agua.ray/META_AGUA)*100),cynA=Math.round((agua.cyn/META_AGUA)*100);
+  const rA=Math.round((agua.ray/META)*100),cA=Math.round((agua.cyn/META)*100);
   let h="";
   if(ag>0)h+=`<span style="background:#450a0a;border:1px solid #ef4444;border-radius:20px;padding:3px 10px;font-size:11px;color:#fca5a5">🔴 ${ag} agotado${ag>1?"s":""}</span>`;
   if(bj>0)h+=`<span style="background:#431407;border:1px solid #f97316;border-radius:20px;padding:3px 10px;font-size:11px;color:#fdba74">🟠 ${bj} poco</span>`;
   if(ag===0&&bj===0)h+=`<span style="background:#052e16;border:1px solid #4ade80;border-radius:20px;padding:3px 10px;font-size:11px;color:#4ade80">✅ Stock OK</span>`;
   h+=`<span style="background:#1c1030;border:1px solid #a78bfa;border-radius:20px;padding:3px 10px;font-size:11px;color:#a78bfa">💪 ${pct}% entrenos</span>`;
-  h+=`<span style="background:#0c2233;border:1px solid #38bdf8;border-radius:20px;padding:3px 10px;font-size:11px;color:#38bdf8">💧 R:${rayA}% C:${cynA}%</span>`;
+  h+=`<span style="background:#0c2233;border:1px solid #38bdf8;border-radius:20px;padding:3px 10px;font-size:11px;color:#38bdf8">💧 R:${rA}% C:${cA}%</span>`;
   document.getElementById("alts").innerHTML=h;
 }
 
@@ -397,57 +385,40 @@ function rPlan(){
 }
 
 function rAgua(){
-  const rPct=Math.min(100,Math.round((agua.ray/META_AGUA)*100));
-  const cPct=Math.min(100,Math.round((agua.cyn/META_AGUA)*100));
-  const rColor=agua.ray>=META_AGUA?"#4ade80":agua.ray>=1000?"#fbbf24":"#38bdf8";
-  const cColor=agua.cyn>=META_AGUA?"#4ade80":agua.cyn>=1000?"#fbbf24":"#38bdf8";
+  const rP=Math.min(100,Math.round((agua.ray/META)*100)),cP=Math.min(100,Math.round((agua.cyn/META)*100));
+  const rC=agua.ray>=META?"#4ade80":agua.ray>=1000?"#fbbf24":"#38bdf8";
+  const cC=agua.cyn>=META?"#4ade80":agua.cyn>=1000?"#fbbf24":"#38bdf8";
   let h=`<div class="card" style="background:#0c1a2a;border-color:#38bdf855;margin-bottom:16px">
     <div style="font-size:14px;font-weight:800;color:#38bdf8;margin-bottom:4px">💧 Hidratacion del dia</div>
-    <div style="font-size:11px;color:#64748b;margin-bottom:12px">Meta: 2 litros cada uno · ${hoy()}</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:12px">Meta: 2L cada uno · ${hoy()}</div>
     <div class="g2" style="margin-bottom:16px">`;
-  [{l:"🧔 RAY",q:agua.ray,pct:rPct,col:rColor,fn:"addAgua('ray',"},{l:"👩 CYN",q:agua.cyn,pct:cPct,col:cColor,fn:"addAgua('cyn',"}].forEach(({l,q,pct,col,fn})=>{
+  [{l:"🧔 RAY",q:agua.ray,p:rP,col:rC,k:"ray"},{l:"👩 CYN",q:agua.cyn,p:cP,col:cC,k:"cyn"}].forEach(({l,q,p,col,k})=>{
     h+=`<div style="background:#0f172a;border-radius:12px;padding:14px 12px">
       <div style="font-size:13px;font-weight:800;color:${col};margin-bottom:6px">${l}</div>
       <div style="font-size:24px;font-weight:900;color:${col};line-height:1">${q<1000?q+"ml":+(q/1000).toFixed(2).replace(/\.?0+$/,"")+"L"}</div>
-      <div style="font-size:11px;color:#64748b;margin-bottom:6px">de 2L · ${pct}%</div>
-      <div class="agua-bar"><div style="width:${pct}%;height:100%;border-radius:99px;background:${col};transition:width 0.4s"></div></div>
-      ${q>=META_AGUA?`<div style="font-size:12px;color:#4ade80;margin-top:4px;font-weight:700">✅ Meta cumplida!</div>`:""}
-    </div>`;
-  });
-  h+=`</div>
-    <div style="font-size:12px;font-weight:800;color:#64748b;margin-bottom:10px">Agregar:</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">`;
-  ["Ray","Cyn"].forEach(p=>{
-    const pk=p.toLowerCase();
-    h+=`<div style="background:#0f172a;border-radius:12px;padding:12px">
-      <div style="font-size:12px;font-weight:800;color:${p==="Ray"?"#60a5fa":"#f9a8d4"};margin-bottom:8px">${p==="Ray"?"🧔":"👩"} ${p}</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn bb" onclick="addAgua('${pk}',250)" style="font-size:11px;padding:4px 10px">+250ml</button>
-        <button class="btn bb" onclick="addAgua('${pk}',500)" style="font-size:11px;padding:4px 10px">+500ml</button>
-        <button class="btn bb" onclick="addAgua('${pk}',750)" style="font-size:11px;padding:4px 10px">+750ml</button>
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px">de 2L · ${p}%</div>
+      <div style="background:#1e293b;border-radius:99px;height:8px;overflow:hidden;margin-bottom:8px"><div style="width:${p}%;height:100%;border-radius:99px;background:${col};transition:width 0.4s"></div></div>
+      ${q>=META?`<div style="font-size:11px;color:#4ade80;font-weight:700">✅ Meta!</div>`:""}
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">
+        <button class="btn bb" onclick="addA('${k}',250)" style="font-size:10px;padding:3px 8px">+250</button>
+        <button class="btn bb" onclick="addA('${k}',500)" style="font-size:10px;padding:3px 8px">+500</button>
+        <button class="btn bb" onclick="addA('${k}',750)" style="font-size:10px;padding:3px 8px">+750</button>
+        <button class="btn" onclick="resetA('${k}')" style="font-size:10px;padding:3px 8px;color:#475569">↺</button>
       </div>
-      <button class="btn" onclick="resetAgua('${pk}')" style="margin-top:8px;font-size:10px;color:#475569">↺ resetear</button>
     </div>`;
   });
   h+=`</div>
     <div style="font-size:11px;color:#475569;text-align:center">Se resetea automaticamente cada dia</div>
   </div>
   <div class="card" style="background:#0a1a0a;border-color:#4ade8044">
-    <div style="font-size:13px;font-weight:800;color:#4ade80;margin-bottom:8px">💡 Guia de hidratacion</div>
-    <div style="font-size:12px;color:#86efac;line-height:1.8">
-      🌅 Al despertar — 1 vaso (250ml)<br>
-      🍳 Con el desayuno — 1 vaso (250ml)<br>
-      💼 Durante el trabajo — 500ml (llevar botella)<br>
-      ⚡ Pre-entreno — 1 vaso (250ml)<br>
-      🏋️ Durante el entreno — 500ml minimo<br>
-      🌙 Con la cena — 1 vaso (250ml)
-    </div>
+    <div style="font-size:13px;font-weight:800;color:#4ade80;margin-bottom:8px">💡 Guia rapida</div>
+    <div style="font-size:12px;color:#86efac;line-height:1.9">🌅 Al despertar — 250ml · 🍳 Desayuno — 250ml · 💼 Trabajo — 500ml · ⚡ Pre-entreno — 250ml · 🏋️ Entreno — 500ml · 🌙 Cena — 250ml</div>
   </div>`;
   document.getElementById("v-agua").innerHTML=h;
 }
 
 function rEnt(){
-  const allS=[...SEM1,...SEM2];
+  const allS=[...SEM1,...SEM2,...SEM3];
   const comp=entrenos.filter(e=>e.e==="completo").length;
   const pctG=allS.length>0?Math.round((comp/(allS.length*2))*100):0;
   let h=`<div class="card" style="background:#1c1030;border-color:#a78bfa55;margin-bottom:16px">
@@ -455,12 +426,11 @@ function rEnt(){
     <div class="g2" style="margin-bottom:14px">`;
   [["🧔 Ray","Ray","#60a5fa"],["👩 Cyn","Cyn","#f9a8d4"]].forEach(([lb,q,col])=>{
     const c=allS.filter(s=>entrenos.find(e=>e.id===s.id&&e.q===q&&e.e==="completo")).length;
-    const p=allS.filter(s=>entrenos.find(e=>e.id===s.id&&e.q===q&&e.e==="parcial")).length;
     const pq=Math.round((c/allS.length)*100);
     h+=`<div style="background:#0f172a;border-radius:12px;padding:14px 12px">
       <div style="font-size:13px;font-weight:800;color:${col};margin-bottom:6px">${lb}</div>
       <div style="font-size:26px;font-weight:900;color:${col};line-height:1">${c}<span style="font-size:12px;color:#475569;font-weight:400">/${allS.length}</span></div>
-      <div style="font-size:11px;color:#64748b;margin-bottom:6px">completados ${p>0?`· ${p} parcial`:""}</div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px">completados</div>
       <div class="pb"><div class="pf" style="width:${pq}%;background:${col}"></div></div>
     </div>`;
   });
@@ -469,43 +439,47 @@ function rEnt(){
     <div class="pb" style="height:10px"><div class="pf" style="width:${pctG}%;background:linear-gradient(90deg,#a78bfa,#4ade80)"></div></div>
     <div style="font-size:14px;font-weight:900;color:#4ade80;text-align:right">${pctG}%</div>
   </div>`;
-  h+=`<div style="font-size:12px;font-weight:800;color:#64748b;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">✅ Semana 1 — Completada</div>`;
-  SEM1.forEach(s=>{
-    h+=`<div class="card" style="margin-bottom:8px;opacity:0.7">
-      <div style="font-size:13px;font-weight:800">${s.d} ${s.f} · ${s.n}</div>
-      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-        <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Ray Completo</span>
-        <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Cyn Completo</span>
-      </div>
-    </div>`;
-  });
-  h+=`<div style="font-size:12px;font-weight:800;color:#4ade80;margin:16px 0 8px;text-transform:uppercase;letter-spacing:1px">💪 Semana 2 — En curso</div>`;
-  SEM2.forEach(s=>{
-    h+=`<div class="card" style="margin-bottom:12px">
-      <div style="margin-bottom:10px">
-        <div style="font-size:14px;font-weight:800">${s.d} ${s.f}</div>
-        <div style="font-size:12px;color:#4ade80;font-weight:600">${s.n}</div>
-        <div style="font-size:11px;color:#64748b">🕐 ${s.hora}</div>
-      </div>`;
-    ["Ray","Cyn"].forEach(q=>{
-      const reg=entrenos.find(e=>e.id===s.id&&e.q===q);
-      const est=ESTADOS.find(e=>e.v===reg?.e);
-      const cq=q==="Ray"?"#60a5fa":"#f9a8d4";
-      h+=`<div class="cd" style="margin-bottom:6px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:12px;font-weight:800;color:${cq}">${q==="Ray"?"🧔":"👩"} ${q}</span>
-          <div style="display:flex;align-items:center;gap:8px">
-            ${est?`<span style="font-size:12px;font-weight:700;color:${est.c==="bg"?"#4ade80":est.c==="by"?"#fbbf24":"#f87171"}">${est.e} ${est.l}</span>`:""}
-            ${reg?`<span style="font-size:10px;color:#475569">${reg.t||""}</span>`:""}
+
+  [["✅ Semana 1 — Completada",SEM1,"#64748b"],["✅ Semana 2 — Completada",SEM2,"#64748b"],["💪 Semana 3 — En curso",SEM3,"#4ade80"]].forEach(([titulo,sems,color])=>{
+    h+=`<div style="font-size:12px;font-weight:800;color:${color};margin:16px 0 8px;text-transform:uppercase;letter-spacing:1px">${titulo}</div>`;
+    sems.forEach(s=>{
+      const esSem3=SEM3.includes(s);
+      if(!esSem3){
+        h+=`<div class="card" style="margin-bottom:8px;opacity:0.7">
+          <div style="font-size:13px;font-weight:800">${s.d} ${s.f} · ${s.n}</div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Ray</span>
+            <span style="background:#052e16;color:#4ade80;border:1px solid #4ade80;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700">✅ Cyn</span>
           </div>
-        </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">`;
-      ESTADOS.forEach(e=>{h+=`<button class="btn ${reg?.e===e.v?e.c:""}" onclick="mEnt('${s.id}','${q}','${e.v}')">${e.e} ${e.l}</button>`;});
-      h+=`</div>`;
-      if(reg)h+=`<input class="ni" placeholder="Nota opcional..." value="${reg.n||""}" onblur="uNota('${s.id}','${q}',this.value)">`;
-      h+=`</div>`;
+        </div>`;
+      } else {
+        h+=`<div class="card" style="margin-bottom:12px">
+          <div style="margin-bottom:10px">
+            <div style="font-size:14px;font-weight:800">${s.d} ${s.f}</div>
+            <div style="font-size:12px;color:#4ade80;font-weight:600">${s.n}</div>
+            <div style="font-size:11px;color:#64748b">🕐 ${s.h}</div>
+          </div>`;
+        ["Ray","Cyn"].forEach(q=>{
+          const reg=entrenos.find(e=>e.id===s.id&&e.q===q);
+          const est=ESTADOS.find(e=>e.v===reg?.e);
+          const cq=q==="Ray"?"#60a5fa":"#f9a8d4";
+          h+=`<div class="cd" style="margin-bottom:6px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="font-size:12px;font-weight:800;color:${cq}">${q==="Ray"?"🧔":"👩"} ${q}</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                ${est?`<span style="font-size:12px;font-weight:700;color:${est.c==="bg"?"#4ade80":est.c==="by"?"#fbbf24":"#f87171"}">${est.e} ${est.l}</span>`:""}
+                ${reg?`<span style="font-size:10px;color:#475569">${reg.t||""}</span>`:""}
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">`;
+          ESTADOS.forEach(e=>{h+=`<button class="btn ${reg?.e===e.v?e.c:""}" onclick="mEnt('${s.id}','${q}','${e.v}')">${e.e} ${e.l}</button>`;});
+          h+=`</div>`;
+          if(reg)h+=`<input class="ni" placeholder="Nota opcional..." value="${reg.n||""}" onblur="uNota('${s.id}','${q}',this.value)">`;
+          h+=`</div>`;
+        });
+        h+=`</div>`;
+      }
     });
-    h+=`</div>`;
   });
   document.getElementById("v-entrenos").innerHTML=h;
 }
@@ -566,9 +540,9 @@ function rCon(){
           <div style="font-size:11px;color:#64748b">Disponible: ${fQ(item)}</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-          <button class="cir" onclick="sUso('${item.id}',${-item.s})">-</button>
-          <input type="number" min="0" value="${q}" style="background:#0f172a;border:1px solid #475569;color:#f1f5f9;border-radius:8px;padding:5px 8px;font-size:14px;width:60px;text-align:center;outline:none" onchange="sUsoV('${item.id}',this.value)">
-          <button class="cir" onclick="sUso('${item.id}',${item.s})">+</button>
+          <button class="cir" onclick="sU('${item.id}',${-item.s})">-</button>
+          <input type="number" min="0" value="${q}" style="background:#0f172a;border:1px solid #475569;color:#f1f5f9;border-radius:8px;padding:5px 8px;font-size:14px;width:60px;text-align:center;outline:none" onchange="sUV('${item.id}',this.value)">
+          <button class="cir" onclick="sU('${item.id}',${item.s})">+</button>
         </div>
       </div>`;
     });
@@ -583,8 +557,8 @@ function rLog(){
   else{
     log.forEach(en=>{
       const items=typeof en.items==="string"?JSON.parse(en.items||"[]"):(en.items||[]);
-      h+=`<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:800;color:#22c55e">🍽️ ${en.momento||en.mom||""}</span><span style="font-size:11px;color:#64748b">${en.ts||""}</span></div><div style="font-size:12px;color:#94a3b8;margin-bottom:8px">👤 ${en.quien||""}</div>`;
-      items.forEach(it=>{h+=`<div style="background:#0f172a;border-radius:8px;padding:6px 12px;margin-bottom:4px;font-size:13px;display:flex;justify-content:space-between"><span>${it.e||it.emoji||""} ${it.n||it.nombre||""}</span><span style="color:#f87171;font-weight:700">-${it.qty} ${it.u||it.unidad||""}</span></div>`;});
+      h+=`<div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:13px;font-weight:800;color:#22c55e">🍽️ ${en.momento||""}</span><span style="font-size:11px;color:#64748b">${en.ts||""}</span></div><div style="font-size:12px;color:#94a3b8;margin-bottom:8px">👤 ${en.quien||""}</div>`;
+      items.forEach(it=>{h+=`<div style="background:#0f172a;border-radius:8px;padding:6px 12px;margin-bottom:4px;font-size:13px;display:flex;justify-content:space-between"><span>${it.e||""} ${it.n||""}</span><span style="color:#f87171;font-weight:700">-${it.qty} ${it.u||""}</span></div>`;});
       h+=`</div>`;
     });
     h+=`<button class="btn" style="color:#f87171;border-color:#7f1d1d;margin-top:4px;margin-bottom:20px" onclick="if(confirm('Borrar historial?')){log=[];saveRemote();rLog();}">🗑 Borrar historial</button>`;
@@ -592,7 +566,6 @@ function rLog(){
   document.getElementById("v-log").innerHTML=h;
 }
 
-// ── ACCIONES ─────────────────────────────────────────────────────
 function setV(v,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));el.classList.add("on");["plan","agua","entrenos","stock","consumir","log"].forEach(n=>document.getElementById("v-"+n).classList.toggle("hid",n!==v));}
 function setDia(i){diaIdx=i;saveRemote();rPlan();rAlts();}
 function setPT(t){pTab=t;rPlan();}
@@ -600,14 +573,10 @@ function setCat(c){catF=c;rStock();}
 function setBusq(v){busq=v;rStock();}
 function setQ(q){quien=q;rCon();}
 function setM(m){mom=m;rCon();}
-function sUso(id,d){uso[id]=Math.max(0,(Number(uso[id])||0)+d);rCon();}
-function sUsoV(id,v){uso[id]=Math.max(0,Number(v)||0);}
+function sU(id,d){uso[id]=Math.max(0,(Number(uso[id])||0)+d);rCon();}
+function sUV(id,v){uso[id]=Math.max(0,Number(v)||0);}
 function adj(id,d){stock=stock.map(i=>i.id===id?{...i,q:Math.max(0,i.q+d)}:i);saveRemote();rStock();rAlts();}
-function edQ(id){
-  const it=stock.find(i=>i.id===id);
-  const v=prompt(`Nueva cantidad para ${it.n} (actual: ${fQ(it)}):`,it.q);
-  if(v!==null&&!isNaN(parseFloat(v))&&parseFloat(v)>=0){stock=stock.map(i=>i.id===id?{...i,q:parseFloat(v)}:i);saveRemote();rStock();rAlts();}
-}
+function edQ(id){const it=stock.find(i=>i.id===id);const v=prompt(`Nueva cantidad para ${it.n}:`,it.q);if(v!==null&&!isNaN(parseFloat(v))&&parseFloat(v)>=0){stock=stock.map(i=>i.id===id?{...i,q:parseFloat(v)}:i);saveRemote();rStock();rAlts();}}
 function reg(){
   const usados=Object.entries(uso).filter(([,v])=>Number(v)>0);
   if(!usados.length){alert("No marcaste ningun consumo.");return;}
@@ -627,12 +596,8 @@ function mEnt(sId,q,estado){
   saveRemote();rEnt();rAlts();
 }
 function uNota(sId,q,nota){entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,n:nota}:e);saveRemote();}
-function addAgua(p,ml){
-  if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};
-  agua[p]=Math.min(3000,agua[p]+ml);
-  saveRemote();rAgua();rAlts();
-}
-function resetAgua(p){agua[p]=0;saveRemote();rAgua();rAlts();}
+function addA(p,ml){if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};agua[p]=Math.min(3000,agua[p]+ml);saveRemote();rAgua();rAlts();}
+function resetA(p){agua[p]=0;saveRemote();rAgua();rAlts();}
 
 window.addEventListener("DOMContentLoaded",()=>{
   loadLocal();
