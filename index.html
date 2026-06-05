@@ -142,20 +142,20 @@ const PLAN=[
     comidas:[
       {h:"8:30", l:"Desayuno juntos",  r:"Avena + leche + banana + cafe sin apuro",                       c:"Avena + leche + fruta fresca (compra nueva) + cafe"},
       {h:"11:00",l:"Snack",            r:"Frutos secos + fruta",                                           c:"Fruta + yogurt"},
-      {h:"14:00",l:"Almuerzo juntos",  r:"Con ingredientes de compra nueva",                               c:"Plato inteligente con compra nueva"},
+      {h:"14:00",l:"Almuerzo juntos",  r:"Ensalada Cesar: iceberg + pollo + grana padano + huevo duro + salsa caesar",c:"Idem - plato inteligente con ensalada grande"},
       {h:"15:00",l:"ENTRENO",          r:"Juntos - Sem 3 completa!",                                       c:"Juntos - Sem 3 completa!"},
       {h:"17:00",l:"Post-entreno",     r:"Whey + leche + huevos",                                          c:"Whey + yogurt"},
-      {h:"20:30",l:"Cena juntos",      r:"Cena libre con ingredientes nuevos",                             c:"Plato inteligente con verdura fresca"},
-    ],prep:"DIA DE COMPRA GENERAL. 4 dias de entreno completados - celebrar!"},
+      {h:"20:30",l:"Cena juntos",      r:"Ensalada Cesar: iceberg + pollo + grana padano + huevo duro + salsa caesar",c:"Idem ensalada grande + menos pan"},
+    ],prep:"Compra hecha. Cena Cesar con ingredientes frescos!"},
   {fecha:"06/06",dia:"Sabado",tipo:"libre",
     info:"Ray: a definir · Cyn: 7:00-12:00 + 19:00-23:00",
     entreno:{h:"Sin horario",n:"Descanso o actividad libre",
       ej:["Sendero opcional","Caminata suave","Descanso total si el cuerpo lo pide"]},
     comidas:[
       {h:"7:00", l:"Desayuno Cyn",     r:"Ray desayuna en casa con ingredientes nuevos",                   c:"🏨 Hotel: yogurt griego + frutos secos + pan integral"},
-      {h:"12:00",l:"Almuerzo",         r:"Almuerza en casa",                                               c:"Come en el hotel"},
-      {h:"20:30",l:"Cena juntos",      r:"Cena con ingredientes nuevos",                                   c:"Idem cuando llega 23:00"},
-    ],prep:"Cyn turno partido. Ray prepara cena caliente para cuando Cyn llega."},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel"},
+      {h:"20:30",l:"Cena juntos",      r:"Piadina + pollo + rucola + tomate + pesto rosso + mozzarella",   c:"Idem cuando llega 23:00"},
+    ],prep:"Ambos almuerzan en hotel. Cyn turno partido. Ray prepara piadina caliente para cuando Cyn llega 23:00."},
   {fecha:"07/06",dia:"Domingo",tipo:"planificacion",
     info:"Ray: 9:30→~16:00 · Cyn: 7:00-12:00 + 19:00-23:00",
     entreno:{h:"Opcional",n:"Planificacion semana 4",
@@ -163,7 +163,7 @@ const PLAN=[
     comidas:[
       {h:"7:00", l:"Desayuno Cyn",     r:"Ray desayuna en casa antes de salir",                            c:"🏨 Hotel: yogurt griego + frutos secos + pan integral"},
       {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel"},
-      {h:"20:30",l:"Cena juntos",      r:"Cena liviana + planificacion semana 4",                          c:"Idem cuando llega 23:00"},
+      {h:"20:30",l:"Cena juntos",      r:"Tagliata a la plancha + patatas + ensalada iceberg + limon",     c:"Idem cuando llega 23:00"},
     ],prep:"Pasarme horarios semana 4 para actualizar la app. Planificar entrenos."},
 ];
 
@@ -196,51 +196,70 @@ const HIST=[
   {id:"s6",q:"Cyn",e:"completo",n:"",t:"26/5/26"},
   {id:"s7",q:"Ray",e:"completo",n:"",t:"28/5/26"},
   {id:"s7",q:"Cyn",e:"completo",n:"",t:"28/5/26"},
+  {id:"s8",q:"Ray",e:"completo",n:"",t:"01/6/26"},
+  {id:"s8",q:"Cyn",e:"completo",n:"",t:"01/6/26"},
 ];
 
 const SD=[
-  {id:"huevos",   e:"🥚",n:"Huevos",                  c:"Proteinas",      q:13,  u:"ud",      s:1,  m:6},
-  {id:"bistecca", e:"🥩",n:"Bistecca / Tagliata",      c:"Proteinas",      q:400, u:"g",       s:100,m:0},
-  {id:"macinato", e:"🥩",n:"Carne molida bovina",      c:"Proteinas",      q:900, u:"g",       s:100,m:0},
-  {id:"tonno",    e:"🐟",n:"Atun en lata",             c:"Proteinas",      q:2,   u:"latas",   s:1,  m:1},
-  {id:"latte",    e:"🥛",n:"Leche entera UHT",         c:"Lacteos",        q:4250,u:"ml",      s:250,m:500},
-  {id:"yogurt",   e:"🫙",n:"Yogurt griego",            c:"Lacteos",        q:2,   u:"ud",      s:1,  m:1},
-  {id:"mozza",    e:"🧀",n:"Mozzarella fresca",        c:"Lacteos",        q:4,   u:"ud",      s:1,  m:0},
-  {id:"grana",    e:"🧀",n:"Grana Padano grattugiato", c:"Lacteos",        q:50,  u:"g",       s:10, m:0},
-  {id:"kefir",    e:"🥤",n:"Kefir",                    c:"Lacteos",        q:1,   u:"ud",      s:1,  m:0},
-  {id:"banane",   e:"🍌",n:"Bananas bio",              c:"Fruta y verdura",q:5,   u:"ud",      s:1,  m:2},
-  {id:"palta",    e:"🥑",n:"Palta / Avocado",          c:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0,urg:true},
-  {id:"kiwi",     e:"🥝",n:"Kiwi",                     c:"Fruta y verdura",q:2,   u:"ud",      s:1,  m:0},
-  {id:"mele",     e:"🍎",n:"Manzanas",                 c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
-  {id:"pomodori", e:"🍅",n:"Tomates cherry",           c:"Fruta y verdura",q:200, u:"g",       s:100,m:0},
-  {id:"brocoli",  e:"🥦",n:"Broccoletti",              c:"Fruta y verdura",q:500, u:"g",       s:100,m:0},
-  {id:"zucchine", e:"🥒",n:"Zucchine",                 c:"Fruta y verdura",q:494, u:"g",       s:150,m:0},
-  {id:"peperoni", e:"🫑",n:"Peperoni rossi",           c:"Fruta y verdura",q:1,   u:"ud",      s:1,  m:0},
-  {id:"mais",     e:"🌽",n:"Mais (choclo)",            c:"Fruta y verdura",q:80,  u:"g",       s:80, m:0},
-  {id:"patate",   e:"🥔",n:"Patatas rojas",            c:"Fruta y verdura",q:1500,u:"g",       s:250,m:0},
-  {id:"aglio",    e:"🧄",n:"Ajo",                      c:"Fruta y verdura",q:3,   u:"cabezas", s:1,  m:0},
-  {id:"cipolla",  e:"🧅",n:"Cebolla blanca",           c:"Fruta y verdura",q:600, u:"g",       s:100,m:0},
-  {id:"avena",    e:"🌾",n:"Avena",                    c:"Dispensa",       q:380, u:"g",       s:60, m:60},
-  {id:"riso",     e:"🍚",n:"Arroz parboiled",          c:"Dispensa",       q:140, u:"g",       s:80, m:0},
-  {id:"fusilli",  e:"🍝",n:"Pasta fusilli Barilla",    c:"Dispensa",       q:2670,u:"g",       s:80, m:0},
-  {id:"sedanini", e:"🍝",n:"Pasta sedanini",           c:"Dispensa",       q:500, u:"g",       s:80, m:0},
-  {id:"spaghetti",e:"🍝",n:"Spaghettini Barilla",      c:"Dispensa",       q:500, u:"g",       s:80, m:0},
-  {id:"pane",     e:"🍞",n:"Pan de molde integral",    c:"Dispensa",       q:6,   u:"fetas",   s:2,  m:0},
-  {id:"ceci",     e:"🫘",n:"Garbanzos en lata",        c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
-  {id:"lenticchie",e:"🟤",n:"Lentejas en lata",        c:"Dispensa",       q:3,   u:"latas",   s:1,  m:0},
-  {id:"passata",  e:"🥫",n:"Passata / tomate triturado",c:"Dispensa",      q:1,   u:"latas",   s:1,  m:0,urg:true},
-  {id:"o_oliva",  e:"🫒",n:"Aceite de oliva",          c:"Dispensa",       q:500, u:"ml",      s:10, m:0},
-  {id:"o_gir",    e:"🌻",n:"Aceite de girasol",        c:"Dispensa",       q:750, u:"ml",      s:50, m:0},
-  {id:"mani",     e:"🥜",n:"Crema de mani",            c:"Dispensa",       q:240, u:"g",       s:15, m:0},
-  {id:"dadi",     e:"🟡",n:"Dados vegetales Knorr",    c:"Dispensa",       q:9,   u:"cubos",   s:1,  m:0},
-  {id:"knorr",    e:"🥣",n:"Sopa Knorr (sobres)",      c:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
-  {id:"caesar",   e:"🫙",n:"Salsa Caesar proteica",    c:"Dispensa",       q:1,   u:"frasco",  s:1,  m:0},
-  {id:"porcini",  e:"🍄",n:"Crema de hongos",          c:"Dispensa",       q:2,   u:"sobres",  s:1,  m:0},
-  {id:"asparagi", e:"🌿",n:"Crema de esparragos",      c:"Dispensa",       q:1,   u:"sobres",  s:1,  m:0},
-  {id:"pesoforma",e:"🍪",n:"Pesoforma Biscotti",       c:"Dispensa",       q:1,   u:"caja",    s:1,  m:0},
-  {id:"whey",     e:"💪",n:"Whey Protein",             c:"Suplementos",    q:26,  u:"porciones",s:1, m:5},
-  {id:"lcarni",   e:"💊",n:"L-Carnitina 500 (Cyn)",    c:"Suplementos",    q:22,  u:"capsulas", s:1, m:5},
-];
+  // PROTEINAS
+  {id:"huevos",   e:"🥚",n:"Huevos",                  c:"Proteinas",      q:11,   u:"ud",      s:1,  m:6},
+  {id:"pollo",    e:"🍗",n:"Pechuga de pollo",         c:"Proteinas",      q:1000, u:"g",       s:100,m:200},
+  {id:"tagliata", e:"🥩",n:"Tagliata bovina",          c:"Proteinas",      q:500,  u:"g",       s:100,m:0},
+  {id:"macinato", e:"🥩",n:"Macinata sceltissima",     c:"Proteinas",      q:500,  u:"g",       s:100,m:0},
+  {id:"salsiccia",e:"🌭",n:"Salsiccia luganega",       c:"Proteinas",      q:300,  u:"g",       s:100,m:0},
+  {id:"tonno",    e:"🐟",n:"Atun en lata",             c:"Proteinas",      q:4,    u:"latas",   s:1,  m:1},
+  {id:"jamon",    e:"🍖",n:"Prosciutto cotto",         c:"Proteinas",      q:200,  u:"g",       s:50, m:0},
+  // LACTEOS
+  {id:"latte",    e:"🥛",n:"Leche entera UHT",         c:"Lacteos",        q:3000, u:"ml",      s:250,m:500},
+  {id:"yogurt",   e:"🫙",n:"Yogurt griego",            c:"Lacteos",        q:7,    u:"ud",      s:1,  m:1},
+  {id:"mozza",    e:"🧀",n:"Mozzarella fresca",        c:"Lacteos",        q:2,    u:"ud",      s:1,  m:0},
+  {id:"emmental", e:"🧀",n:"Emmental bavarese",        c:"Lacteos",        q:1,    u:"paquete", s:1,  m:0},
+  {id:"grana",    e:"🧀",n:"Formaggio grattugiato",    c:"Lacteos",        q:100,  u:"g",       s:10, m:0},
+  {id:"spalmab",  e:"🧀",n:"Formaggio spalmabile",     c:"Lacteos",        q:1,    u:"ud",      s:1,  m:0},
+  {id:"kefir",    e:"🥤",n:"Kefir",                    c:"Lacteos",        q:1,    u:"ud",      s:1,  m:0},
+  // FRUTA Y VERDURA
+  {id:"banane",   e:"🍌",n:"Bananas",                  c:"Fruta y verdura",q:8,    u:"ud",      s:1,  m:3},
+  {id:"palta",    e:"🥑",n:"Palta / Avocado",          c:"Fruta y verdura",q:1,    u:"ud",      s:1,  m:0},
+  {id:"kiwi",     e:"🥝",n:"Kiwi",                     c:"Fruta y verdura",q:1,    u:"ud",      s:1,  m:0},
+  {id:"mele",     e:"🍎",n:"Manzanas (Granny+Pink)",   c:"Fruta y verdura",q:1000, u:"g",       s:100,m:0},
+  {id:"pomodori", e:"🍅",n:"Pomodori piccadilly",      c:"Fruta y verdura",q:500,  u:"g",       s:100,m:0},
+  {id:"zanahoria",e:"🥕",n:"Zanahoria julienne",       c:"Fruta y verdura",q:1,    u:"bolsa",   s:1,  m:0},
+  {id:"brocoli",  e:"🥦",n:"Broccoletti",              c:"Fruta y verdura",q:300,  u:"g",       s:100,m:0},
+  {id:"zucchine", e:"🥒",n:"Zucchine scure",           c:"Fruta y verdura",q:500,  u:"g",       s:150,m:0},
+  {id:"peperoni", e:"🫑",n:"Peperoni rossi",           c:"Fruta y verdura",q:7,    u:"ud",      s:1,  m:0},
+  {id:"mais",     e:"🌽",n:"Mais (choclo)",            c:"Fruta y verdura",q:80,   u:"g",       s:80, m:0},
+  {id:"patate",   e:"🥔",n:"Patatas rojas",            c:"Fruta y verdura",q:2000, u:"g",       s:250,m:0},
+  {id:"limoni",   e:"🍋",n:"Limones",                  c:"Fruta y verdura",q:762,  u:"g",       s:100,m:0},
+  {id:"aglio",    e:"🧄",n:"Ajo",                      c:"Fruta y verdura",q:3,    u:"cabezas", s:1,  m:0},
+  {id:"cipolla",  e:"🧅",n:"Cebolla dorada",           c:"Fruta y verdura",q:526,  u:"g",       s:100,m:0},
+  {id:"iceberg",  e:"🥬",n:"Iceberg e radicchio",      c:"Fruta y verdura",q:1,    u:"bolsa",   s:1,  m:0},
+  {id:"rucola",   e:"🥗",n:"Rucula",                   c:"Fruta y verdura",q:1,    u:"bolsa",   s:1,  m:0},
+  // DISPENSA
+  {id:"avena",    e:"🌾",n:"Avena",                    c:"Dispensa",       q:380,  u:"g",       s:60, m:60},
+  {id:"riso",     e:"🍚",n:"Arroz parboiled",          c:"Dispensa",       q:700,  u:"g",       s:80, m:0},
+  {id:"fusilli",  e:"🍝",n:"Pasta fusilli Barilla",    c:"Dispensa",       q:1550, u:"g",       s:80, m:0},
+  {id:"sedanini", e:"🍝",n:"Pasta sedanini",           c:"Dispensa",       q:500,  u:"g",       s:80, m:0},
+  {id:"spaghetti",e:"🍝",n:"Spaghettini Barilla",      c:"Dispensa",       q:2000, u:"g",       s:80, m:0},
+  {id:"pane",     e:"🍞",n:"Pan de molde integral",    c:"Dispensa",       q:20,   u:"fetas",   s:2,  m:2},
+  {id:"piadina",  e:"🫓",n:"Piadina integrale",        c:"Dispensa",       q:3,    u:"ud",      s:1,  m:0},
+  {id:"ceci",     e:"🫘",n:"Garbanzos en lata",        c:"Dispensa",       q:2,    u:"latas",   s:1,  m:0},
+  {id:"lenticchie",e:"🟤",n:"Lentejas en lata",        c:"Dispensa",       q:3,    u:"latas",   s:1,  m:0},
+  {id:"passata",  e:"🥫",n:"Passata casereccia",       c:"Dispensa",       q:1,    u:"latas",   s:1,  m:0},
+  {id:"o_oliva",  e:"🫒",n:"Aceite de oliva",          c:"Dispensa",       q:500,  u:"ml",      s:10, m:0},
+  {id:"o_gir",    e:"🌻",n:"Aceite de girasol",        c:"Dispensa",       q:1000, u:"ml",      s:50, m:0},
+  {id:"mani",     e:"🥜",n:"Crema de mani",            c:"Dispensa",       q:90,   u:"g",       s:15, m:0},
+  {id:"dadi",     e:"🟡",n:"Dados vegetales Knorr",    c:"Dispensa",       q:9,    u:"cubos",   s:1,  m:0},
+  {id:"caesar",   e:"🫙",n:"Salsa Caesar proteica",    c:"Dispensa",       q:2,    u:"frasco",  s:1,  m:0},
+  {id:"pesto",    e:"🟢",n:"Pesto rosso",              c:"Dispensa",       q:1,    u:"frasco",  s:1,  m:0},
+  {id:"origano",  e:"🌿",n:"Origano",                  c:"Dispensa",       q:1,    u:"frasco",  s:1,  m:0},
+  {id:"peperonc", e:"🌶",n:"Peperoncino frantumato",   c:"Dispensa",       q:1,    u:"frasco",  s:1,  m:0},
+  {id:"asparagi", e:"🌿",n:"Crema de esparragos",      c:"Dispensa",       q:2,    u:"sobres",  s:1,  m:0},
+  {id:"bevanda",  e:"🧃",n:"Bevanda arancia",          c:"Dispensa",       q:1,    u:"ud",      s:1,  m:0},
+  {id:"barrette", e:"🍫",n:"Barrette fitness/riso",    c:"Dispensa",       q:4,    u:"ud",      s:1,  m:0},
+  // SUPLEMENTOS
+  {id:"whey",     e:"💪",n:"Whey Protein",             c:"Suplementos",    q:26,   u:"porciones",s:1, m:5},
+  {id:"lcarni",   e:"💊",n:"L-Carnitina 500 (Cyn)",    c:"Suplementos",    q:21,   u:"capsulas", s:1, m:5},
+]];
 
 const CATS=["Proteinas","Lacteos","Fruta y verdura","Dispensa","Suplementos"];
 const MOMS=["Desayuno","Pre-entreno","Almuerzo / Vianda","Post-entreno","Merienda","Cena","Otro"];
@@ -249,7 +268,7 @@ const ESTADOS=[{v:"completo",l:"Completo",e:"✅",c:"bg"},{v:"parcial",l:"Parcia
 const COL={"Proteinas":{ac:"#f87171",bg:"#2d1010"},"Lacteos":{ac:"#60a5fa",bg:"#0f1f35"},"Fruta y verdura":{ac:"#4ade80",bg:"#0f2a14"},"Dispensa":{ac:"#fbbf24",bg:"#2a1f05"},"Suplementos":{ac:"#a78bfa",bg:"#1c1030"}};
 const TC={entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
 const META=2000;
-const SK="rc4_s",LK="rc4_l",EK="rc4_e",DK="rc4_d",AK="rc4_a";
+const SK="rc5_s",LK="rc4_l",EK="rc4_e",DK="rc4_d",AK="rc4_a";
 
 let stock=SD.map(i=>({...i}));
 let log=[];
@@ -578,35 +597,4 @@ function sUV(id,v){uso[id]=Math.max(0,Number(v)||0);}
 function adj(id,d){stock=stock.map(i=>i.id===id?{...i,q:Math.max(0,i.q+d)}:i);saveRemote();rStock();rAlts();}
 function edQ(id){const it=stock.find(i=>i.id===id);const v=prompt(`Nueva cantidad para ${it.n}:`,it.q);if(v!==null&&!isNaN(parseFloat(v))&&parseFloat(v)>=0){stock=stock.map(i=>i.id===id?{...i,q:parseFloat(v)}:i);saveRemote();rStock();rAlts();}}
 function reg(){
-  const usados=Object.entries(uso).filter(([,v])=>Number(v)>0);
-  if(!usados.length){alert("No marcaste ningun consumo.");return;}
-  const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
-  const items=usados.map(([id,qty])=>{const it=stock.find(i=>i.id===id);return{e:it.e,n:it.n,qty:Number(qty),u:it.u};});
-  stock=stock.map(i=>{const q=Number(uso[i.id]||0);return q>0?{...i,q:Math.max(0,i.q-q)}:i;});
-  log=[{ts,quien,momento:mom,items},...log];
-  uso={};saveRemote();renderAll();
-  const rb=document.getElementById("rb");
-  if(rb){rb.textContent="Registrado!";rb.style.background="#16a34a";setTimeout(()=>rCon(),2000);}
-}
-function mEnt(sId,q,estado){
-  const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
-  const ex=entrenos.find(e=>e.id===sId&&e.q===q);
-  if(ex)entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,e:estado,t:ts}:e);
-  else entrenos=[...entrenos,{id:sId,q,e:estado,n:"",t:ts}];
-  saveRemote();rEnt();rAlts();
-}
-function uNota(sId,q,nota){entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,n:nota}:e);saveRemote();}
-function addA(p,ml){if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};agua[p]=Math.min(3000,agua[p]+ml);saveRemote();rAgua();rAlts();}
-function resetA(p){agua[p]=0;saveRemote();rAgua();rAlts();}
-
-window.addEventListener("DOMContentLoaded",()=>{
-  loadLocal();
-  if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};
-  document.getElementById("ld").classList.add("hid");
-  document.getElementById("app").classList.remove("hid");
-  renderAll();setST();
-  setTimeout(()=>cargar(),500);
-});
-</script>
-</body>
-</html>
+  const usados=Object.entries(uso).filter(([,v])=>Number
