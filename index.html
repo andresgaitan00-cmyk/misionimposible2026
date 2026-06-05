@@ -597,4 +597,35 @@ function sUV(id,v){uso[id]=Math.max(0,Number(v)||0);}
 function adj(id,d){stock=stock.map(i=>i.id===id?{...i,q:Math.max(0,i.q+d)}:i);saveRemote();rStock();rAlts();}
 function edQ(id){const it=stock.find(i=>i.id===id);const v=prompt(`Nueva cantidad para ${it.n}:`,it.q);if(v!==null&&!isNaN(parseFloat(v))&&parseFloat(v)>=0){stock=stock.map(i=>i.id===id?{...i,q:parseFloat(v)}:i);saveRemote();rStock();rAlts();}}
 function reg(){
-  const usados=Object.entries(uso).filter(([,v])=>Number
+  const usados=Object.entries(uso).filter(([,v])=>Number(v)>0);
+  if(!usados.length){alert("No marcaste ningun consumo.");return;}
+  const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
+  const items=usados.map(([id,qty])=>{const it=stock.find(i=>i.id===id);return{e:it.e,n:it.n,qty:Number(qty),u:it.u};});
+  stock=stock.map(i=>{const q=Number(uso[i.id]||0);return q>0?{...i,q:Math.max(0,i.q-q)}:i;});
+  log=[{ts,quien,momento:mom,items},...log];
+  uso={};saveRemote();renderAll();
+  const rb=document.getElementById("rb");
+  if(rb){rb.textContent="Registrado!";rb.style.background="#16a34a";setTimeout(()=>rCon(),2000);}
+}
+function mEnt(sId,q,estado){
+  const ts=new Date().toLocaleString("es-AR",{dateStyle:"short",timeStyle:"short"});
+  const ex=entrenos.find(e=>e.id===sId&&e.q===q);
+  if(ex)entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,e:estado,t:ts}:e);
+  else entrenos=[...entrenos,{id:sId,q,e:estado,n:"",t:ts}];
+  saveRemote();rEnt();rAlts();
+}
+function uNota(sId,q,nota){entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,n:nota}:e);saveRemote();}
+function addA(p,ml){if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};agua[p]=Math.min(3000,agua[p]+ml);saveRemote();rAgua();rAlts();}
+function resetA(p){agua[p]=0;saveRemote();rAgua();rAlts();}
+
+window.addEventListener("DOMContentLoaded",()=>{
+  loadLocal();
+  if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};
+  document.getElementById("ld").classList.add("hid");
+  document.getElementById("app").classList.remove("hid");
+  renderAll();setST();
+  setTimeout(()=>cargar(),500);
+});
+</script>
+</body>
+</html>
