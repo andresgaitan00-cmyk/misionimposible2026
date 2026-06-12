@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Ray & Cyn · Sem 3</title>
+<title>Ray & Cyn · Sem 4</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nunito','Segoe UI',sans-serif;background:#0f172a;color:#f1f5f9;max-width:680px;margin:0 auto;padding-bottom:80px}
@@ -51,14 +51,14 @@ input[type=number]{-moz-appearance:textfield}
 <div id="ld" class="ld">
   <div style="font-size:36px">🏠</div>
   <div style="font-size:16px;font-weight:700">Cargando Ray & Cyn...</div>
-  <div style="font-size:12px;color:#475569;margin-top:4px">Semana 3 · Borgosesia</div>
+  <div style="font-size:12px;color:#475569;margin-top:4px">Semana 4 · Borgosesia</div>
 </div>
 <div id="app" class="hid">
   <div class="hdr">
     <div class="htop">
       <div>
-        <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px">🏠 Ray & Cyn · Sem 3</div>
-        <div style="font-size:11px;color:#475569;margin-top:2px">01/06–07/06/2026 · Borgosesia</div>
+        <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px">🏠 Ray & Cyn · Sem 4</div>
+        <div style="font-size:11px;color:#475569;margin-top:2px">13/06–22/06/2026 · Borgosesia</div>
       </div>
       <div>
         <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end"><div class="dot"></div><span style="font-size:10px;color:#4ade80;font-weight:700">EN VIVO</span></div>
@@ -89,82 +89,110 @@ const API_KEY="$2a$10$aFCwvuu3jz1xZ7z3prWoi.U6b3Poi7ieWjBpP3xFHK/9/IscK3CW2";
 const BURL="https://api.jsonbin.io/v3/b/"+BIN_ID;
 
 const PLAN=[
-  {fecha:"01/06",dia:"Lunes",tipo:"entreno",
-    info:"Ray: 9:00→~14:30 · Cyn: 7:00-12:00 + 19:00-23:00",
-    entreno:{h:"15:00-16:30",n:"Sem 3 Dia 1 - Lower progresado",
-      ej:["Trote suave 15 min","Sentadilla libre 3x16","Zancada estatica 3x12 c/lado","Puente de gluteos 3x18","Plancha completa 3x30 seg","Descanso 60 seg"]},
-    comidas:[
-      {h:"7:45", l:"Desayuno Ray",     r:"Avena 60g + leche + banana + cafe",                              c:"🏨 Hotel: huevos revueltos + jamon + pan integral + jugo (entreno)"},
-      {h:"12:00",l:"Almuerzo hotel",   r:"Come en el hotel",                                               c:"Come en el hotel (libre 12-19)"},
-      {h:"14:30",l:"Pre-entreno",      r:"Banana + crema de mani",                                         c:"Kiwi + L-Carnitina 30min antes"},
-      {h:"15:00",l:"ENTRENO",          r:"Juntos · ventana 15:00-16:30",                                   c:"Juntos"},
-      {h:"17:00",l:"Post-entreno",     r:"Whey + leche + 2 huevos",                                        c:"Whey + yogurt"},
-      {h:"20:00",l:"Cena",             r:"Pasta fusilli + macinato + passata + cebolla + ajo",             c:"Idem porcion chica · USAR PASSATA HOY"},
-    ],prep:"USAR PASSATA HOY es la ultima. Cyn llega 23:00 - dejar cena caliente."},
-  {fecha:"02/06",dia:"Martes",tipo:"entreno",
-    info:"Ray: 10:00→~15:30 · Cyn: 7:00-12:00 + 19:00-23:00",
-    entreno:{h:"16:00-17:30",n:"Sem 3 Dia 2 - Upper intro",
-      ej:["Trote suave 10 min","Flexion de brazos en rodillas 3x10","Remo con botella o mochila 3x12","Elevacion lateral brazos 3x12","Plancha completa 3x30 seg","Descanso 60 seg"]},
-    comidas:[
-      {h:"8:00", l:"Desayuno Ray",     r:"2 huevos + 2 fetas pan + kiwi + cafe",                          c:"🏨 Hotel: huevos revueltos + jamon + pan integral + jugo (entreno)"},
-      {h:"12:00",l:"Almuerzo hotel",   r:"Come en el hotel",                                               c:"Come en el hotel (libre 12-19)"},
-      {h:"15:30",l:"Pre-entreno",      r:"Banana + crema de mani",                                         c:"Banana + L-Carnitina 30min antes"},
-      {h:"16:00",l:"ENTRENO",          r:"Juntos",                                                         c:"Juntos"},
-      {h:"17:30",l:"Post-entreno",     r:"Whey + leche + 2 huevos",                                        c:"Whey + yogurt"},
-      {h:"20:00",l:"Cena",             r:"Bistecca a la plancha + patatas + tomate cherry + ajo",          c:"Idem menos patatas + palta (ULTIMA usar hoy) + mozzarella"},
-    ],prep:"Palta es la ultima - usarla hoy. Cyn llega 23:00 - cena lista y caliente."},
-  {fecha:"03/06",dia:"Miercoles",tipo:"descanso",
-    info:"Ray: 9:00+BLU→~14:30 · Cyn: 7:00-12:00 + 19:00-23:00",
+  {fecha:"13/06",dia:"Sabado",tipo:"descanso",
+    info:"Ray: ~9:00-14:30 · Cyn: 7:00-14:00",
     entreno:{h:"-",n:"Descanso activo",
-      ej:["Caminata suave 20-30 min opcional","Stretching 10 min","SIN circuitos ni cardio","Recuperacion entre sesiones"]},
+      ej:["Caminata suave por el sendero opcional","Stretching 15 min","Descanso total si el cuerpo lo pide","Recuperacion de semana 3"]},
     comidas:[
-      {h:"7:45", l:"Desayuno Ray",     r:"Avena + leche + banana + cafe",                                 c:"🏨 Hotel: yogurt griego + frutos secos + pan integral (descanso)"},
-      {h:"12:00",l:"Almuerzo hotel",   r:"Come en el hotel",                                               c:"Come en el hotel (libre 12-19)"},
-      {h:"14:30",l:"Merienda",         r:"Manzana + crema de mani",                                        c:"Manzana + yogurt"},
-      {h:"20:00",l:"Cena",             r:"Pasta sedanini + crema de hongos + zucchini + ajo",             c:"Idem porcion chica + broccoletti al lado"},
-    ],prep:"Descanso real. Usar crema de hongos hoy. Cyn llega 23:00."},
-  {fecha:"04/06",dia:"Jueves",tipo:"entreno",
-    info:"Ray: 9:00+Alpino→~14:30 · Cyn: REPOSO",
-    entreno:{h:"15:00-16:30",n:"Sem 3 Dia 3 - Full body",
-      ej:["Trote suave 15 min","Sentadilla libre 3x16","Flexion de brazos rodillas 3x12","Puente de gluteos 3x18","Plancha completa 3x30 seg","Zancada estatica 3x12 c/lado","Descanso 60 seg"]},
+      {h:"7:00", l:"Desayuno Cyn",     r:"---",                                                            c:"🏨 Hotel: libre — menu amplio"},
+      {h:"7:30", l:"Desayuno Ray",     r:"🥣 CARB: avena 70g + leche · 🍌 banana · ☕ cafe",              c:"---"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel · libre"},
+      {h:"15:30",l:"Merienda Ray",     r:"Barrita cereal + manzana",                                      c:"---"},
+      {h:"20:30",l:"Cena juntos",      r:"🌭 PROT: salchicha parrillera 250g a la plancha · 🥔 CARB: patatas 250g al horno con ajo y oliva · 🥒 VEG: zucchine 200g a la plancha · 🫒 GRASA: oliva",c:"🌭 PROT: salchicha 150g · 🥔 CARB: patatas 150g · 🥒 VEG: zucchine 250g (base grande) · 🫒 oliva"},
+    ],prep:"Cena 35 min: patatas al horno primero (25 min), salchicha y zucchine a la plancha los ultimos 10. Usar salchicha hoy — proteina fresca."},
+  {fecha:"14/06",dia:"Domingo",tipo:"descanso",
+    info:"Ray: ~9:00-14:30 · Cyn: 7:00-14:00",
+    entreno:{h:"-",n:"Descanso / movilidad",
+      ej:["Movilidad articular 15-20 min opcional","Caminata suave","Sin circuitos - recuperacion activa","Preparar semana 4"]},
     comidas:[
-      {h:"7:45", l:"Desayuno Ray",     r:"2 huevos + 2 fetas pan + banana + cafe",                        c:"Desayuna en casa (reposo) - huevos + pan + cafe"},
-      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Almuerza en casa: garbanzos + zucchini + huevo + oliva + cebolla"},
-      {h:"14:30",l:"Pre-entreno",      r:"Banana + crema de mani",                                         c:"L-Carnitina 30min antes + banana"},
-      {h:"15:00",l:"ENTRENO",          r:"Juntos",                                                         c:"Juntos"},
-      {h:"16:30",l:"Post-entreno",     r:"Whey + leche + 2 huevos",                                        c:"Whey + yogurt"},
-      {h:"20:00",l:"Cena",             r:"Huevos revueltos + patatas + broccoletti + mozzarella",          c:"Idem + lentejas al lado"},
-    ],prep:"Cyn reposo - cocina a la tarde. Compra general manana viernes 5."},
-  {fecha:"05/06",dia:"Viernes",tipo:"libre",
-    info:"Ray: REPOSO · Cyn: REPOSO — dia libre los dos!",
-    entreno:{h:"15:00-16:30",n:"Sem 3 Dia 4 - Cardio + circuito",
-      ej:["Trote suave 15 min","Sentadilla libre 3x16","Mountain climber 3x20 c/lado","Plancha completa 3x30 seg","Puente de gluteos 3x18","Rodillas al pecho 3x18","Descanso 60 seg"]},
+      {h:"7:00", l:"Desayuno Cyn",     r:"---",                                                            c:"🏨 Hotel: libre — menu amplio"},
+      {h:"7:30", l:"Desayuno Ray",     r:"🥚 PROT: 2 huevos revueltos · 🍞 CARB: 2 fetas pan integral tostado · ☕ cafe",c:"---"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel · libre"},
+      {h:"20:30",l:"Cena juntos",      r:"🥩 PROT: carne macinata 250g salteada con cebolla y ajo · 🍝 CARB: tirabuzon 90g con pomodoro 100g · 🥗 VEG: rucola 50g en crudo con oliva · 🧀 GRASA: queso rayado 25g",c:"🥩 PROT: macinata 150g · 🍝 CARB: tirabuzon 60g + pomodoro · 🥗 VEG: rucola 75g · sin queso · 🫒 oliva"},
+    ],prep:"Cena 30 min: pasta + saltear macinata con cebolla/ajo. Rucola en crudo al final. Proteina fresca — usar hoy."},
+  {fecha:"15/06",dia:"Lunes",tipo:"entreno",
+    info:"Ray: ~9:00-14:30 · Cyn: 7:00-14:00",
+    entreno:{h:"15:00-16:30",n:"Sem 4 D1 - Lower + carga progresiva",
+      ej:["Trote 15 min","Sentadilla libre 4x14","Zancada estatica 4x12 c/lado","Puente de gluteos 4x18","Plancha 3x35 seg","Hip thrust con mochila 3x15","Descanso 60 seg"]},
     comidas:[
-      {h:"8:30", l:"Desayuno juntos",  r:"Avena + leche + banana + cafe sin apuro",                       c:"Avena + leche + fruta fresca (compra nueva) + cafe"},
-      {h:"11:00",l:"Snack",            r:"Frutos secos + fruta",                                           c:"Fruta + yogurt"},
-      {h:"14:00",l:"Almuerzo juntos",  r:"Ensalada Cesar: iceberg + pollo + grana padano + huevo duro + salsa caesar",c:"Idem - plato inteligente con ensalada grande"},
-      {h:"15:00",l:"ENTRENO",          r:"Juntos - Sem 3 completa!",                                       c:"Juntos - Sem 3 completa!"},
-      {h:"17:00",l:"Post-entreno",     r:"Whey + leche + huevos",                                          c:"Whey + yogurt"},
-      {h:"20:30",l:"Cena juntos",      r:"Ensalada Cesar: iceberg + pollo + grana padano + huevo duro + salsa caesar",c:"Idem ensalada grande + menos pan"},
-    ],prep:"Compra hecha. Cena Cesar con ingredientes frescos!"},
-  {fecha:"06/06",dia:"Sabado",tipo:"libre",
-    info:"Ray: a definir · Cyn: 7:00-12:00 + 19:00-23:00",
+      {h:"7:00", l:"Desayuno Cyn",     r:"---",                                                            c:"🏨 Hotel: libre — menu amplio"},
+      {h:"7:30", l:"Desayuno Ray",     r:"🌾 CARB: avena 70g + leche · 🥜 crema de mani 15g · 🍌 banana · ☕ cafe",c:"---"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel · libre"},
+      {h:"14:30",l:"Pre-entreno",      r:"🍌 banana + 🥜 crema de mani 15g · [30 min antes]",             c:"🍌 banana + 💊 L-Carnitina 30min antes"},
+      {h:"15:00",l:"ENTRENO",          r:"Juntos · 15:00-16:30",                                          c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",     r:"💪 Whey + 250ml leche + 2 huevos duros",                        c:"💪 Whey + 🫙 yogurt griego"},
+      {h:"20:30",l:"Cena",             r:"🥩 PROT: carne macinata 250g con ajo y pomodoro 100g · 🍚 CARB: arroz 90g · 🥒 VEG: zucchine 150g salteadas · 🧀 GRASA: queso rayado 25g",c:"🥩 PROT: macinata 150g + pomodoro · 🍚 CARB: arroz 60g · 🥒 VEG: zucchine 200g · sin queso · 🫒 oliva"},
+    ],prep:"Cena 30 min: arroz + saltear macinata con ajo/pomodoro + zucchine. Terminar los 500g de macinata hoy (resto de ayer)."},
+  {fecha:"16/06",dia:"Martes",tipo:"descanso",
+    info:"Ray: ~9:00-14:30 · Cyn: 7:00-14:00",
+    entreno:{h:"-",n:"Descanso activo",
+      ej:["Caminata suave 20-30 min opcional","Stretching 10 min","SIN circuitos","Recuperacion entre sesiones"]},
+    comidas:[
+      {h:"7:00", l:"Desayuno Cyn",     r:"---",                                                            c:"🏨 Hotel: libre — menu amplio"},
+      {h:"7:30", l:"Desayuno Ray",     r:"🥚 PROT: 2 huevos + 🧀 queso untable 25g sobre pan · 🍞 CARB: 2 fetas pan integral · ☕ cafe",c:"---"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel · libre"},
+      {h:"15:30",l:"Merienda",         r:"🍎 manzana + barrita cereal",                                   c:"🫙 yogurt griego + barrita"},
+      {h:"20:30",l:"Cena juntos",      r:"🍗 PROT: pollo 250g a la plancha con limon y ajo · 🥔 CARB: patatas 200g al horno · 🥗 VEG: rucola 50g con oliva y limon · 🫒 GRASA: oliva",c:"🍗 PROT: pollo 150g · 🥔 CARB: patatas 100g · 🥗 VEG: rucola 75g con oliva · 🫙 yogurt griego de postre"},
+    ],prep:"Cena 35 min: patatas al horno primero (25 min), pollo a la plancha con limon los ultimos 12. Usar pollo hoy — proteina fresca."},
+  {fecha:"17/06",dia:"Miercoles",tipo:"entreno",
+    info:"Ray: ~9:00-14:30 · Cyn: 7:00-14:00",
+    entreno:{h:"15:00-16:30",n:"Sem 4 D2 - Upper progresado",
+      ej:["Trote 10 min","Flexiones normales 4x10","Remo con mochila 4x12","Elevacion lateral 3x14","Fondos de triceps 3x12","Plancha 3x35 seg","Descanso 60 seg"]},
+    comidas:[
+      {h:"7:00", l:"Desayuno Cyn",     r:"---",                                                            c:"🏨 Hotel: libre — menu amplio"},
+      {h:"7:30", l:"Desayuno Ray",     r:"🥚 PROT: 2 huevos · 🌾 CARB: biscotti avena 50g con 🥜 crema de mani 15g · 🍌 banana · ☕ cafe",c:"---"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel · libre"},
+      {h:"14:30",l:"Pre-entreno",      r:"🍌 banana + 🥜 crema de mani 15g · [30 min antes]",             c:"🍌 banana + 💊 L-Carnitina 30min antes"},
+      {h:"15:00",l:"ENTRENO",          r:"Juntos · 15:00-16:30",                                          c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",     r:"💪 Whey + 250ml leche + 2 huevos duros",                        c:"💪 Whey + 🫙 yogurt griego"},
+      {h:"20:30",l:"Cena juntos",      r:"🍗 PROT: pollo 250g a la plancha con cebolla y oliva · 🍝 CARB: spaghetti 90g aglio-olio · 🥒 VEG: zucchine 150g salteadas · 🧀 GRASA: queso rayado 25g",c:"🍗 PROT: pollo 100g · 🍝 CARB: spaghetti 60g · 🥒 VEG: zucchine 200g · sin queso · 🫒 oliva"},
+    ],prep:"Cena 30 min: pasta aglio-olio + pollo a la plancha con cebolla. Terminar los 500g de pollo hoy."},
+  {fecha:"18/06",dia:"Jueves",tipo:"descanso",
+    info:"Ray: ~9:00-14:30 · Cyn: 7:00-14:00",
+    entreno:{h:"-",n:"Descanso activo",
+      ej:["Caminata suave 20-30 min opcional","Stretching 10 min","SIN circuitos","Recuperacion"]},
+    comidas:[
+      {h:"7:00", l:"Desayuno Cyn",     r:"---",                                                            c:"🏨 Hotel: libre — menu amplio"},
+      {h:"7:30", l:"Desayuno Ray",     r:"🌾 CARB: avena 70g + leche · 🍎 manzana · ☕ cafe",             c:"---"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel · libre"},
+      {h:"15:30",l:"Merienda",         r:"Biscotti avena 50g + cafe",                                     c:"🫙 yogurt griego + barrita"},
+      {h:"20:30",l:"Cena juntos",      r:"🥩 PROT: bife de carne magra 200g a la plancha con ajo y sal · 🍚 CARB: arroz 90g con oliva y caldo dado · 🥗 VEG: rucola 50g con oliva y limon · 🫒 GRASA: oliva",c:"🥩 PROT: bife 100g · 🍚 CARB: arroz 60g · 🥗 VEG: rucola 75g + pomodoro 100g · 🫒 oliva · 🫙 yogurt griego de postre"},
+    ],prep:"Cena 25 min: arroz + bife a la plancha 4-5 min por lado. Usar 1 bife hoy (~200g). Proteina fresca — no dejar para despues."},
+  {fecha:"19/06",dia:"Viernes",tipo:"entreno",
+    info:"Ray: LIBRE · Cyn: LIBRE — dia libre los dos!",
+    entreno:{h:"15:00-16:30",n:"Sem 4 D3 - Full body intenso",
+      ej:["Trote 15 min","Sentadilla 4x14","Flexiones normales 4x10","Puente gluteos 4x18","Mountain climber 3x20 c/lado","Plancha 3x35 seg","Zancada estatica 3x12 c/lado","Descanso 60 seg"]},
+    comidas:[
+      {h:"8:30", l:"Desayuno juntos",  r:"🥚 PROT: 2 huevos + 🍖 prosciutto cotto 50g · 🍞 CARB: 2 fetas pan integral tostado · ☕ cafe sin apuro",c:"🥚 2 huevos + 🍖 prosciutto 50g · 🍞 1 feta pan · ☕ cafe"},
+      {h:"11:30",l:"Snack",            r:"🍎 manzana + barrita cereal",                                   c:"🫙 yogurt griego + barrita"},
+      {h:"14:00",l:"Pre-entreno",      r:"🍌 banana + 🥜 crema de mani 15g · [30 min antes]",             c:"🍌 banana + 💊 L-Carnitina 30min antes"},
+      {h:"15:00",l:"ENTRENO",          r:"Juntos · Sem 4 D3 · Full body",                                 c:"Juntos"},
+      {h:"17:00",l:"Post-entreno",     r:"💪 Whey + 250ml leche + 2 huevos duros",                        c:"💪 Whey + 🫙 yogurt griego"},
+      {h:"20:30",l:"Cena juntos",      r:"🥩 PROT: bife de carne magra 200g a la plancha + 🧀 mozzarella 1/2 · 🍝 CARB: tirabuzon 90g con pomodoro 100g · 🥒 VEG: zucchine 150g salteadas · 🫒 GRASA: oliva",c:"🥩 PROT: bife 100g + mozzarella 1/4 · 🍝 CARB: tirabuzon 60g + pomodoro · 🥒 VEG: zucchine 200g · 🫒 oliva"},
+    ],prep:"Dia libre! Usar el segundo bife hoy + terminar prosciutto en el desayuno. Cena 30 min: pasta + bife a la plancha."},
+  {fecha:"20/06",dia:"Sabado",tipo:"libre",
+    info:"Ray: LIBRE · Cyn: LIBRE — dia libre los dos!",
     entreno:{h:"Sin horario",n:"Descanso o actividad libre",
-      ej:["Sendero opcional","Caminata suave","Descanso total si el cuerpo lo pide"]},
+      ej:["Sendero Alagna opcional","Caminata suave","Descanso total si el cuerpo lo pide"]},
     comidas:[
-      {h:"7:00", l:"Desayuno Cyn",     r:"Ray desayuna en casa con ingredientes nuevos",                   c:"🏨 Hotel: yogurt griego + frutos secos + pan integral"},
-      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel"},
-      {h:"20:30",l:"Cena juntos",      r:"Piadina + pollo + rucola + tomate + pesto rosso + mozzarella",   c:"Idem cuando llega 23:00"},
-    ],prep:"Ambos almuerzan en hotel. Cyn turno partido. Ray prepara piadina caliente para cuando Cyn llega 23:00."},
-  {fecha:"07/06",dia:"Domingo",tipo:"planificacion",
-    info:"Ray: 9:30→~16:00 · Cyn: 7:00-12:00 + 19:00-23:00",
-    entreno:{h:"Opcional",n:"Planificacion semana 4",
-      ej:["PASO 1: Pasarme los horarios semana siguiente","PASO 2: Definir dias de entreno semana 4","PASO 3: Anotar dias y horas","PASO 4: Preparar lo necesario","Opcional: movilidad 20 min"]},
+      {h:"8:30", l:"Desayuno juntos",  r:"🌾 CARB: avena 70g + leche · 🥜 crema de mani 15g · 🍌 banana · ☕ cafe sin apuro",c:"🌾 avena 50g + leche · 🍌 banana · ☕ cafe"},
+      {h:"11:30",l:"Snack juntos",     r:"Biscotti avena 50g + cafe",                                     c:"🫙 yogurt griego + barrita"},
+      {h:"14:00",l:"Almuerzo juntos",  r:"🫘 PROT: ceci 1 lata + 🥚 1 huevo duro · 🥔 CARB: patatas 200g al horno · 🥒 VEG: zucchine 150g a la plancha con ajo · 🫒 GRASA: oliva + caldo dado",c:"🫘 PROT: ceci 1 lata · 🥔 CARB: patatas 100g · 🥒 VEG: zucchine 200g · sin huevo extra · 🫒 oliva"},
+      {h:"20:30",l:"Cena juntos",      r:"🐟 PROT: atun 1 lata + 🧀 mozzarella 1/2 · 🍚 CARB: arroz 90g con pomodoro 100g y cebolla · 🥗 VEG: rucola 50g con oliva y limon · 🫒 GRASA: oliva",c:"🐟 PROT: atun 1 lata · 🍚 CARB: arroz 60g + pomodoro · 🥗 VEG: rucola 75g · sin mozzarella · 🫒 oliva"},
+    ],prep:"Libre los dos! Almuerzo con tiempo, cena liviana. Planificar compra semana siguiente."},
+  {fecha:"21/06",dia:"Domingo",tipo:"entreno",
+    info:"Ray: LIBRE · Cyn: 7:00-14:00",
+    entreno:{h:"15:00-16:30",n:"Sem 4 D4 - Cardio + circuito completo",
+      ej:["Trote 15 min","Sentadilla 3x16","Mountain climber 3x20 c/lado","Burpee mod. 3x10","Plancha 3x40 seg","Puente gluteos 3x20","Rodillas al pecho 3x18","Descanso 60 seg"]},
     comidas:[
-      {h:"7:00", l:"Desayuno Cyn",     r:"Ray desayuna en casa antes de salir",                            c:"🏨 Hotel: yogurt griego + frutos secos + pan integral"},
-      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel"},
-      {h:"20:30",l:"Cena juntos",      r:"Tagliata a la plancha + patatas + ensalada iceberg + limon",     c:"Idem cuando llega 23:00"},
-    ],prep:"Pasarme horarios semana 4 para actualizar la app. Planificar entrenos."},
+      {h:"7:00", l:"Desayuno Cyn",     r:"---",                                                            c:"🏨 Hotel: libre — menu amplio"},
+      {h:"8:30", l:"Desayuno Ray",     r:"🥚 PROT: 2 huevos · 🌾 CARB: avena 70g + leche · 🥜 crema de mani 15g · ☕ cafe",c:"---"},
+      {h:"12:00",l:"Almuerzo",         r:"Come en el hotel",                                               c:"Come en el hotel · libre"},
+      {h:"14:30",l:"Pre-entreno",      r:"🍌 banana + 🥜 crema de mani 15g · [30 min antes]",             c:"🍌 banana + 💊 L-Carnitina 30min antes"},
+      {h:"15:00",l:"ENTRENO",          r:"Juntos · Sem 4 COMPLETA! 🎉",                                   c:"Juntos · Sem 4 COMPLETA! 🎉"},
+      {h:"17:00",l:"Post-entreno",     r:"💪 Whey + 250ml leche + 2 huevos duros",                        c:"💪 Whey + 🫙 yogurt griego"},
+      {h:"20:30",l:"Cena juntos",      r:"🟤 PROT: lentejas 1 lata + 🧀 queso rayado 30g · 🍝 CARB: spaghetti 90g con ajo y pomodoro · 🥒 VEG: zucchine 150g salteadas · 🫒 GRASA: oliva",c:"🟤 PROT: lentejas 1 lata · 🍝 CARB: spaghetti 60g + pomodoro · 🥒 VEG: zucchine 200g · sin queso · 🫒 oliva · 🫙 yogurt griego de postre"},
+    ],prep:"Ultimo entreno sem 4! Cena cierre con lentejas. Cyn llega ~14:30 con tiempo para pre-entreno tranquilo."},
 ];
 
 const SEM1=[
@@ -176,6 +204,12 @@ const SEM2=[
   {id:"s5",f:"25/05",d:"Lun",n:"Sem 2 D1 - Lower progresado",h:"15:30-16:50"},
   {id:"s6",f:"26/05",d:"Mar",n:"Sem 2 D2 - Upper intro",h:"15:30-16:50"},
   {id:"s7",f:"28/05",d:"Jue",n:"Sem 2 D3 - Full body",h:"15:30-16:50"},
+];
+const SEM4=[
+  {id:"s12",f:"15/06",d:"Lun",n:"Sem 4 D1 - Lower + carga progresiva",h:"15:00-16:30"},
+  {id:"s13",f:"17/06",d:"Mie",n:"Sem 4 D2 - Upper progresado",h:"15:00-16:30"},
+  {id:"s14",f:"19/06",d:"Vie",n:"Sem 4 D3 - Full body intenso",h:"15:00-16:30"},
+  {id:"s15",f:"21/06",d:"Dom",n:"Sem 4 D4 - Cardio + circuito completo",h:"15:00-16:30"},
 ];
 const SEM3=[
   {id:"s8", f:"01/06",d:"Lun",n:"Sem 3 D1 - Lower progresado",h:"15:00-16:30"},
@@ -198,67 +232,66 @@ const HIST=[
   {id:"s7",q:"Cyn",e:"completo",n:"",t:"28/5/26"},
   {id:"s8",q:"Ray",e:"completo",n:"",t:"01/6/26"},
   {id:"s8",q:"Cyn",e:"completo",n:"",t:"01/6/26"},
+  {id:"s9",q:"Ray",e:"completo",n:"",t:"02/6/26"},
+  {id:"s9",q:"Cyn",e:"completo",n:"",t:"02/6/26"},
+  {id:"s10",q:"Ray",e:"completo",n:"",t:"04/6/26"},
+  {id:"s10",q:"Cyn",e:"completo",n:"",t:"04/6/26"},
+  {id:"s11",q:"Ray",e:"completo",n:"",t:"05/6/26"},
+  {id:"s11",q:"Cyn",e:"completo",n:"",t:"05/6/26"},
 ];
 
 const SD=[
   // PROTEINAS
-  {id:"huevos",   e:"🥚",n:"Huevos",                  c:"Proteinas",      q:11,   u:"ud",      s:1,  m:6},
-  {id:"pollo",    e:"🍗",n:"Pechuga de pollo",         c:"Proteinas",      q:1000, u:"g",       s:100,m:200},
-  {id:"tagliata", e:"🥩",n:"Tagliata bovina",          c:"Proteinas",      q:500,  u:"g",       s:100,m:0},
-  {id:"macinato", e:"🥩",n:"Macinata sceltissima",     c:"Proteinas",      q:500,  u:"g",       s:100,m:0},
-  {id:"salsiccia",e:"🌭",n:"Salsiccia luganega",       c:"Proteinas",      q:300,  u:"g",       s:100,m:0},
-  {id:"tonno",    e:"🐟",n:"Atun en lata",             c:"Proteinas",      q:4,    u:"latas",   s:1,  m:1},
-  {id:"jamon",    e:"🍖",n:"Prosciutto cotto",         c:"Proteinas",      q:200,  u:"g",       s:50, m:0},
+  {id:"huevos",    e:"🥚",n:"Huevos",                  c:"Proteinas",      q:2,    u:"ud",      s:1,  m:4},
+  {id:"pollo",     e:"🍗",n:"Pechuga de pollo",         c:"Proteinas",      q:500,  u:"g",       s:100,m:100},
+  {id:"tagliata",  e:"🥩",n:"Bife de carne magra",       c:"Proteinas",      q:400,  u:"g",       s:100,m:0},
+  {id:"macinato",  e:"🥩",n:"Carne macinata",            c:"Proteinas",      q:500,  u:"g",       s:100,m:0},
+  {id:"salsiccia", e:"🌭",n:"Salchicha parrillera",      c:"Proteinas",      q:500,  u:"g",       s:100,m:0},
+  {id:"tonno",     e:"🐟",n:"Atun en lata",             c:"Proteinas",      q:3,    u:"latas",   s:1,  m:1},
+  {id:"jamon",     e:"🍖",n:"Prosciutto cotto",         c:"Proteinas",      q:100,  u:"g",       s:25, m:0},
   // LACTEOS
-  {id:"latte",    e:"🥛",n:"Leche entera UHT",         c:"Lacteos",        q:3000, u:"ml",      s:250,m:500},
-  {id:"yogurt",   e:"🫙",n:"Yogurt griego",            c:"Lacteos",        q:7,    u:"ud",      s:1,  m:1},
-  {id:"mozza",    e:"🧀",n:"Mozzarella fresca",        c:"Lacteos",        q:2,    u:"ud",      s:1,  m:0},
-  {id:"emmental", e:"🧀",n:"Emmental bavarese",        c:"Lacteos",        q:1,    u:"paquete", s:1,  m:0},
-  {id:"grana",    e:"🧀",n:"Formaggio grattugiato",    c:"Lacteos",        q:100,  u:"g",       s:10, m:0},
-  {id:"spalmab",  e:"🧀",n:"Formaggio spalmabile",     c:"Lacteos",        q:1,    u:"ud",      s:1,  m:0},
-  {id:"kefir",    e:"🥤",n:"Kefir",                    c:"Lacteos",        q:1,    u:"ud",      s:1,  m:0},
+  {id:"latte",     e:"🥛",n:"Leche entera UHT",         c:"Lacteos",        q:5000, u:"ml",      s:250,m:500},
+  {id:"lattemand", e:"🥛",n:"Leche mandorla",           c:"Lacteos",        q:1,    u:"ud",      s:1,  m:0},
+  {id:"yogurt",    e:"🫙",n:"Yogurt griego",            c:"Lacteos",        q:7,    u:"ud",      s:1,  m:2},
+  {id:"mozza",     e:"🧀",n:"Mozzarella fresca",        c:"Lacteos",        q:1,    u:"ud",      s:1,  m:0},
+  {id:"emmental",  e:"🧀",n:"Queso feteado elemental",  c:"Lacteos",        q:100,  u:"g",       s:25, m:0},
+  {id:"grana",     e:"🧀",n:"Formaggio grattugiato",    c:"Lacteos",        q:300,  u:"g",       s:25, m:0},
+  {id:"spalmab",   e:"🧀",n:"Formaggio spalmabile Ph.",  c:"Lacteos",        q:250,  u:"g",       s:25, m:0},
+  {id:"kefir",     e:"🥤",n:"Kefir",                    c:"Lacteos",        q:1,    u:"ud",      s:1,  m:0},
+  {id:"panna",     e:"🍶",n:"Crema di latte (125ml)",   c:"Lacteos",        q:3,    u:"ud",      s:1,  m:0},
   // FRUTA Y VERDURA
-  {id:"banane",   e:"🍌",n:"Bananas",                  c:"Fruta y verdura",q:8,    u:"ud",      s:1,  m:3},
-  {id:"palta",    e:"🥑",n:"Palta / Avocado",          c:"Fruta y verdura",q:1,    u:"ud",      s:1,  m:0},
-  {id:"kiwi",     e:"🥝",n:"Kiwi",                     c:"Fruta y verdura",q:1,    u:"ud",      s:1,  m:0},
-  {id:"mele",     e:"🍎",n:"Manzanas (Granny+Pink)",   c:"Fruta y verdura",q:1000, u:"g",       s:100,m:0},
-  {id:"pomodori", e:"🍅",n:"Pomodori piccadilly",      c:"Fruta y verdura",q:500,  u:"g",       s:100,m:0},
-  {id:"zanahoria",e:"🥕",n:"Zanahoria julienne",       c:"Fruta y verdura",q:1,    u:"bolsa",   s:1,  m:0},
-  {id:"brocoli",  e:"🥦",n:"Broccoletti",              c:"Fruta y verdura",q:300,  u:"g",       s:100,m:0},
-  {id:"zucchine", e:"🥒",n:"Zucchine scure",           c:"Fruta y verdura",q:500,  u:"g",       s:150,m:0},
-  {id:"peperoni", e:"🫑",n:"Peperoni rossi",           c:"Fruta y verdura",q:7,    u:"ud",      s:1,  m:0},
-  {id:"mais",     e:"🌽",n:"Mais (choclo)",            c:"Fruta y verdura",q:80,   u:"g",       s:80, m:0},
-  {id:"patate",   e:"🥔",n:"Patatas rojas",            c:"Fruta y verdura",q:2000, u:"g",       s:250,m:0},
-  {id:"limoni",   e:"🍋",n:"Limones",                  c:"Fruta y verdura",q:762,  u:"g",       s:100,m:0},
-  {id:"aglio",    e:"🧄",n:"Ajo",                      c:"Fruta y verdura",q:3,    u:"cabezas", s:1,  m:0},
-  {id:"cipolla",  e:"🧅",n:"Cebolla dorada",           c:"Fruta y verdura",q:526,  u:"g",       s:100,m:0},
-  {id:"iceberg",  e:"🥬",n:"Iceberg e radicchio",      c:"Fruta y verdura",q:1,    u:"bolsa",   s:1,  m:0},
-  {id:"rucola",   e:"🥗",n:"Rucula",                   c:"Fruta y verdura",q:1,    u:"bolsa",   s:1,  m:0},
+  {id:"banane",    e:"🍌",n:"Bananas",                  c:"Fruta y verdura",q:3,    u:"ud",      s:1,  m:2},
+  {id:"palta",     e:"🥑",n:"Palta / Avocado",          c:"Fruta y verdura",q:2,    u:"ud",      s:1,  m:0},
+  {id:"mele",      e:"🍎",n:"Manzanas",                 c:"Fruta y verdura",q:3,    u:"ud",      s:1,  m:0},
+  {id:"limoni",    e:"🍋",n:"Limones",                  c:"Fruta y verdura",q:2,    u:"ud",      s:1,  m:0},
+  {id:"zucchine",  e:"🥒",n:"Zucchine",                 c:"Fruta y verdura",q:400,  u:"g",       s:100,m:0},
+  {id:"patate",    e:"🥔",n:"Patatas",                  c:"Fruta y verdura",q:1000, u:"g",       s:100,m:0},
+  {id:"aglio",     e:"🧄",n:"Ajo",                      c:"Fruta y verdura",q:2,    u:"cabezas", s:1,  m:0},
+  {id:"cipolla",   e:"🧅",n:"Cebolla",                  c:"Fruta y verdura",q:2,    u:"ud",      s:1,  m:0},
+  {id:"rucola",    e:"🥗",n:"Rucula",                   c:"Fruta y verdura",q:125,  u:"g",       s:25, m:0},
   // DISPENSA
-  {id:"avena",    e:"🌾",n:"Avena",                    c:"Dispensa",       q:380,  u:"g",       s:60, m:60},
-  {id:"riso",     e:"🍚",n:"Arroz parboiled",          c:"Dispensa",       q:700,  u:"g",       s:80, m:0},
-  {id:"fusilli",  e:"🍝",n:"Pasta fusilli Barilla",    c:"Dispensa",       q:1550, u:"g",       s:80, m:0},
-  {id:"sedanini", e:"🍝",n:"Pasta sedanini",           c:"Dispensa",       q:500,  u:"g",       s:80, m:0},
-  {id:"spaghetti",e:"🍝",n:"Spaghettini Barilla",      c:"Dispensa",       q:2000, u:"g",       s:80, m:0},
-  {id:"pane",     e:"🍞",n:"Pan de molde integral",    c:"Dispensa",       q:20,   u:"fetas",   s:2,  m:2},
-  {id:"piadina",  e:"🫓",n:"Piadina integrale",        c:"Dispensa",       q:3,    u:"ud",      s:1,  m:0},
-  {id:"ceci",     e:"🫘",n:"Garbanzos en lata",        c:"Dispensa",       q:2,    u:"latas",   s:1,  m:0},
-  {id:"lenticchie",e:"🟤",n:"Lentejas en lata",        c:"Dispensa",       q:3,    u:"latas",   s:1,  m:0},
-  {id:"passata",  e:"🥫",n:"Passata casereccia",       c:"Dispensa",       q:1,    u:"latas",   s:1,  m:0},
-  {id:"o_oliva",  e:"🫒",n:"Aceite de oliva",          c:"Dispensa",       q:500,  u:"ml",      s:10, m:0},
-  {id:"o_gir",    e:"🌻",n:"Aceite de girasol",        c:"Dispensa",       q:1000, u:"ml",      s:50, m:0},
-  {id:"mani",     e:"🥜",n:"Crema de mani",            c:"Dispensa",       q:90,   u:"g",       s:15, m:0},
-  {id:"dadi",     e:"🟡",n:"Dados vegetales Knorr",    c:"Dispensa",       q:9,    u:"cubos",   s:1,  m:0},
-  {id:"caesar",   e:"🫙",n:"Salsa Caesar proteica",    c:"Dispensa",       q:2,    u:"frasco",  s:1,  m:0},
-  {id:"pesto",    e:"🟢",n:"Pesto rosso",              c:"Dispensa",       q:1,    u:"frasco",  s:1,  m:0},
-  {id:"origano",  e:"🌿",n:"Origano",                  c:"Dispensa",       q:1,    u:"frasco",  s:1,  m:0},
-  {id:"peperonc", e:"🌶",n:"Peperoncino frantumato",   c:"Dispensa",       q:1,    u:"frasco",  s:1,  m:0},
-  {id:"asparagi", e:"🌿",n:"Crema de esparragos",      c:"Dispensa",       q:2,    u:"sobres",  s:1,  m:0},
-  {id:"bevanda",  e:"🧃",n:"Bevanda arancia",          c:"Dispensa",       q:1,    u:"ud",      s:1,  m:0},
-  {id:"barrette", e:"🍫",n:"Barrette fitness/riso",    c:"Dispensa",       q:4,    u:"ud",      s:1,  m:0},
+  {id:"avena",     e:"🌾",n:"Avena finocchio",          c:"Dispensa",       q:750,  u:"g",       s:60, m:60},
+  {id:"riso",      e:"🍚",n:"Arroz",                    c:"Dispensa",       q:750,  u:"g",       s:80, m:0},
+  {id:"spaghetti", e:"🍝",n:"Spaghetti Barilla",        c:"Dispensa",       q:500,  u:"g",       s:80, m:0},
+  {id:"tirabuz",   e:"🍝",n:"Fideos tirabuzon",         c:"Dispensa",       q:750,  u:"g",       s:80, m:0},
+  {id:"pane",      e:"🍞",n:"Pan integral (fetas)",     c:"Dispensa",       q:14,   u:"fetas",   s:2,  m:2},
+  {id:"ceci",      e:"🫘",n:"Garbanzos en lata",        c:"Dispensa",       q:3,    u:"latas",   s:1,  m:0},
+  {id:"lenticchie",e:"🟤",n:"Lentejas en lata",         c:"Dispensa",       q:3,    u:"latas",   s:1,  m:0},
+  {id:"fagioli",   e:"🫘",n:"Fagioli en lata",          c:"Dispensa",       q:1,    u:"latas",   s:1,  m:0},
+  {id:"pomodoro",  e:"🥫",n:"Confeccion pomodoro",      c:"Dispensa",       q:200,  u:"g",       s:50, m:0},
+  {id:"o_oliva",   e:"🫒",n:"Aceite de oliva",          c:"Dispensa",       q:1000, u:"ml",      s:50, m:0},
+  {id:"mani",      e:"🥜",n:"Crema de mani",            c:"Dispensa",       q:120,  u:"g",       s:10, m:0},
+  {id:"dadi",      e:"🟡",n:"Dados caldo Knorr",        c:"Dispensa",       q:9,    u:"cubos",   s:1,  m:2},
+  {id:"asparagi",  e:"🌿",n:"Sopa Knorr esparragos",    c:"Dispensa",       q:2,    u:"sobres",  s:1,  m:0},
+  {id:"barrette",  e:"🍫",n:"Barritas de cereal",       c:"Dispensa",       q:14,   u:"ud",      s:1,  m:3},
+  {id:"nascondini",e:"🍪",n:"Nascondini Mulino Bianco", c:"Dispensa",       q:1.5,  u:"paquetes",s:0.5,m:0},
+  {id:"crosticini",e:"🍞",n:"Crosticini multicereali",  c:"Dispensa",       q:275,  u:"g",       s:25, m:0},
+  {id:"biscotti",  e:"🌾",n:"Biscotti avena cereali",   c:"Dispensa",       q:250,  u:"g",       s:25, m:0},
+  {id:"caffe",     e:"☕",n:"Cafe Nestle (100g)",       c:"Dispensa",       q:100,  u:"g",       s:2,  m:10},
+  {id:"sal",       e:"🧂",n:"Sal (1kg)",                c:"Dispensa",       q:1000, u:"g",       s:100,m:0},
   // SUPLEMENTOS
-  {id:"whey",     e:"💪",n:"Whey Protein",             c:"Suplementos",    q:26,   u:"porciones",s:1, m:5},
-  {id:"lcarni",   e:"💊",n:"L-Carnitina 500 (Cyn)",    c:"Suplementos",    q:21,   u:"capsulas", s:1, m:5},
+  {id:"whey",      e:"💪",n:"Whey Protein",             c:"Suplementos",    q:26,   u:"porciones",s:1, m:5},
+  {id:"lcarni",    e:"💊",n:"L-Carnitina 500 (Cyn)",    c:"Suplementos",    q:21,   u:"capsulas", s:1, m:5},
 ];
 
 const CATS=["Proteinas","Lacteos","Fruta y verdura","Dispensa","Suplementos"];
@@ -268,7 +301,7 @@ const ESTADOS=[{v:"completo",l:"Completo",e:"✅",c:"bg"},{v:"parcial",l:"Parcia
 const COL={"Proteinas":{ac:"#f87171",bg:"#2d1010"},"Lacteos":{ac:"#60a5fa",bg:"#0f1f35"},"Fruta y verdura":{ac:"#4ade80",bg:"#0f2a14"},"Dispensa":{ac:"#fbbf24",bg:"#2a1f05"},"Suplementos":{ac:"#a78bfa",bg:"#1c1030"}};
 const TC={entreno:"#4ade80",descanso:"#94a3b8",libre:"#fbbf24",planificacion:"#60a5fa"};
 const META=2000;
-const SK="rc5_s",LK="rc4_l",EK="rc4_e",DK="rc4_d",AK="rc4_a";
+const SK="rc5_s5",LK="rc5_l",EK="rc5_e",DK="rc5_d",AK="rc5_a";
 
 let stock=SD.map(i=>({...i}));
 let log=[];
@@ -327,7 +360,7 @@ function renderAll(){rAlts();rPlan();rAgua();rEnt();rStock();rCon();rLog();}
 
 function rAlts(){
   const ag=stock.filter(i=>i.q<=0).length,bj=stock.filter(i=>i.q>0&&i.q<=i.m).length;
-  const allS=[...SEM1,...SEM2,...SEM3];
+  const allS=[...SEM1,...SEM2,...SEM3,...SEM4];
   const comp=entrenos.filter(e=>e.e==="completo").length;
   const pct=allS.length>0?Math.round((comp/(allS.length*2))*100):0;
   const rA=Math.round((agua.ray/META)*100),cA=Math.round((agua.cyn/META)*100);
@@ -437,7 +470,7 @@ function rAgua(){
 }
 
 function rEnt(){
-  const allS=[...SEM1,...SEM2,...SEM3];
+  const allS=[...SEM1,...SEM2,...SEM3,...SEM4];
   const comp=entrenos.filter(e=>e.e==="completo").length;
   const pctG=allS.length>0?Math.round((comp/(allS.length*2))*100):0;
   let h=`<div class="card" style="background:#1c1030;border-color:#a78bfa55;margin-bottom:16px">
@@ -459,11 +492,11 @@ function rEnt(){
     <div style="font-size:14px;font-weight:900;color:#4ade80;text-align:right">${pctG}%</div>
   </div>`;
 
-  [["✅ Semana 1 — Completada",SEM1,"#64748b"],["✅ Semana 2 — Completada",SEM2,"#64748b"],["💪 Semana 3 — En curso",SEM3,"#4ade80"]].forEach(([titulo,sems,color])=>{
+  [["✅ Semana 1 — Completada",SEM1,"#64748b"],["✅ Semana 2 — Completada",SEM2,"#64748b"],["✅ Semana 3 — Completada",SEM3,"#64748b"],["💪 Semana 4 — En curso",SEM4,"#4ade80"]].forEach(([titulo,sems,color])=>{
     h+=`<div style="font-size:12px;font-weight:800;color:${color};margin:16px 0 8px;text-transform:uppercase;letter-spacing:1px">${titulo}</div>`;
     sems.forEach(s=>{
-      const esSem3=SEM3.includes(s);
-      if(!esSem3){
+      const esSem4=SEM4.includes(s);
+      if(!esSem4){
         h+=`<div class="card" style="margin-bottom:8px;opacity:0.7">
           <div style="font-size:13px;font-weight:800">${s.d} ${s.f} · ${s.n}</div>
           <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
