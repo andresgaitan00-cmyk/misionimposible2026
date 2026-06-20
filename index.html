@@ -51,19 +51,20 @@ input[type=number]{-moz-appearance:textfield}
 <div id="ld" class="ld">
   <div style="font-size:36px">🏠</div>
   <div style="font-size:16px;font-weight:700">Cargando Ray & Cyn...</div>
-  <div style="font-size:12px;color:#475569;margin-top:4px">Semana 4 · Borgosesia</div>
+  <div style="font-size:12px;color:#475569;margin-top:4px">Semana 4 · Borgosesia · 21/06</div>
 </div>
 <div id="app" class="hid">
   <div class="hdr">
     <div class="htop">
       <div>
         <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px">🏠 Ray & Cyn · Sem 4</div>
-        <div style="font-size:11px;color:#475569;margin-top:2px">22/06–28/06/2026 · Borgosesia</div>
+        <div style="font-size:11px;color:#475569;margin-top:2px">21/06–27/06/2026 · Borgosesia</div>
       </div>
       <div>
         <div style="display:flex;align-items:center;gap:5px;justify-content:flex-end"><div class="dot"></div><span style="font-size:10px;color:#4ade80;font-weight:700">EN VIVO</span></div>
         <div style="font-size:10px;color:#475569;text-align:right" id="syt"></div>
         <button onclick="cargar()" style="background:transparent;border:none;color:#475569;font-size:11px;cursor:pointer;padding:0;margin-top:2px;display:block;text-align:right;width:100%">actualizar</button>
+        <button onclick="resetStock()" style="background:#7f1d1d;border:1px solid #ef4444;color:#fca5a5;font-size:11px;border-radius:20px;padding:4px 12px;cursor:pointer;font-weight:700">🔄 Resetear stock</button>
       </div>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap" id="alts"></div>
@@ -90,7 +91,7 @@ const BURL="https://api.jsonbin.io/v3/b/"+BIN_ID;
 
 // ─── PLAN SEMANA 4: Dom 22/06 → Dom 28/06 ───
 const PLAN=[
-  {fecha:"22/06",dia:"Domingo",tipo:"descanso",
+  {fecha:"21/06",dia:"Domingo",tipo:"descanso",
     info:"Ray: trabajo · Cyn: trabajo",
     entreno:{h:"-",n:"Descanso activo",
       ej:["Caminata suave 20-30 min opcional","Stretching 10 min","Sin circuitos","Recuperación entre semanas"]},
@@ -100,7 +101,7 @@ const PLAN=[
       {h:"20:00",l:"Cena",            r:"Arroz + atún en lata + ensalada de tomate, rabanitos y limón",          c:"Idem porción chica + palta en rodajas"},
     ],prep:"Arranque de semana tranquilo. Arroz cocido, atún directo de lata, ensalada fresca. Sin complicaciones."},
 
-  {fecha:"23/06",dia:"Lunes",tipo:"entreno",
+  {fecha:"22/06",dia:"Lunes",tipo:"entreno",
     info:"Ray: trabajo · Cyn: trabajo",
     entreno:{h:"15:00-16:30",n:"Sem 4 D1 — Barras + Tracción",
       ej:["Entrada en calor 5 min (movilidad hombros/muñecas)","Dominadas o asistidas 4x6-8","Remo en barra baja 3x10","Elevación de piernas colgado 3x10","Flexiones de bíceps en barra 3x8","Plancha 3x30 seg","Descanso 90 seg entre series"]},
@@ -113,7 +114,7 @@ const PLAN=[
       {h:"20:00",l:"Cena",            r:"Bifes magros a la plancha + papas salteadas con oliva + tomate",       c:"Idem porción chica + rabanitos"},
     ],prep:"Bifes magros hoy — proteína post-entreno potente. Papas cocidas al horno o sartén."},
 
-  {fecha:"24/06",dia:"Martes",tipo:"corrida",
+  {fecha:"23/06",dia:"Martes",tipo:"corrida",
     info:"Ray: trabajo · Cyn: trabajo",
     entreno:{h:"15:00-16:00",n:"Sem 4 D2 — Corrida",
       ej:["Trote suave 5 min de entrada","Corrida continua 20-25 min ritmo cómodo","Trote suave 5 min de vuelta","Elongación 10 min (cuádriceps, isquiotibiales, pantorrillas)"]},
@@ -126,7 +127,7 @@ const PLAN=[
       {h:"20:00",l:"Cena",            r:"Pasta + salsa ragú + queso rallado",                                   c:"Idem porción chica"},
     ],prep:"Ragú de lata — cena fácil post-corrida. Usar 1 de las 2 latas ragú."},
 
-  {fecha:"25/06",dia:"Miercoles",tipo:"entreno",
+  {fecha:"24/06",dia:"Miercoles",tipo:"entreno",
     info:"Ray: trabajo · Cyn: trabajo",
     entreno:{h:"15:00-16:30",n:"Sem 4 D3 — Barras + Empuje",
       ej:["Entrada en calor 5 min","Fondos en paralelas o silla 4x8","Flexiones de pecho 3x12","Dominadas supinas 3x6","Dips triceps 3x10","Plancha lateral 3x20 seg c/lado","Descanso 90 seg entre series"]},
@@ -139,7 +140,7 @@ const PLAN=[
       {h:"20:00",l:"Cena",            r:"Garbanzos salteados con ajo, oliva, pimiento + huevo duro",            c:"Idem + rabanitos de costado"},
     ],prep:"Cena vegetariana potente. Saltar garbanzos bien dorados con ajo y pimiento."},
 
-  {fecha:"26/06",dia:"Viernes",tipo:"libre",
+  {fecha:"25/06",dia:"Viernes",tipo:"libre",
     info:"Ray: LIBRE · Cyn: LIBRE — día libre los dos!",
     entreno:{h:"15:00-16:00",n:"Sem 4 D4 — Corrida",
       ej:["Trote suave 5 min","Corrida continua 25-30 min (progresar de martes)","Trote suave 5 min","Elongación 10 min"]},
@@ -152,7 +153,7 @@ const PLAN=[
       {h:"20:30",l:"Cena juntos",     r:"Piadina + prosciutto + queso + tomate + oliva",                        c:"Idem — disfrutar!"},
     ],prep:"Día libre los dos. Piadina para la cena, relajado. Usar las 3 piadinas hoy."},
 
-  {fecha:"27/06",dia:"Sabado",tipo:"entreno",
+  {fecha:"26/06",dia:"Sabado",tipo:"entreno",
     info:"Ray: trabajo · Cyn: LIBRE",
     entreno:{h:"15:00-16:30",n:"Sem 4 D5 — Barras + Full",
       ej:["Entrada en calor 5 min","Dominadas o asistidas 4x6","Flexiones de pecho 3x12","Remo barra baja 3x10","Fondos 3x8","Elevación de piernas colgado 3x10","Descanso 90 seg"]},
@@ -165,7 +166,7 @@ const PLAN=[
       {h:"20:30",l:"Cena juntos",     r:"Carne molida con passata, cebolla y ajo + pasta tirabuzón",            c:"Idem porción chica + queso rallado"},
     ],prep:"Carne molida + tirabuzón — clásico. Usar 1 lata passata y la carne molida."},
 
-  {fecha:"28/06",dia:"Domingo",tipo:"planificacion",
+  {fecha:"27/06",dia:"Domingo",tipo:"planificacion",
     info:"Ray: trabajo · Cyn: trabajo",
     entreno:{h:"Opcional",n:"Planificación semana 5",
       ej:["PASO 1: Pasarme horarios semana siguiente","PASO 2: Definir días de entreno sem 5","PASO 3: Anotar días y horas","PASO 4: Preparar lo necesario","Opcional: movilidad 20 min"]},
@@ -194,11 +195,11 @@ const SEM3=[
   {id:"s11",f:"05/06",d:"Vie",n:"Sem 3 D4 - Cardio + Circuito",h:"15:00-16:30"},
 ];
 const SEM4=[
-  {id:"s12",f:"23/06",d:"Lun",n:"Sem 4 D1 - Barras + Tracción",h:"15:00-16:30"},
-  {id:"s13",f:"24/06",d:"Mar",n:"Sem 4 D2 - Corrida",h:"15:00-16:00"},
-  {id:"s14",f:"25/06",d:"Mie",n:"Sem 4 D3 - Barras + Empuje",h:"15:00-16:30"},
-  {id:"s15",f:"26/06",d:"Vie",n:"Sem 4 D4 - Corrida",h:"15:00-16:00"},
-  {id:"s16",f:"27/06",d:"Sab",n:"Sem 4 D5 - Barras + Full",h:"15:00-16:30"},
+  {id:"s12",f:"22/06",d:"Lun",n:"Sem 4 D1 - Barras + Tracción",h:"15:00-16:30"},
+  {id:"s13",f:"23/06",d:"Mar",n:"Sem 4 D2 - Corrida",h:"15:00-16:00"},
+  {id:"s14",f:"24/06",d:"Mie",n:"Sem 4 D3 - Barras + Empuje",h:"15:00-16:30"},
+  {id:"s15",f:"25/06",d:"Vie",n:"Sem 4 D4 - Corrida",h:"15:00-16:00"},
+  {id:"s16",f:"26/06",d:"Sab",n:"Sem 4 D5 - Barras + Full",h:"15:00-16:30"},
 ];
 const HIST=[
   {id:"s1",q:"Ray",e:"completo",n:"",t:"19/5/26"},
@@ -594,6 +595,13 @@ function rLog(){
   document.getElementById("v-log").innerHTML=h;
 }
 
+async function resetStock(){
+  if(!confirm("¿Resetear stock con los valores nuevos? El historial de consumos se mantiene."))return;
+  stock=SD.map(i=>({...i}));
+  await saveRemote();
+  rStock();rAlts();
+  alert("✅ Stock actualizado!");
+}
 function setV(v,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));el.classList.add("on");["plan","agua","entrenos","stock","consumir","log"].forEach(n=>document.getElementById("v-"+n).classList.toggle("hid",n!==v));}
 function setDia(i){diaIdx=i;saveRemote();rPlan();rAlts();}
 function setPT(t){pTab=t;rPlan();}
@@ -624,17 +632,4 @@ function mEnt(sId,q,estado){
   saveRemote();rEnt();rAlts();
 }
 function uNota(sId,q,nota){entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,n:nota}:e);saveRemote();}
-function addA(p,ml){if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};agua[p]=Math.min(3000,agua[p]+ml);saveRemote();rAgua();rAlts();}
-function resetA(p){agua[p]=0;saveRemote();rAgua();rAlts();}
-
-window.addEventListener("DOMContentLoaded",()=>{
-  loadLocal();
-  if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};
-  document.getElementById("ld").classList.add("hid");
-  document.getElementById("app").classList.remove("hid");
-  renderAll();setST();
-  setTimeout(()=>cargar(),500);
-});
-</script>
-</body>
-</html>
+function addA(p,ml){if(agua.fecha!==hoy())agua={ray:0,cy
