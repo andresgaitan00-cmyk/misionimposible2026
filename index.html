@@ -632,4 +632,17 @@ function mEnt(sId,q,estado){
   saveRemote();rEnt();rAlts();
 }
 function uNota(sId,q,nota){entrenos=entrenos.map(e=>e.id===sId&&e.q===q?{...e,n:nota}:e);saveRemote();}
-function addA(p,ml){if(agua.fecha!==hoy())agua={ray:0,cy
+function addA(p,ml){if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};agua[p]=Math.min(3000,agua[p]+ml);saveRemote();rAgua();rAlts();}
+function resetA(p){agua[p]=0;saveRemote();rAgua();rAlts();}
+
+window.addEventListener("DOMContentLoaded",()=>{
+  loadLocal();
+  if(agua.fecha!==hoy())agua={ray:0,cyn:0,fecha:hoy()};
+  document.getElementById("ld").classList.add("hid");
+  document.getElementById("app").classList.remove("hid");
+  renderAll();setST();
+  setTimeout(()=>cargar(),500);
+});
+</script>
+</body>
+</html>
